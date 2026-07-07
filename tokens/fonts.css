@@ -1,0 +1,21 @@
+/* CT Artisanal Pantry — Fonts
+   No brand font files were supplied with this system. The logo's wordmark
+   uses a refined high-contrast serif (thin/thick modulated strokes, wide
+   letterspacing on caps) with no exact open-source match identified.
+   SUBSTITUTION (flagged to user — please supply real brand font files if
+   you have them):
+     Display serif  -> Cormorant Garamond (Google Fonts) — closest free
+                        match to the logo's elegant modulated serif.
+     Body / UI sans -> Work Sans (Google Fonts) — clean, humanist,
+                        neutral partner for a food/ingredients brand.
+   Loaded via Google Fonts CDN import below. If self-hosted files are
+   preferred later, replace this @import with local @font-face rules
+   pointing at files placed in assets/fonts/.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Work+Sans:wght@300;400;500;600&display=swap");
+
+:root {
+  --font-serif-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans-body: "Work Sans", -apple-system, "Segoe UI", sans-serif;
+}

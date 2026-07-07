@@ -1,0 +1,51 @@
+/* CT Artisanal Pantry — Color tokens
+   Sampled directly from the supplied logo (monogram red), paired with
+   warm off-whites/creams and a soft beige used in the copy deck's
+   newsletter section, plus a near-black ink (never pure black — the
+   logo wordmark reads as a warm charcoal, not #000). */
+:root {
+  /* Base palette */
+  --red-50:  #FDF1F1;
+  --red-100: #FADCDE;
+  --red-300: #EA8189;
+  --red-500: #E2202D; /* sampled from logo monogram */
+  --red-600: #C81A26;
+  --red-700: #A0141E;
+
+  --cream-50:  #FFFEFC;
+  --cream-100: #FBF7F0;
+  --cream-200: #F5EEE1; /* soft beige — newsletter section bg */
+  --cream-300: #ECE1CE;
+
+  --ink-900: #201C1A; /* near-black, warm */
+  --ink-700: #4A423C;
+  --ink-500: #7A7069;
+  --ink-300: #B3A99F;
+  --ink-100: #E7E0D8;
+
+  --white: #FFFFFF;
+
+  /* Semantic aliases */
+  --surface-page: var(--cream-50);
+  --surface-card: var(--white);
+  --surface-muted: var(--cream-100);
+  --surface-accent-soft: var(--cream-200); /* newsletter / callout blocks */
+  --surface-inverse: var(--ink-900);
+
+  --text-primary: var(--ink-900);
+  --text-secondary: var(--ink-700);
+  --text-muted: var(--ink-500);
+  --text-on-accent: var(--white);
+  --text-on-inverse: var(--cream-50);
+
+  --border-subtle: var(--ink-100);
+  --border-default: var(--ink-300);
+
+  --accent: var(--red-500);
+  --accent-hover: var(--red-600);
+  --accent-active: var(--red-700);
+  --accent-soft: var(--red-50);
+
+  --link: var(--red-600);
+  --link-hover: var(--red-700);
+}

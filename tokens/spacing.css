@@ -1,0 +1,34 @@
+/* CT Artisanal Pantry — Spacing, radius, shadow, layout tokens */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --content-max-width: 1240px;
+  --content-padding-inline: var(--space-6);
+
+  /* Corner radii — the brand favors mostly-square, editorial cards.
+     Radius is used sparingly (buttons, tags, image corners only). */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+
+  /* Shadows — soft, low-elevation, warm-tinted (not cool gray) */
+  --shadow-sm: 0 1px 2px rgba(32, 28, 26, 0.06);
+  --shadow-md: 0 4px 16px rgba(32, 28, 26, 0.08);
+  --shadow-lg: 0 12px 32px rgba(32, 28, 26, 0.10);
+
+  --border-width: 1px;
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --duration-fast: 150ms; /* @kind other */
+  --duration-standard: 250ms; /* @kind other */
+}
