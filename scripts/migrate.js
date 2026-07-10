@@ -12,7 +12,7 @@ const SEED_PRODUCTS = [
     unit_label: '10 beans',
     price_pkr: 4500,
     stock_quantity: 50,
-    image_path: 'images/product-vanilla-tile.jpg',
+    image_path: 'images/wholesale-vanilla-beans.jpg',
   },
   {
     slug: 'vanilla-caviar',
@@ -21,7 +21,7 @@ const SEED_PRODUCTS = [
     unit_label: '50 g',
     price_pkr: 5500,
     stock_quantity: 50,
-    image_path: 'images/recipe-vanilla-custard.jpg',
+    image_path: 'images/wholesale-vanilla-caviar.jpg',
   },
   {
     slug: 'vanilla-bean-paste-honey',
@@ -30,7 +30,7 @@ const SEED_PRODUCTS = [
     unit_label: '50 g',
     price_pkr: 4500,
     stock_quantity: 50,
-    image_path: 'images/product-vanilla-tile.jpg',
+    image_path: 'images/wholesale-vanilla-paste.jpg',
   },
   {
     slug: 'cocoa-powder',
@@ -39,7 +39,7 @@ const SEED_PRODUCTS = [
     unit_label: '250 g',
     price_pkr: 2500,
     stock_quantity: 50,
-    image_path: 'images/product-cocoa-tile.jpg',
+    image_path: 'images/wholesale-cocoa-powder.jpg',
   },
 ];
 
