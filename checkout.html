@@ -8,6 +8,7 @@
 <link rel="icon" href="assets/logo/ct-monogram.png">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="site.css">
+<noscript><style>[data-reveal-hero],[data-reveal-section]{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
 <body>
 
@@ -22,12 +23,13 @@
     <a href="our-story.html">Our Story</a>
     <a href="origins.html">Origins</a>
     <a href="recipes.html">Recipes</a>
+    <a href="wholesale.html">Wholesale</a>
     <a href="contact.html">Contact</a>
     <a href="checkout.html" class="cart-link" aria-current="page">Cart<span class="cart-count" data-cart-count>0</span></a>
   </nav>
 </header>
 
-<div class="section section-center" style="padding-bottom: var(--space-6);">
+<div data-reveal-hero class="section section-center" style="padding-bottom: var(--space-6);">
   <div class="eyebrow eyebrow-accent">Checkout</div>
   <h1 style="font: var(--text-h1); margin: var(--space-3) 0 var(--space-4);">Your Order</h1>
 </div>
@@ -109,6 +111,7 @@
       <a href="our-story.html">Our Story</a>
       <a href="origins.html">Origins</a>
       <a href="recipes.html">Recipes</a>
+      <a href="wholesale.html">Wholesale</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="social"><a href="https://www.instagram.com/ctartisanal" target="_blank" rel="noopener">Instagram · @ctartisanal</a></div>
@@ -116,6 +119,7 @@
 </footer>
 
 <script src="js/cart.js"></script>
+<script src="js/site.js"></script>
 <script>
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));

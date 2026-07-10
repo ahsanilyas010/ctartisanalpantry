@@ -271,20 +271,32 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 .price-row .qty { font: var(--text-body-sm); color: var(--text-muted); }
 .price-row .amount { font: var(--text-body); color: var(--text-primary); white-space: nowrap; }
 
-/* Scroll-reveal animation */
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(28px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Scroll-reveal animation — elements start hidden and transition in once
+   js/site.js's IntersectionObserver adds .is-visible as they scroll into
+   view. If JS never runs, the reduced-motion rule below still guarantees
+   visibility. */
+[data-reveal-hero],
+[data-reveal-section] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1);
 }
-@keyframes reveal-up-hero {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+[data-reveal-hero].is-visible,
+[data-reveal-section].is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-[data-reveal-hero] { animation: reveal-up-hero 900ms cubic-bezier(0.16,1,0.3,1) both; }
-[data-reveal-section] { animation: reveal-up 700ms cubic-bezier(0.16,1,0.3,1) both; }
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal-hero], [data-reveal-section] { animation: none; }
+  [data-reveal-hero], [data-reveal-section] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
+
+/* Hover lift for interactive cards */
+.shop-card, .card { transition: transform var(--duration-standard) var(--ease-standard), box-shadow var(--duration-standard) var(--ease-standard); }
+.shop-card:hover { transform: translateY(-4px); }
 
 @media (max-width: 860px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
@@ -429,3 +441,15 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 
 .admin-login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--space-6); }
 .admin-login-card { width: 100%; max-width: 380px; }
+
+/* Wholesale page */
+.check-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.check-list li { display: flex; align-items: flex-start; gap: var(--space-3); font: var(--text-body); color: var(--text-secondary); }
+.check-list li::before { content: "✓"; color: var(--accent); font-weight: var(--fw-medium); flex-shrink: 0; }
+
+.industry-tags { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
+
+.why-item { display: flex; gap: var(--space-4); align-items: flex-start; text-align: left; }
+.why-item .num { font: var(--text-h2); color: var(--accent); flex-shrink: 0; width: 48px; }
+.why-item h3 { font: var(--text-h3); margin: 0 0 var(--space-2); }
+.why-item p { font: var(--text-body-sm); color: var(--text-muted); margin: 0; }

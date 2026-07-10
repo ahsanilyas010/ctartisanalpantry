@@ -8,6 +8,7 @@
 <link rel="icon" href="assets/logo/ct-monogram.png">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="site.css">
+<noscript><style>[data-reveal-hero],[data-reveal-section]{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
 <body>
 
@@ -22,6 +23,7 @@
     <a href="our-story.html">Our Story</a>
     <a href="origins.html">Origins</a>
     <a href="recipes.html">Recipes</a>
+    <a href="wholesale.html">Wholesale</a>
     <a href="contact.html">Contact</a>
     <a href="checkout.html" class="cart-link">Cart<span class="cart-count" data-cart-count>0</span></a>
   </nav>
@@ -181,7 +183,7 @@
 </div>
 
 <!-- Price List -->
-<div class="section" style="max-width: 640px;">
+<div data-reveal-section class="section" style="max-width: 640px;">
   <div class="section-center" style="margin-bottom: var(--space-6);">
     <div class="eyebrow eyebrow-accent">Price List</div>
     <h2 style="font: var(--text-h1); margin: var(--space-3) 0 var(--space-2);">Wholesale-ready, pantry-priced</h2>
@@ -208,8 +210,18 @@
   <p style="font: var(--text-body-sm); color: var(--text-muted); text-align: center; margin: var(--space-5) 0 0;">Prices are exclusive of applicable taxes and delivery. <a href="contact.html" style="text-decoration: underline;">Wholesale enquiries welcome</a>.</p>
 </div>
 
+<!-- Wholesale / Bulk Buyers -->
+<div data-reveal-section style="background: var(--surface-inverse); color: var(--text-on-inverse); padding: var(--space-9) var(--content-padding-inline); text-align: center;">
+  <div style="max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: var(--space-4);">
+    <div class="eyebrow eyebrow-accent">For Manufacturers, Importers &amp; Brands</div>
+    <h2 style="font: var(--text-h1); margin: 0; color: var(--text-on-inverse);">Buying in Bulk?</h2>
+    <p style="font: var(--text-body-lg); color: var(--ink-100); margin: 0;">We supply premium, single-origin Madagascar cocoa and vanilla to manufacturers, importers, distributors, and private label brands worldwide.</p>
+    <a class="btn btn-primary" href="wholesale.html" style="margin-top: var(--space-2);">Explore Wholesale</a>
+  </div>
+</div>
+
 <!-- Newsletter -->
-<div style="background: var(--surface-accent-soft); padding: var(--space-9) var(--content-padding-inline); text-align: center;">
+<div data-reveal-section style="background: var(--surface-accent-soft); padding: var(--space-9) var(--content-padding-inline); text-align: center;">
   <div style="max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: var(--space-4);">
     <h2 style="font: var(--text-h1); margin: 0;">Join the Pantry</h2>
     <p style="font: var(--text-body); color: var(--text-secondary); margin: 0;">Be the first to discover new ingredients, recipes, and seasonal releases.</p>
@@ -231,6 +243,7 @@
       <a href="our-story.html">Our Story</a>
       <a href="origins.html">Origins</a>
       <a href="recipes.html">Recipes</a>
+      <a href="wholesale.html">Wholesale</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="social"><a href="https://www.instagram.com/ctartisanal" target="_blank" rel="noopener">Instagram · @ctartisanal</a></div>
@@ -238,5 +251,6 @@
 </footer>
 
 <script src="js/cart.js"></script>
+<script src="js/site.js"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@
 <link rel="icon" href="assets/logo/ct-monogram.png">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="site.css">
+<noscript><style>[data-reveal-hero],[data-reveal-section]{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
 <body>
 
@@ -22,20 +23,21 @@
     <a href="our-story.html">Our Story</a>
     <a href="origins.html" aria-current="page">Origins</a>
     <a href="recipes.html">Recipes</a>
+    <a href="wholesale.html">Wholesale</a>
     <a href="contact.html">Contact</a>
     <a href="checkout.html" class="cart-link">Cart<span class="cart-count" data-cart-count>0</span></a>
   </nav>
 </header>
 
-<div class="section section-center" style="padding-bottom: var(--space-6);">
+<div data-reveal-hero class="section section-center" style="padding-bottom: var(--space-6);">
   <div class="eyebrow eyebrow-accent">Origins</div>
   <h1 style="font: var(--text-h1); margin: var(--space-3) 0 var(--space-4);">Where Flavour Begins</h1>
   <p style="font: var(--text-body-lg); color: var(--text-secondary); max-width: 560px; margin: 0 auto;">Climate, soil, and cultivation shape the character of every ingredient in our pantry. From Madagascar's fertile landscapes to remarkable growing regions around the world, each ingredient reflects the place it comes from.</p>
 </div>
 
-<div class="placeholder-block inverse" style="height:420px;"></div>
+<div data-reveal-section style="height:420px; background: center / cover no-repeat url(images/product-chilioil-signature.jpg);" role="img" aria-label="Dried chilies and Madagascar pink peppercorn, ingredients for our chili oil"></div>
 
-<div class="section section-center">
+<div data-reveal-section class="section section-center">
   <div class="eyebrow eyebrow-accent">Why It Matters</div>
   <h2 style="font: var(--text-h1); margin: var(--space-3) 0 var(--space-4); max-width: 640px; margin-inline: auto;">Traceable, By Design</h2>
   <p style="font: var(--text-body-lg); color: var(--text-secondary); max-width: 560px; margin: 0 auto var(--space-6);">We work directly with growers rather than brokers, so every ingredient can be traced back to a specific region — not just a country of origin on a label.</p>
@@ -53,6 +55,7 @@
       <a href="our-story.html">Our Story</a>
       <a href="origins.html" aria-current="page">Origins</a>
       <a href="recipes.html">Recipes</a>
+      <a href="wholesale.html">Wholesale</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="social"><a href="https://www.instagram.com/ctartisanal" target="_blank" rel="noopener">Instagram · @ctartisanal</a></div>
@@ -60,5 +63,6 @@
 </footer>
 
 <script src="js/cart.js"></script>
+<script src="js/site.js"></script>
 </body>
 </html>
