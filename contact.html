@@ -13,12 +13,17 @@
 
 <header class="site-header">
   <a href="index.html"><img class="logo" src="assets/logo/ct-artisanal-pantry-logo.png" alt="CT Artisanal Pantry"></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="nav-toggle-label" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </label>
   <nav class="site-nav">
     <a href="shop.html">Shop</a>
     <a href="our-story.html">Our Story</a>
     <a href="origins.html">Origins</a>
     <a href="recipes.html">Recipes</a>
     <a href="contact.html" aria-current="page">Contact</a>
+    <a href="checkout.html" class="cart-link">Cart<span class="cart-count" data-cart-count>0</span></a>
   </nav>
 </header>
 
@@ -28,25 +33,19 @@
   <p style="font: var(--text-body-lg); color: var(--text-secondary); max-width: 560px; margin: 0 auto;">Questions about an order, wholesale, or press — we'd love to hear from you.</p>
 </div>
 
-<div class="section grid-2" style="align-items: flex-start;">
+<div class="section" style="max-width: 480px;">
   <div class="card card-elevated" style="display:flex; flex-direction:column; gap: var(--space-5);">
     <div>
-      <div class="eyebrow">General Enquiries</div>
-      <p style="font: var(--text-body-lg); margin: var(--space-2) 0 var(--space-3);">Questions about products or an order.</p>
-      <a class="btn btn-primary" href="mailto:hello@ctartisanalpantry.com">Email hello@ctartisanalpantry.com</a>
-    </div>
-    <div>
-      <div class="eyebrow">Wholesale &amp; Press</div>
-      <p style="font: var(--text-body-lg); margin: var(--space-2) 0 var(--space-3);">Stockist and press enquiries welcome.</p>
-      <a class="btn btn-outline" href="mailto:wholesale@ctartisanalpantry.com">Email wholesale@ctartisanalpantry.com</a>
+      <div class="eyebrow">Call or WhatsApp</div>
+      <p style="font: var(--text-body-lg); margin: var(--space-2) 0 var(--space-3);">Orders, wholesale, and general questions.</p>
+      <a class="btn btn-primary" href="tel:+923335497687">0333 549 7687</a>
     </div>
     <div>
       <div class="eyebrow">Follow Along</div>
       <p style="font: var(--text-body-lg); margin: var(--space-2) 0 var(--space-3);">New ingredients, recipes, and behind-the-scenes.</p>
-      <a class="btn btn-outline" href="https://www.instagram.com/cheflingtales" target="_blank" rel="noopener">Instagram · @cheflingtales</a>
+      <a class="btn btn-outline" href="https://www.instagram.com/ctartisanal" target="_blank" rel="noopener">Instagram · @ctartisanal</a>
     </div>
   </div>
-  <div class="placeholder-block" style="aspect-ratio: 4/5;">Studio / packing room — photography</div>
 </div>
 
 <footer class="site-footer">
@@ -62,9 +61,10 @@
       <a href="recipes.html">Recipes</a>
       <a href="contact.html" aria-current="page">Contact</a>
     </nav>
-    <div class="social"><a href="https://www.instagram.com/cheflingtales" target="_blank" rel="noopener">Instagram · @cheflingtales</a></div>
+    <div class="social"><a href="https://www.instagram.com/ctartisanal" target="_blank" rel="noopener">Instagram · @ctartisanal</a></div>
   </div>
 </footer>
 
+<script src="js/cart.js"></script>
 </body>
 </html>

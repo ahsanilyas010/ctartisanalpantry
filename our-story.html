@@ -13,12 +13,17 @@
 
 <header class="site-header">
   <a href="index.html"><img class="logo" src="assets/logo/ct-artisanal-pantry-logo.png" alt="CT Artisanal Pantry"></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="nav-toggle-label" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </label>
   <nav class="site-nav">
     <a href="shop.html">Shop</a>
     <a href="our-story.html" aria-current="page">Our Story</a>
     <a href="origins.html">Origins</a>
     <a href="recipes.html">Recipes</a>
     <a href="contact.html">Contact</a>
+    <a href="checkout.html" class="cart-link">Cart<span class="cart-count" data-cart-count>0</span></a>
   </nav>
 </header>
 
@@ -28,14 +33,11 @@
   <p style="font: var(--text-body-lg); color: var(--text-secondary); max-width: 560px; margin: 0 auto;">CT Artisanal Pantry started with a simple frustration: most "gourmet" ingredients had no story behind them. We set out to change that, one small batch at a time.</p>
 </div>
 
-<div class="section grid-2">
-  <div style="display:flex; flex-direction:column; gap: var(--space-4); align-items:flex-start;">
-    <div class="eyebrow eyebrow-accent">How It Started</div>
-    <h2 style="font: var(--text-h1); margin:0;">A Pantry Worth Trusting</h2>
-    <p style="font: var(--text-body-lg); color: var(--text-secondary); margin:0;">We began by asking growers, not brokers, where our ingredients actually came from. That question took us to Madagascar's vanilla groves, wild peppercorn vines, and cocoa groves — and it changed how we thought about what belongs in a pantry.</p>
-    <p style="font: var(--text-body); color: var(--text-secondary); margin:0;">Every ingredient we carry is chosen in small batches, traced back to a specific region, and tasted before it earns a place on the shelf.</p>
-  </div>
-  <div class="placeholder-block" style="aspect-ratio: 4/5;">Founder at origin — photography</div>
+<div class="section section-center">
+  <div class="eyebrow eyebrow-accent">How It Started</div>
+  <h2 style="font: var(--text-h1); margin: var(--space-3) 0 var(--space-4); max-width: 640px; margin-inline: auto;">A Pantry Worth Trusting</h2>
+  <p style="font: var(--text-body-lg); color: var(--text-secondary); max-width: 640px; margin: 0 auto var(--space-4);">We began by asking growers, not brokers, where our ingredients actually came from. That question took us to Madagascar's vanilla groves, wild peppercorn vines, and cocoa groves — and it changed how we thought about what belongs in a pantry.</p>
+  <p style="font: var(--text-body); color: var(--text-secondary); max-width: 640px; margin: 0 auto;">Every ingredient we carry is chosen in small batches, traced back to a specific region, and tasted before it earns a place on the shelf.</p>
 </div>
 
 <div class="section section-center">
@@ -83,9 +85,10 @@
       <a href="recipes.html">Recipes</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <div class="social"><a href="https://www.instagram.com/cheflingtales" target="_blank" rel="noopener">Instagram · @cheflingtales</a></div>
+    <div class="social"><a href="https://www.instagram.com/ctartisanal" target="_blank" rel="noopener">Instagram · @ctartisanal</a></div>
   </div>
 </footer>
 
+<script src="js/cart.js"></script>
 </body>
 </html>

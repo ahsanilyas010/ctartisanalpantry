@@ -13,12 +13,17 @@
 
 <header class="site-header">
   <a href="index.html"><img class="logo" src="assets/logo/ct-artisanal-pantry-logo.png" alt="CT Artisanal Pantry"></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="nav-toggle-label" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </label>
   <nav class="site-nav">
     <a href="shop.html">Shop</a>
     <a href="our-story.html">Our Story</a>
     <a href="origins.html" aria-current="page">Origins</a>
     <a href="recipes.html">Recipes</a>
     <a href="contact.html">Contact</a>
+    <a href="checkout.html" class="cart-link">Cart<span class="cart-count" data-cart-count>0</span></a>
   </nav>
 </header>
 
@@ -28,41 +33,13 @@
   <p style="font: var(--text-body-lg); color: var(--text-secondary); max-width: 560px; margin: 0 auto;">Climate, soil, and cultivation shape the character of every ingredient in our pantry. From Madagascar's fertile landscapes to remarkable growing regions around the world, each ingredient reflects the place it comes from.</p>
 </div>
 
-<div class="placeholder-block inverse" style="height:480px;">Landscape photography — Madagascar</div>
+<div class="placeholder-block inverse" style="height:420px;"></div>
 
-<div class="section">
-  <div class="grid-4" style="text-align:left;">
-    <div class="product-card">
-      <div class="image">Sava Region — photography</div>
-      <h3>Vanilla — Sava Region</h3>
-      <p>Madagascar's northeast coast, humid and volcanic — the world's benchmark for bourbon vanilla.</p>
-    </div>
-    <div class="product-card">
-      <div class="image">Highland vine terraces — photography</div>
-      <h3>Wild Peppercorn — Highland Terraces</h3>
-      <p>Hand-picked from wild vines growing along shaded highland terraces.</p>
-    </div>
-    <div class="product-card">
-      <div class="image">Cocoa groves — photography</div>
-      <h3>Cocoa — Coastal Groves</h3>
-      <p>Single-origin beans fermented and dried close to where they're grown.</p>
-    </div>
-    <div class="product-card">
-      <div class="image">Chili terraces — photography</div>
-      <h3>Chili — Small Family Plots</h3>
-      <p>Sourced from small family growers, pressed in-house into our signature oil.</p>
-    </div>
-  </div>
-</div>
-
-<div class="section grid-2">
-  <div class="placeholder-block" style="aspect-ratio: 4/5;">Growing regions map — photography</div>
-  <div style="display:flex; flex-direction:column; gap: var(--space-4); align-items:flex-start;">
-    <div class="eyebrow eyebrow-accent">Why It Matters</div>
-    <h2 style="font: var(--text-h1); margin:0;">Traceable, By Design</h2>
-    <p style="font: var(--text-body-lg); color: var(--text-secondary); margin:0;">We work directly with growers rather than brokers, so every ingredient can be traced back to a specific region — not just a country of origin on a label.</p>
-    <a class="btn btn-primary" href="shop.html">Shop the Origins</a>
-  </div>
+<div class="section section-center">
+  <div class="eyebrow eyebrow-accent">Why It Matters</div>
+  <h2 style="font: var(--text-h1); margin: var(--space-3) 0 var(--space-4); max-width: 640px; margin-inline: auto;">Traceable, By Design</h2>
+  <p style="font: var(--text-body-lg); color: var(--text-secondary); max-width: 560px; margin: 0 auto var(--space-6);">We work directly with growers rather than brokers, so every ingredient can be traced back to a specific region — not just a country of origin on a label.</p>
+  <a class="btn btn-primary" href="shop.html">Shop the Origins</a>
 </div>
 
 <footer class="site-footer">
@@ -78,9 +55,10 @@
       <a href="recipes.html">Recipes</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <div class="social"><a href="https://www.instagram.com/cheflingtales" target="_blank" rel="noopener">Instagram · @cheflingtales</a></div>
+    <div class="social"><a href="https://www.instagram.com/ctartisanal" target="_blank" rel="noopener">Instagram · @ctartisanal</a></div>
   </div>
 </footer>
 
+<script src="js/cart.js"></script>
 </body>
 </html>

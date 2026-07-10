@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Products — CT Artisanal Pantry Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/logo/ct-monogram.png">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="brand">CT Admin</div>
+    <nav>
+      <a href="orders.html">Orders</a>
+      <a href="products.html" class="active">Products</a>
+    </nav>
+    <div style="font-size:13px; color: var(--ink-300);">Logged in as <span data-admin-username>…</span></div>
+    <button class="admin-logout" data-admin-logout>Log Out</button>
+  </aside>
+
+  <main class="admin-main">
+    <h1 style="font: var(--text-h1); margin: 0 0 var(--space-6);">Products &amp; Inventory</h1>
+
+    <div id="products-error" class="alert alert-error" style="display:none;"></div>
+    <div id="products-success" class="alert alert-success" style="display:none;"></div>
+
+    <table class="admin-table" style="margin-bottom: var(--space-8);">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Unit</th>
+          <th>Price (PKR)</th>
+          <th>Stock</th>
+          <th>Active</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="products-body">
+        <tr><td colspan="6" style="color: var(--text-muted);">Loading…</td></tr>
+      </tbody>
+    </table>
+
+    <h2 style="font: var(--text-h2); margin: 0 0 var(--space-5);">Add a Product</h2>
+    <form id="add-product-form" class="card" style="max-width:480px; display:flex; flex-direction:column; gap: var(--space-3);">
+      <div class="form-field">
+        <label for="new-name">Name</label>
+        <input class="input" type="text" id="new-name" required>
+      </div>
+      <div class="form-field">
+        <label for="new-unit">Unit label (e.g. "50 g")</label>
+        <input class="input" type="text" id="new-unit">
+      </div>
+      <div class="form-field">
+        <label for="new-description">Description</label>
+        <input class="input" type="text" id="new-description">
+      </div>
+      <div class="form-field">
+        <label for="new-image">Image path (e.g. images/product-vanilla-tile.jpg)</label>
+        <input class="input" type="text" id="new-image">
+      </div>
+      <div style="display:flex; gap: var(--space-4);">
+        <div class="form-field" style="flex:1;">
+          <label for="new-price">Price (PKR)</label>
+          <input class="input" type="number" id="new-price" min="0" required>
+        </div>
+        <div class="form-field" style="flex:1;">
+          <label for="new-stock">Stock</label>
+          <input class="input" type="number" id="new-stock" min="0" value="0" required>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Add Product</button>
+    </form>
+  </main>
+</div>
+
+<script src="../js/admin.js"></script>
+<script>
+  let products = [];
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+  }
+  function showError(msg) {
+    const el = document.getElementById('products-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+    document.getElementById('products-success').style.display = 'none';
+  }
+  function showSuccess(msg) {
+    const el = document.getElementById('products-success');
+    el.textContent = msg;
+    el.style.display = 'block';
+    document.getElementById('products-error').style.display = 'none';
+    setTimeout(() => { el.style.display = 'none'; }, 2500);
+  }
+
+  function renderProducts() {
+    const body = document.getElementById('products-body');
+    if (products.length === 0) {
+      body.innerHTML = '<tr><td colspan="6" style="color: var(--text-muted);">No products yet.</td></tr>';
+      return;
+    }
+    body.innerHTML = products.map((p) => `
+      <tr data-row="${p.id}">
+        <td><input type="text" data-field="name" value="${escapeHtml(p.name)}"></td>
+        <td><input type="text" data-field="unit_label" value="${escapeHtml(p.unit_label || '')}"></td>
+        <td><input type="number" data-field="price_pkr" min="0" value="${p.price_pkr}"></td>
+        <td><input type="number" data-field="stock_quantity" min="0" value="${p.stock_quantity}"></td>
+        <td style="text-align:center;"><input type="checkbox" data-field="active" ${p.active ? 'checked' : ''}></td>
+        <td><button type="button" class="btn btn-outline btn-sm" data-save="${p.id}">Save</button></td>
+      </tr>
+    `).join('');
+
+    body.querySelectorAll('[data-save]').forEach((btn) => {
+      btn.addEventListener('click', () => saveProduct(Number(btn.dataset.save)));
+    });
+  }
+
+  async function saveProduct(id) {
+    const row = document.querySelector(`tr[data-row="${id}"]`);
+    const payload = {
+      name: row.querySelector('[data-field="name"]').value,
+      unit_label: row.querySelector('[data-field="unit_label"]').value,
+      price_pkr: Number(row.querySelector('[data-field="price_pkr"]').value),
+      stock_quantity: Number(row.querySelector('[data-field="stock_quantity"]').value),
+      active: row.querySelector('[data-field="active"]').checked,
+    };
+    try {
+      const r = await fetch(`/api/admin/products?id=${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) throw new Error();
+      showSuccess('Saved.');
+    } catch {
+      showError('Failed to save product.');
+    }
+  }
+
+  document.getElementById('add-product-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      name: document.getElementById('new-name').value,
+      unit_label: document.getElementById('new-unit').value,
+      description: document.getElementById('new-description').value,
+      image_path: document.getElementById('new-image').value,
+      price_pkr: Number(document.getElementById('new-price').value),
+      stock_quantity: Number(document.getElementById('new-stock').value),
+    };
+    try {
+      const r = await fetch('/api/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || 'Failed to add product.');
+      products.push(data.product);
+      renderProducts();
+      e.target.reset();
+      showSuccess('Product added.');
+    } catch (err) {
+      showError(err.message);
+    }
+  });
+
+  fetch('/api/admin/products')
+    .then((r) => {
+      if (!r.ok) throw new Error();
+      return r.json();
+    })
+    .then((data) => {
+      products = data.products || [];
+      renderProducts();
+    })
+    .catch(() => showError('Failed to load products.'));
+</script>
+
+</body>
+</html>

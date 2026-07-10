@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — CT Artisanal Pantry</title>
+<meta name="description" content="Complete your order — cash on delivery or bank transfer.">
+<link rel="icon" href="assets/logo/ct-monogram.png">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html"><img class="logo" src="assets/logo/ct-artisanal-pantry-logo.png" alt="CT Artisanal Pantry"></a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="nav-toggle-label" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </label>
+  <nav class="site-nav">
+    <a href="shop.html">Shop</a>
+    <a href="our-story.html">Our Story</a>
+    <a href="origins.html">Origins</a>
+    <a href="recipes.html">Recipes</a>
+    <a href="contact.html">Contact</a>
+    <a href="checkout.html" class="cart-link" aria-current="page">Cart<span class="cart-count" data-cart-count>0</span></a>
+  </nav>
+</header>
+
+<div class="section section-center" style="padding-bottom: var(--space-6);">
+  <div class="eyebrow eyebrow-accent">Checkout</div>
+  <h1 style="font: var(--text-h1); margin: var(--space-3) 0 var(--space-4);">Your Order</h1>
+</div>
+
+<div class="section" style="max-width: 720px; padding-top: 0;">
+
+  <div id="checkout-error" class="alert alert-error" style="display:none;"></div>
+
+  <div id="checkout-empty" style="display:none; text-align:center; padding: var(--space-7) 0;">
+    <p style="font: var(--text-body-lg); color: var(--text-secondary);">Your cart is empty.</p>
+    <a class="btn btn-primary" href="shop.html">Shop the Collection</a>
+  </div>
+
+  <div id="checkout-confirmation" style="display:none; text-align:center; padding: var(--space-7) 0;">
+    <div class="eyebrow eyebrow-accent">Order Placed</div>
+    <h2 style="font: var(--text-h1); margin: var(--space-3) 0;">Thank you!</h2>
+    <p style="font: var(--text-body-lg); color: var(--text-secondary);">Your order <strong id="confirm-order-number"></strong> has been received. We'll be in touch at the phone number you provided to confirm delivery.</p>
+    <a class="btn btn-outline" href="shop.html">Continue Shopping</a>
+  </div>
+
+  <div id="checkout-content">
+    <div id="cart-lines"></div>
+    <div class="cart-total-row">
+      <span>Total</span>
+      <span id="cart-total">Rs 0</span>
+    </div>
+
+    <form id="checkout-form" style="margin-top: var(--space-7);">
+      <h2 style="font: var(--text-h2); margin: 0 0 var(--space-5);">Delivery Details</h2>
+
+      <div class="form-field">
+        <label for="name">Full name</label>
+        <input class="input" type="text" id="name" name="name" required>
+      </div>
+      <div class="form-field">
+        <label for="phone">Phone number</label>
+        <input class="input" type="tel" id="phone" name="phone" required placeholder="03XX XXXXXXX">
+      </div>
+      <div class="form-field">
+        <label for="address">Delivery address</label>
+        <textarea class="input" id="address" name="address" rows="3" required></textarea>
+      </div>
+      <div class="form-field">
+        <label for="notes">Order notes (optional)</label>
+        <textarea class="input" id="notes" name="notes" rows="2"></textarea>
+      </div>
+
+      <h2 style="font: var(--text-h2); margin: var(--space-6) 0 var(--space-4);">Payment Method</h2>
+      <div class="payment-options">
+        <label class="payment-option" data-payment-option="cod">
+          <input type="radio" name="payment_method" value="cod" checked>
+          <div>
+            <div class="label">Cash on Delivery</div>
+            <div class="detail">Pay in cash when your order arrives.</div>
+          </div>
+        </label>
+        <label class="payment-option" data-payment-option="bank_transfer">
+          <input type="radio" name="payment_method" value="bank_transfer">
+          <div>
+            <div class="label">Bank Transfer</div>
+            <div class="detail">We'll send our bank account details to your phone number via WhatsApp/call after you place the order.</div>
+          </div>
+        </label>
+      </div>
+
+      <button class="btn btn-primary" type="submit" style="width:100%; margin-top: var(--space-6);" id="submit-btn">Place Order</button>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <div class="brand">CT Artisanal Pantry</div>
+      <div class="tagline">Flavour, Shaped by Place</div>
+    </div>
+    <nav class="site-nav">
+      <a href="shop.html">Shop</a>
+      <a href="our-story.html">Our Story</a>
+      <a href="origins.html">Origins</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="social"><a href="https://www.instagram.com/ctartisanal" target="_blank" rel="noopener">Instagram · @ctartisanal</a></div>
+  </div>
+</footer>
+
+<script src="js/cart.js"></script>
+<script>
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+  }
+  function formatPkr(n) {
+    return 'Rs ' + Number(n).toLocaleString('en-PK');
+  }
+
+  document.querySelectorAll('.payment-option').forEach((opt) => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.payment-option').forEach((o) => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+  document.querySelector('.payment-option[data-payment-option="cod"]').classList.add('selected');
+
+  let currentProducts = [];
+
+  function renderCartLines(cart, products) {
+    const container = document.getElementById('cart-lines');
+    const bySlug = new Map(products.map((p) => [p.slug, p]));
+    let total = 0;
+    const entries = Object.entries(cart).filter(([slug]) => bySlug.has(slug));
+
+    if (entries.length === 0) {
+      document.getElementById('checkout-empty').style.display = 'block';
+      document.getElementById('checkout-content').style.display = 'none';
+      return;
+    }
+
+    container.innerHTML = entries.map(([slug, qty]) => {
+      const p = bySlug.get(slug);
+      const clampedQty = Math.min(qty, p.stock_quantity);
+      const lineTotal = p.price_pkr * clampedQty;
+      total += lineTotal;
+      return `
+        <div class="cart-line" data-slug="${escapeHtml(slug)}">
+          <div>
+            <div class="name">${escapeHtml(p.name)}</div>
+            <div class="meta">${clampedQty} × ${formatPkr(p.price_pkr)}${clampedQty < qty ? ` (only ${p.stock_quantity} in stock)` : ''}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap: var(--space-4);">
+            <div class="name">${formatPkr(lineTotal)}</div>
+            <button type="button" class="remove" data-remove="${escapeHtml(slug)}">Remove</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('cart-total').textContent = formatPkr(total);
+
+    container.querySelectorAll('[data-remove]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        window.CTCart.removeFromCart(btn.dataset.remove);
+        refreshCart();
+      });
+    });
+  }
+
+  function refreshCart() {
+    const cart = window.CTCart.readCart();
+    if (Object.keys(cart).length === 0) {
+      document.getElementById('checkout-empty').style.display = 'block';
+      document.getElementById('checkout-content').style.display = 'none';
+      return;
+    }
+    document.getElementById('checkout-empty').style.display = 'none';
+    document.getElementById('checkout-content').style.display = 'block';
+    renderCartLines(cart, currentProducts);
+  }
+
+  fetch('/api/products')
+    .then((r) => r.json())
+    .then((data) => {
+      currentProducts = data.products || [];
+      refreshCart();
+    })
+    .catch(() => {
+      const errEl = document.getElementById('checkout-error');
+      errEl.style.display = 'block';
+      errEl.textContent = "We couldn't load your cart right now. Please try again shortly.";
+    });
+
+  document.getElementById('checkout-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById('checkout-error');
+    errEl.style.display = 'none';
+
+    const cart = window.CTCart.readCart();
+    const items = Object.entries(cart).map(([slug, quantity]) => ({ slug, quantity }));
+    if (items.length === 0) return;
+
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Placing order…';
+
+    const payload = {
+      items,
+      customer: {
+        name: document.getElementById('name').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        address: document.getElementById('address').value.trim(),
+      },
+      payment_method: document.querySelector('input[name="payment_method"]:checked').value,
+      notes: document.getElementById('notes').value.trim(),
+    };
+
+    try {
+      const r = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await r.json();
+      if (!r.ok) {
+        throw new Error(data.error || 'Something went wrong placing your order.');
+      }
+      window.CTCart.clearCart();
+      document.getElementById('checkout-content').style.display = 'none';
+      document.getElementById('confirm-order-number').textContent = data.order_number;
+      document.getElementById('checkout-confirmation').style.display = 'block';
+    } catch (err) {
+      errEl.style.display = 'block';
+      errEl.textContent = err.message;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Place Order';
+    }
+  });
+</script>
+
+</body>
+</html>
