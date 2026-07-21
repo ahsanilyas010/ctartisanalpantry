@@ -41,6 +41,8 @@
 </head>
 <body>
 
+<div id="preloader" class="preloader" aria-hidden="true"><img class="preloader-mark" src="assets/logo/ct-monogram.png" alt=""></div>
+
 <header class="site-header">
   <a href="index.html"><img class="logo" src="assets/logo/ct-artisanal-pantry-logo.png" alt="CT Artisanal Pantry"></a>
   <input type="checkbox" id="nav-toggle" class="nav-toggle">
@@ -65,11 +67,12 @@
     <div class="hero-slide" style="background-image:url(images/hero-slide-ingredients.jpg)"></div>
     <div class="hero-slide" style="background-image:url(images/hero-slide-vanilla-bundle.jpg)"></div>
     <div class="hero-scrim"></div>
+    <div class="hero-blobs" aria-hidden="true"><div class="hero-blob hero-blob-1"></div><div class="hero-blob hero-blob-2"></div></div>
   </div>
   <div class="hero-content section section-center">
     <div class="eyebrow eyebrow-accent">CT Artisanal Pantry</div>
     <h1 class="hero-heading">Flavour from Madagascar</h1>
-    <p class="hero-sub">Crafted, sourced, and selected for cooks who care deeply about flavour.</p>
+    <p class="hero-sub">Small-batch <span class="word-rotator" aria-live="polite"><span class="word-rotator-item is-active">Madagascar Bourbon Vanilla</span><span class="word-rotator-item">Wild Red Peppercorn</span><span class="word-rotator-item">Single-Origin Cocoa</span><span class="word-rotator-item">Chili Oil</span></span></p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="shop.html">Explore the Pantry</a>
       <a class="btn btn-outline-inverse" href="wholesale.html">Bulk Buying / Wholesale</a>
@@ -115,7 +118,7 @@
 
 <!-- Signature Product -->
 <div data-reveal-section class="section grid-2">
-  <img class="tile-image" src="images/product-chilioil-jar.jpg" alt="Chili Oil by CT jar, surrounded by dried chilies and Madagascar pink peppercorn" style="aspect-ratio: 4/5; object-fit: cover; border-radius: var(--radius-lg);">
+  <img class="tile-image" src="images/product-chilioil-jar.jpg" alt="Chili Oil by CT jar, surrounded by dried chilies and Madagascar pink peppercorn" style="aspect-ratio: 4/5; object-fit: cover; border-radius: var(--radius-lg);" data-lightbox>
   <div style="display:flex; flex-direction:column; gap: var(--space-4); align-items:flex-start;">
     <div class="eyebrow eyebrow-accent">Signature</div>
     <h2 style="font: var(--text-h1); margin: 0;">The Art of Heat</h2>
@@ -167,18 +170,18 @@
 <div data-reveal-section class="section section-center">
   <h2 style="font: var(--text-h1); margin: 0 0 var(--space-7);">In the Kitchen</h2>
   <div class="grid-3" style="text-align: left; margin-bottom: var(--space-7);">
-    <div class="media-tile">
-      <img class="tile-image" src="images/recipe-milkshake-glass.jpg" alt="Chilled cocoa milk shake topped with cream and shaved chocolate">
+    <div class="media-tile recipe-card">
+      <img class="tile-image" src="images/recipe-milkshake-glass.jpg" alt="Chilled cocoa milk shake topped with cream and shaved chocolate" data-lightbox>
       <h3>Cocoa Milk Shake</h3>
       <p>Rich cocoa, gently sweetened.</p>
     </div>
-    <div class="media-tile">
-      <img class="tile-image" src="images/recipe-chili-oil-eggs.jpg" alt="Fried eggs over noodles, finished with chili oil, sesame, and spring onion">
+    <div class="media-tile recipe-card">
+      <img class="tile-image" src="images/recipe-chili-oil-eggs.jpg" alt="Fried eggs over noodles, finished with chili oil, sesame, and spring onion" data-lightbox>
       <h3>Chili Oil Eggs</h3>
       <p>A quiet kind of heat, at breakfast.</p>
     </div>
-    <div class="media-tile">
-      <img class="tile-image" src="images/recipe-vanilla-custard-bowl.jpg" alt="Silky vanilla custard in a bowl beside whole vanilla pods">
+    <div class="media-tile recipe-card">
+      <img class="tile-image" src="images/recipe-vanilla-custard-bowl.jpg" alt="Silky vanilla custard in a bowl beside whole vanilla pods" data-lightbox>
       <h3>Vanilla Custard</h3>
       <p>Bourbon vanilla, slow-baked.</p>
     </div>
@@ -246,6 +249,12 @@
   </div>
 </div>
 
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Flavour, Shaped by Place</span><span class="accent">&bull;</span><span>Madagascar</span><span class="accent">&bull;</span><span>Vanilla</span><span class="accent">&bull;</span><span>Peppercorn</span><span class="accent">&bull;</span><span>Cocoa</span><span class="accent">&bull;</span><span>Chili Oil</span><span class="accent">&bull;</span>
+    <span>Flavour, Shaped by Place</span><span class="accent">&bull;</span><span>Madagascar</span><span class="accent">&bull;</span><span>Vanilla</span><span class="accent">&bull;</span><span>Peppercorn</span><span class="accent">&bull;</span><span>Cocoa</span><span class="accent">&bull;</span><span>Chili Oil</span><span class="accent">&bull;</span>
+  </div>
+</div>
 <footer class="site-footer">
   <div class="wrap">
     <div>
@@ -264,7 +273,12 @@
   </div>
 </footer>
 
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/vendor/Flip.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/site.js"></script>
+<script src="js/animations.js"></script>
 </body>
 </html>

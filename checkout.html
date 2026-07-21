@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<div id="preloader" class="preloader" aria-hidden="true"><img class="preloader-mark" src="assets/logo/ct-monogram.png" alt=""></div>
+
 <header class="site-header">
   <a href="index.html"><img class="logo" src="assets/logo/ct-artisanal-pantry-logo.png" alt="CT Artisanal Pantry"></a>
   <input type="checkbox" id="nav-toggle" class="nav-toggle">
@@ -101,6 +103,12 @@
   </div>
 </div>
 
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Flavour, Shaped by Place</span><span class="accent">&bull;</span><span>Madagascar</span><span class="accent">&bull;</span><span>Vanilla</span><span class="accent">&bull;</span><span>Peppercorn</span><span class="accent">&bull;</span><span>Cocoa</span><span class="accent">&bull;</span><span>Chili Oil</span><span class="accent">&bull;</span>
+    <span>Flavour, Shaped by Place</span><span class="accent">&bull;</span><span>Madagascar</span><span class="accent">&bull;</span><span>Vanilla</span><span class="accent">&bull;</span><span>Peppercorn</span><span class="accent">&bull;</span><span>Cocoa</span><span class="accent">&bull;</span><span>Chili Oil</span><span class="accent">&bull;</span>
+  </div>
+</div>
 <footer class="site-footer">
   <div class="wrap">
     <div>
@@ -119,8 +127,13 @@
   </div>
 </footer>
 
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/vendor/Flip.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/site.js"></script>
+<script src="js/animations.js"></script>
 <script>
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
