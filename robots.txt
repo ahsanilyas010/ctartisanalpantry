@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /checkout.html
+Disallow: /api/
+
+Sitemap: https://ctartisanalpantry.assorted.group/sitemap.xml
