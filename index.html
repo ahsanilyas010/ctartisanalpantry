@@ -21,7 +21,6 @@
   <nav class="site-nav">
     <a href="shop.html">Shop</a>
     <a href="our-story.html">Our Story</a>
-    <a href="origins.html">Origins</a>
     <a href="recipes.html">Recipes</a>
     <a href="wholesale.html">Wholesale</a>
     <a href="contact.html">Contact</a>
@@ -30,14 +29,23 @@
 </header>
 
 <!-- Hero -->
-<div data-reveal-hero class="section section-center" style="display:flex; flex-direction:column; align-items:center; gap: var(--space-5); padding-top: var(--space-9); padding-bottom: var(--space-8);">
-  <h1 style="font: var(--text-hero); margin: 0; max-width: 900px;">CT Artisanal Pantry curates exceptional ingredients from the remarkable landscape of Madagascar</h1>
-  <p style="font: var(--text-body-lg); color: var(--text-secondary); margin: 0; max-width: 560px;">Crafted, sourced, and selected for cooks who care deeply about flavour.</p>
-  <div style="display:flex; gap: var(--space-4); margin-top: var(--space-2); flex-wrap: wrap; justify-content: center;">
-    <a class="btn btn-primary" href="shop.html">Explore the Pantry</a>
-    <a class="btn btn-outline" href="wholesale.html">Bulk Buying / Wholesale</a>
+<section class="hero" data-reveal-hero>
+  <div class="hero-slider" aria-hidden="true">
+    <div class="hero-slide" style="background-image:url(images/hero-slide-vanilla-farm.jpg)"></div>
+    <div class="hero-slide" style="background-image:url(images/hero-slide-ingredients.jpg)"></div>
+    <div class="hero-slide" style="background-image:url(images/hero-slide-vanilla-bundle.jpg)"></div>
+    <div class="hero-scrim"></div>
   </div>
-</div>
+  <div class="hero-content section section-center">
+    <div class="eyebrow eyebrow-accent">CT Artisanal Pantry</div>
+    <h1 class="hero-heading">Flavour from Madagascar</h1>
+    <p class="hero-sub">Crafted, sourced, and selected for cooks who care deeply about flavour.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="shop.html">Explore the Pantry</a>
+      <a class="btn btn-outline-inverse" href="wholesale.html">Bulk Buying / Wholesale</a>
+    </div>
+  </div>
+</section>
 
 <!-- Product Grid -->
 <div data-reveal-section class="section section-center">
@@ -71,40 +79,6 @@
       </video>
       <h3>Chili Oil — The Art of Heat</h3>
       <p>Layered warmth crafted in small batches.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Know Your Ingredients -->
-<div data-reveal-section class="section">
-  <div class="section-center" style="margin-bottom: var(--space-7);">
-    <div class="eyebrow eyebrow-accent">Know Your Ingredients</div>
-    <h2 style="font: var(--text-h1); margin: var(--space-3) 0 0;">Four forms, one source of flavour</h2>
-  </div>
-  <div class="grid-4">
-    <div class="card">
-      <div class="eyebrow" style="color: var(--accent);">Whole pod</div>
-      <h3 style="font: var(--text-h3); margin: var(--space-3) 0 var(--space-2);">Vanilla bean pods</h3>
-      <p style="font: var(--text-body-sm); color: var(--text-secondary); margin: 0 0 var(--space-2);">The whole cured fruit of a climbing orchid, hand-pollinated and slow-cured for months — the purest, most flavourful form of vanilla.</p>
-      <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0; font-style: italic;">Split, scrape, and infuse the pod in milk, cream, or syrup.</p>
-    </div>
-    <div class="card">
-      <div class="eyebrow" style="color: var(--accent);">Pure seeds</div>
-      <h3 style="font: var(--text-h3); margin: var(--space-3) 0 var(--space-2);">Vanilla caviar</h3>
-      <p style="font: var(--text-body-sm); color: var(--text-secondary); margin: 0 0 var(--space-2);">The tiny fragrant seeds scraped from the pod — maximum aroma and those signature black flecks, with none of the pod's woodiness.</p>
-      <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0; font-style: italic;">Stir straight into custards, whipped cream, or glazes.</p>
-    </div>
-    <div class="card">
-      <div class="eyebrow" style="color: var(--accent);">Spoonable</div>
-      <h3 style="font: var(--text-h3); margin: var(--space-3) 0 var(--space-2);">Vanilla bean paste with honey</h3>
-      <p style="font: var(--text-body-sm); color: var(--text-secondary); margin: 0 0 var(--space-2);">A thick blend of vanilla extract and real scraped seeds — the flecks and depth of a whole pod, with the ease of a jar.</p>
-      <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0; font-style: italic;">Measure by the spoon, straight into batters and frostings.</p>
-    </div>
-    <div class="card">
-      <div class="eyebrow" style="color: var(--accent);">Stone-milled</div>
-      <h3 style="font: var(--text-h3); margin: var(--space-3) 0 var(--space-2);">Cocoa powder</h3>
-      <p style="font: var(--text-body-sm); color: var(--text-secondary); margin: 0 0 var(--space-2);">Whole Madagascar cacao beans, roasted and stone-milled into a fine powder — pure, single-origin, and unsweetened.</p>
-      <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0; font-style: italic;">Bloom in a little hot liquid to unlock its full aroma.</p>
     </div>
   </div>
 </div>
@@ -149,12 +123,12 @@
 
 <!-- Origins / Landscape Story -->
 <div data-reveal-section style="position: relative; margin: 0 0 var(--space-8);">
-  <div style="height: 420px; background: center / cover no-repeat url(images/madagascar-vanilla-vine.jpg);" role="img" aria-label="A farmer's hand holding fresh green vanilla pods on the vine in Madagascar"></div>
+  <div style="height: 420px; background: center / cover no-repeat url(images/madagascar-farm-landscape.jpg);" role="img" aria-label="Aerial view of Madagascar's growing regions at golden hour"></div>
   <div class="wrap" style="position: relative;">
     <div class="card card-elevated" style="max-width: 480px; margin-top: -120px; position: relative; display: flex; flex-direction: column; gap: var(--space-4); align-items: flex-start;">
       <h2 style="font: var(--text-h1); margin: 0; width: 100%;">Where Flavour Begins</h2>
       <p style="font: var(--text-body); color: var(--text-secondary); margin: 0;">Climate, soil, and cultivation shape the character of every ingredient in our pantry. From Madagascar's fertile landscapes to remarkable growing regions around the world, each ingredient reflects the place it comes from.</p>
-      <a class="btn btn-outline" href="origins.html">Explore Origins</a>
+      <a class="btn btn-outline" href="our-story.html#origins">Explore Origins</a>
     </div>
   </div>
 </div>
@@ -182,32 +156,42 @@
   <a class="btn btn-outline" href="recipes.html">View Recipes</a>
 </div>
 
-<!-- Price List -->
-<div data-reveal-section class="section" style="max-width: 640px;">
-  <div class="section-center" style="margin-bottom: var(--space-6);">
-    <div class="eyebrow eyebrow-accent">Price List</div>
-    <h2 style="font: var(--text-h1); margin: var(--space-3) 0 var(--space-2);">Wholesale-ready, pantry-priced</h2>
-    <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0;">Effective July 2026 — valid through January 2027</p>
+<!-- Know Your Ingredients -->
+<div data-reveal-section class="section">
+  <div class="section-center" style="margin-bottom: var(--space-7);">
+    <div class="eyebrow eyebrow-accent">Know Your Ingredients</div>
+    <h2 style="font: var(--text-h1); margin: var(--space-3) 0 0;">Four forms, one source of flavour</h2>
   </div>
-  <div>
-    <div class="price-row">
-      <div><div class="name">Vanilla Beans</div><div class="qty">10 beans</div></div>
-      <div class="amount">Rs 4,500</div>
+  <div class="grid-4">
+    <div class="card ingredient-card">
+      <img class="ingredient-card-image" src="images/wholesale-vanilla-beans.jpg" alt="Whole Madagascar bourbon vanilla bean pods">
+      <div class="eyebrow" style="color: var(--accent);">Whole pod</div>
+      <h3 style="font: var(--text-h3); margin: var(--space-3) 0 var(--space-2);">Vanilla bean pods</h3>
+      <p style="font: var(--text-body-sm); color: var(--text-secondary); margin: 0 0 var(--space-2);">The whole cured fruit of a climbing orchid, hand-pollinated and slow-cured for months — the purest, most flavourful form of vanilla.</p>
+      <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0; font-style: italic;">Split, scrape, and infuse the pod in milk, cream, or syrup.</p>
     </div>
-    <div class="price-row">
-      <div><div class="name">Vanilla Caviar</div><div class="qty">50 g</div></div>
-      <div class="amount">Rs 5,500</div>
+    <div class="card ingredient-card">
+      <img class="ingredient-card-image" src="images/wholesale-vanilla-caviar.jpg" alt="Scraped Madagascar vanilla caviar in a tin">
+      <div class="eyebrow" style="color: var(--accent);">Pure seeds</div>
+      <h3 style="font: var(--text-h3); margin: var(--space-3) 0 var(--space-2);">Vanilla caviar</h3>
+      <p style="font: var(--text-body-sm); color: var(--text-secondary); margin: 0 0 var(--space-2);">The tiny fragrant seeds scraped from the pod — maximum aroma and those signature black flecks, with none of the pod's woodiness.</p>
+      <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0; font-style: italic;">Stir straight into custards, whipped cream, or glazes.</p>
     </div>
-    <div class="price-row">
-      <div><div class="name">Vanilla Bean Paste with Honey</div><div class="qty">50 g</div></div>
-      <div class="amount">Rs 4,500</div>
+    <div class="card ingredient-card">
+      <img class="ingredient-card-image" src="images/wholesale-vanilla-paste.jpg" alt="Madagascar vanilla bean paste in an open tin beside cured beans">
+      <div class="eyebrow" style="color: var(--accent);">Spoonable</div>
+      <h3 style="font: var(--text-h3); margin: var(--space-3) 0 var(--space-2);">Vanilla bean paste with honey</h3>
+      <p style="font: var(--text-body-sm); color: var(--text-secondary); margin: 0 0 var(--space-2);">A thick blend of vanilla extract and real scraped seeds — the flecks and depth of a whole pod, with the ease of a jar.</p>
+      <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0; font-style: italic;">Measure by the spoon, straight into batters and frostings.</p>
     </div>
-    <div class="price-row">
-      <div><div class="name">Cocoa — 100% Pure, Unsweetened</div><div class="qty">250 g</div></div>
-      <div class="amount">Rs 2,500</div>
+    <div class="card ingredient-card">
+      <img class="ingredient-card-image" src="images/wholesale-cocoa-powder.jpg" alt="Single-origin Madagascar cocoa powder on a spoon">
+      <div class="eyebrow" style="color: var(--accent);">Stone-milled</div>
+      <h3 style="font: var(--text-h3); margin: var(--space-3) 0 var(--space-2);">Cocoa powder</h3>
+      <p style="font: var(--text-body-sm); color: var(--text-secondary); margin: 0 0 var(--space-2);">Whole Madagascar cacao beans, roasted and stone-milled into a fine powder — pure, single-origin, and unsweetened.</p>
+      <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0; font-style: italic;">Bloom in a little hot liquid to unlock its full aroma.</p>
     </div>
   </div>
-  <p style="font: var(--text-body-sm); color: var(--text-muted); text-align: center; margin: var(--space-5) 0 0;">Prices are exclusive of applicable taxes and delivery. <a href="contact.html" style="text-decoration: underline;">Wholesale enquiries welcome</a>.</p>
 </div>
 
 <!-- Wholesale / Bulk Buyers -->
@@ -241,7 +225,6 @@
     <nav class="site-nav">
       <a href="shop.html">Shop</a>
       <a href="our-story.html">Our Story</a>
-      <a href="origins.html">Origins</a>
       <a href="recipes.html">Recipes</a>
       <a href="wholesale.html">Wholesale</a>
       <a href="contact.html">Contact</a>

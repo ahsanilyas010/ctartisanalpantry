@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/origins.html",
+      "destination": "/our-story.html#origins",
+      "permanent": true
+    },
+    {
+      "source": "/origins",
+      "destination": "/our-story.html#origins",
+      "permanent": true
+    }
+  ]
+}
