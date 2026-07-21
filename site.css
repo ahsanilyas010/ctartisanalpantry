@@ -31,7 +31,8 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
 }
 
-.site-header .logo { height: 56px; }
+.site-header { padding: 16px var(--content-padding-inline); }
+.site-header .logo { height: 112px; transition: height var(--duration-standard) var(--ease-standard); }
 
 .site-nav {
   display: flex;
@@ -83,7 +84,7 @@ img { max-width: 100%; display: block; }
     z-index: 100;
   }
   .nav-toggle:checked ~ .site-nav { display: flex; }
-  .site-header .logo { height: 44px; }
+  .site-header .logo { height: 88px; }
 }
 
 /* Buttons */
@@ -271,26 +272,16 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 .price-row .qty { font: var(--text-body-sm); color: var(--text-muted); }
 .price-row .amount { font: var(--text-body); color: var(--text-primary); white-space: nowrap; }
 
-/* Scroll-reveal animation — elements start hidden and transition in once
-   js/site.js's IntersectionObserver adds .is-visible as they scroll into
-   view. If JS never runs, the reduced-motion rule below still guarantees
-   visibility. */
-[data-reveal-hero],
-[data-reveal-section] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1);
-}
-[data-reveal-hero].is-visible,
-[data-reveal-section].is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Scroll-reveal animation — elements are visible by default (no CSS
+   pre-hide, so content never disappears if a script fails to load). Only
+   once js/animations.js confirms GSAP is ready does it hide each element
+   and animate it back in via ScrollTrigger; a backstop in the same file
+   force-reveals anything still hidden after a timeout regardless. */
 @media (prefers-reduced-motion: reduce) {
   [data-reveal-hero], [data-reveal-section] {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
+    filter: none !important;
   }
 }
 
@@ -453,3 +444,237 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 .why-item .num { font: var(--text-h2); color: var(--accent); flex-shrink: 0; width: 48px; }
 .why-item h3 { font: var(--text-h3); margin: 0 0 var(--space-2); }
 .why-item p { font: var(--text-body-sm); color: var(--text-muted); margin: 0; }
+
+/* Home hero slider */
+.hero { position: relative; overflow: hidden; min-height: min(720px, 90vh); display: flex; align-items: center; justify-content: center; }
+.hero-slider { position: absolute; inset: 0; z-index: 0; background: var(--ink-900); }
+.hero-slide {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0;
+  animation: hero-slide-cycle 18s infinite;
+}
+.hero-slide:nth-child(1) { animation-delay: 0s; }
+.hero-slide:nth-child(2) { animation-delay: 6s; }
+.hero-slide:nth-child(3) { animation-delay: 12s; }
+@keyframes hero-slide-cycle {
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  28% { opacity: 1; }
+  33% { opacity: 0; }
+  100% { opacity: 0; }
+}
+.hero-scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(32,28,26,0.60) 0%, rgba(32,28,26,0.38) 45%, rgba(32,28,26,0.68) 100%);
+}
+.hero-content {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-5);
+  padding-top: var(--space-10); padding-bottom: var(--space-10);
+}
+.hero-content .eyebrow { color: var(--cream-100); }
+.hero-heading { font: var(--text-hero); margin: 0; color: var(--text-on-inverse); }
+.hero-sub { font: var(--text-body-lg); color: var(--ink-100); margin: 0; max-width: 560px; }
+.hero-ctas { display: flex; gap: var(--space-4); margin-top: var(--space-2); flex-wrap: wrap; justify-content: center; }
+
+.btn-outline-inverse { background: transparent; color: var(--text-on-inverse); border-color: var(--text-on-inverse); }
+.btn-outline-inverse:hover { background: var(--text-on-inverse); color: var(--ink-900); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide { animation: none !important; opacity: 0; }
+  .hero-slide:first-child { opacity: 1; }
+}
+@media (max-width: 640px) {
+  .hero { min-height: 560px; }
+}
+
+/* Ingredient cards with a photo header (Know Your Ingredients) */
+.ingredient-card { padding-top: 0; overflow: hidden; }
+.ingredient-card-image {
+  width: calc(100% + var(--space-6) * 2);
+  margin: 0 calc(var(--space-6) * -1) var(--space-4);
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* Blog article body copy */
+.article-body { font: var(--text-body); color: var(--text-secondary); }
+.article-body h2 { font: var(--text-h2); color: var(--text-primary); margin: var(--space-7) 0 var(--space-3); }
+.article-body h3 { font: var(--text-h3); color: var(--text-primary); margin: var(--space-6) 0 var(--space-2); }
+.article-body p { margin: 0 0 var(--space-4); }
+.article-body ul, .article-body ol { margin: 0 0 var(--space-4); padding-left: var(--space-5); }
+.article-body li { margin-bottom: var(--space-2); }
+.article-body a { color: var(--link); }
+.article-body a:hover { color: var(--link-hover); }
+.article-body blockquote { border-left: 3px solid var(--accent); margin: var(--space-6) 0; padding-left: var(--space-5); font-style: italic; color: var(--text-primary); }
+
+.related-articles { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.related-articles a { text-decoration: none; color: inherit; display: block; }
+.related-articles .eyebrow { margin-bottom: var(--space-2); }
+.related-articles h4 { font: var(--text-h3); font-size: 16px; margin: 0; color: var(--text-primary); }
+@media (max-width: 860px) { .related-articles { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   Animation layer (js/animations.js) — sticky/shrinking nav, hero parallax
+   hooks, preloader, word rotator, custom cursor, magnetic buttons, card
+   tilt, lightbox, marquee, card border glow, background drift. All of it
+   degrades gracefully: nothing here hides content by default, and
+   prefers-reduced-motion gets lighter/faster variants rather than nothing.
+   ========================================================================== */
+
+/* Sticky nav that shrinks on scroll */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--surface-page);
+  transition: padding var(--duration-standard) var(--ease-standard), box-shadow var(--duration-standard) var(--ease-standard);
+}
+.site-header.is-scrolled {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+}
+.site-header.is-scrolled .logo { height: 56px; }
+@media (max-width: 860px) {
+  .site-header.is-scrolled .logo { height: 44px; }
+}
+
+/* Preloader */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--surface-page);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 700ms var(--ease-standard), visibility 700ms var(--ease-standard);
+}
+.preloader-mark {
+  width: 60px;
+  height: 60px;
+  opacity: 0;
+  animation: preloader-pulse 1100ms var(--ease-standard) forwards;
+}
+@keyframes preloader-pulse {
+  0% { opacity: 0; transform: scale(0.82); }
+  60% { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.preloader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .preloader-mark { animation-duration: 1ms; animation-delay: 0s; opacity: 1; transform: none; }
+  .preloader { transition-duration: 1ms; }
+}
+
+/* Hero word rotator */
+.word-rotator { display: inline-grid; vertical-align: bottom; text-align: left; }
+.word-rotator-item {
+  grid-column: 1; grid-row: 1;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 450ms var(--ease-standard), transform 450ms var(--ease-standard);
+  color: var(--red-300);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+.word-rotator-item.is-active { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .word-rotator-item { transition-duration: 1ms; }
+}
+
+/* Hero background drift blobs */
+.hero-blobs { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; mix-blend-mode: soft-light; }
+.hero-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; }
+.hero-blob-1 { width: 420px; height: 420px; background: var(--red-500); top: -12%; left: -8%; animation: blob-drift-1 22s ease-in-out infinite; }
+.hero-blob-2 { width: 360px; height: 360px; background: var(--cream-200); bottom: -16%; right: -6%; animation: blob-drift-2 26s ease-in-out infinite; }
+@keyframes blob-drift-1 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px, 40px) scale(1.15); } }
+@keyframes blob-drift-2 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,-30px) scale(1.1); } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob { animation: none; }
+}
+.hero-scrim { z-index: 2; }
+.hero-content { z-index: 3; }
+
+/* Custom cursor (desktop only — see js/animations.js touch guard) */
+body.has-custom-cursor, body.has-custom-cursor * { cursor: none !important; }
+.cursor-dot, .cursor-ring {
+  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10000; will-change: transform;
+  transition: opacity 200ms var(--ease-standard);
+}
+.cursor-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: var(--accent); }
+.cursor-ring {
+  width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 1px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  transition: width 250ms var(--ease-standard), height 250ms var(--ease-standard), margin 250ms var(--ease-standard), background 250ms var(--ease-standard);
+}
+.cursor-label { opacity: 0; font-size: 11px; letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--text-on-accent); transition: opacity 200ms var(--ease-standard); }
+.cursor-ring.is-viewing { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: var(--accent); }
+.cursor-ring.is-viewing .cursor-label { opacity: 1; }
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+  body.has-custom-cursor, body.has-custom-cursor * { cursor: auto !important; }
+}
+
+/* Recipe cards (home "In the Kitchen" preview) get a real card boundary
+   so the border-glow hover effect has something to wrap around */
+.recipe-card { background: var(--surface-card); border-radius: var(--radius-lg); padding: var(--space-4); box-shadow: var(--shadow-sm); }
+.recipe-card .tile-image { border-radius: var(--radius-md); }
+
+/* Rotating conic-gradient border glow on hover */
+.ingredient-card, .recipe-card { position: relative; }
+.ingredient-card::before, .recipe-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from 0deg, var(--accent), transparent 30%, transparent 70%, var(--accent));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--duration-standard) var(--ease-standard);
+  animation: glow-rotate 4s linear infinite paused;
+  pointer-events: none;
+  z-index: 2;
+}
+.ingredient-card:hover::before, .recipe-card:hover::before { opacity: 1; animation-play-state: running; }
+@keyframes glow-rotate { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .ingredient-card::before, .recipe-card::before { animation: none; }
+}
+@media (hover: none), (pointer: coarse) {
+  .ingredient-card::before, .recipe-card::before { display: none; }
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed; inset: 0; z-index: 10001;
+  background: rgba(32,28,26,0.9);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden;
+  transition: opacity 300ms var(--ease-standard), visibility 300ms var(--ease-standard);
+}
+.lightbox-overlay.is-open { opacity: 1; visibility: visible; }
+.lightbox-image { max-width: min(90vw, 900px); max-height: 85vh; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
+.lightbox-close {
+  position: absolute; top: var(--space-5); right: var(--space-5);
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,0.15); color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); }
+[data-lightbox] { cursor: zoom-in; }
+
+/* Marquee strip (above the footer, every page) */
+.marquee { overflow: hidden; background: var(--surface-inverse); padding: var(--space-4) 0; white-space: nowrap; }
+.marquee-track { display: inline-flex; gap: var(--space-7); animation: marquee-scroll 28s linear infinite; width: max-content; }
+.marquee-track span { font: var(--text-label); letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--ink-100); }
+.marquee-track span.accent { color: var(--accent); }
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation-duration: 90s; }
+}
