@@ -41,6 +41,24 @@ const SEED_PRODUCTS = [
     stock_quantity: 50,
     image_path: 'images/wholesale-cocoa-powder.jpg',
   },
+  {
+    slug: 'wild-red-peppercorn',
+    name: 'Wild Red Peppercorn',
+    description: 'Wild-harvested red peppercorn — bright, floral heat, nothing like the pepper in an average grinder.',
+    unit_label: '50 g',
+    price_pkr: 3500,
+    stock_quantity: 50,
+    image_path: 'images/product-peppercorn-tile.jpg',
+  },
+  {
+    slug: 'chili-oil',
+    name: 'Chili Oil — The Art of Heat',
+    description: 'Crafted in small batches, our chili oil delivers warmth with depth and balance.',
+    unit_label: '150 ml',
+    price_pkr: 3000,
+    stock_quantity: 50,
+    image_path: 'images/product-chilioil-bottle.jpg',
+  },
 ];
 
 async function migrate() {
