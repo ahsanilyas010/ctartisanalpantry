@@ -126,7 +126,7 @@
       grid.innerHTML = '<p style="color:var(--text-muted);">No products available right now.</p>';
       return;
     }
-    const PRODUCT_PAGES = new Set(['vanilla-beans', 'vanilla-caviar', 'vanilla-bean-paste-honey', 'cocoa-powder']);
+    const PRODUCT_PAGES = new Set(['vanilla-beans', 'vanilla-caviar', 'vanilla-bean-paste-honey', 'cocoa-powder', 'wild-red-peppercorn', 'chili-oil']);
     grid.innerHTML = products.map((p) => {
       const outOfStock = p.stock_quantity <= 0;
       const lowStock = !outOfStock && p.stock_quantity <= 5;

@@ -55,9 +55,10 @@ value you were given):
 https://<your-domain>/api/setup?token=<SETUP_TOKEN>
 ```
 
-This creates the `products`, `orders`, and `order_items` tables and seeds
-the 4 products from your official price list (Vanilla Beans, Vanilla
-Caviar, Vanilla Bean Paste with Honey, Cocoa). It's safe to visit more than
+This creates the `products`, `orders`, `order_items`, and `blog_posts`
+tables, seeds the 6 shop products (Vanilla Beans, Vanilla Caviar, Vanilla
+Bean Paste with Honey, Cocoa, Wild Red Peppercorn, Chili Oil), and seeds
+the 6 launch blog articles into `blog_posts`. It's safe to visit more than
 once — it won't duplicate data.
 
 ## 5. Log in to the admin panel
@@ -67,6 +68,11 @@ Go to `/admin/login.html` and log in with the `ADMIN_USERNAME` /
 
 - **Products** — edit prices, stock, and active/inactive status, or add
   new products.
+- **Blog** — add, edit, unpublish, or delete Newsletter articles. New
+  posts automatically get their own page and show up on `/newsletter.html`;
+  the 6 original launch articles link to their existing hand-built pages
+  and can be renamed or unpublished here, but their body text isn't
+  editable from this panel.
 - **Orders** — see every order placed, view line items and customer
   details, and update order status (pending → confirmed → shipped →
   completed, or cancelled).

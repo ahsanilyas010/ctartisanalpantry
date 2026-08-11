@@ -36,6 +36,36 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ctartisanalpantry.assorted.group/product/vanilla-beans.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ctartisanalpantry.assorted.group/product/vanilla-caviar.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ctartisanalpantry.assorted.group/product/vanilla-bean-paste-honey.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ctartisanalpantry.assorted.group/product/cocoa-powder.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ctartisanalpantry.assorted.group/product/wild-red-peppercorn.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ctartisanalpantry.assorted.group/product/chili-oil.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ctartisanalpantry.assorted.group/blog/vanilla-beans-caviar-paste.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
