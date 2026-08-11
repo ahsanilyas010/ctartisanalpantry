@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content — CT Artisanal Pantry Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/logo/ct-monogram-v2.jpg">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../site.css">
+<style>
+  .content-section { margin-bottom: var(--space-10); }
+  .content-section h2 { font: var(--text-h2); margin: 0 0 var(--space-2); }
+  .content-section .section-desc { font: var(--text-body-sm); color: var(--text-muted); margin: 0 0 var(--space-6); }
+  .field-row { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .field-row label { font-size: 13px; font-weight: var(--fw-medium); color: var(--text-secondary); }
+  .field-row input[type="text"], .field-row input[type="url"], .field-row input[type="color"],
+  .field-row textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--border-default); border-radius: var(--radius-md); font: var(--text-body-sm); background: var(--surface-card); color: var(--text-primary); }
+  .field-row textarea { min-height: 90px; resize: vertical; }
+  .field-row input[type="color"] { height: 40px; padding: 4px 6px; width: 80px; cursor: pointer; }
+  .field-row .field-hint { font-size: 12px; color: var(--text-muted); }
+  .save-row { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-5); }
+  .save-row .save-status { font-size: 13px; color: var(--text-muted); }
+  .save-row .save-status.ok { color: #1E6B44; }
+  .save-row .save-status.err { color: var(--accent); }
+  .slide-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-5); }
+  .slide-card h3 { font: var(--text-h3); margin: 0 0 var(--space-4); }
+  .slide-active-row { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); font: var(--text-body-sm); }
+  .keyword-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .keyword-tag { display: inline-flex; align-items: center; gap: var(--space-2); background: var(--cream-100); border: 1px solid var(--border-subtle); border-radius: 999px; padding: 4px 12px; font-size: 13px; }
+  .keyword-tag button { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 15px; line-height: 1; padding: 0; }
+  .keyword-tag button:hover { color: var(--accent); }
+  .add-keyword-row { display: flex; gap: var(--space-3); align-items: center; }
+  .add-keyword-row input { flex: 1; padding: 8px 12px; border: 1px solid var(--border-default); border-radius: var(--radius-md); font: var(--text-body-sm); }
+  .section-divider { border: none; border-top: 1px solid var(--border-subtle); margin: var(--space-8) 0; }
+</style>
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="brand">CT Admin</div>
+    <nav>
+      <a href="orders.html">Orders</a>
+      <a href="products.html">Products</a>
+      <a href="blog.html">Blog</a>
+      <a href="content.html" class="active">Content</a>
+    </nav>
+    <div style="font-size:13px; color: var(--ink-300);">Logged in as <span data-admin-username>…</span></div>
+    <button class="admin-logout" data-admin-logout>Log Out</button>
+  </aside>
+
+  <main class="admin-main">
+    <h1 style="font: var(--text-h1); margin: 0 0 var(--space-2);">Content Manager</h1>
+    <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0 0 var(--space-8); max-width: 640px;">
+      Edit banners, hero slides, ticker keywords, and homepage text. Changes go live immediately after saving — no redeploy needed.
+    </p>
+
+    <div id="global-error" class="alert alert-error" style="display:none; margin-bottom: var(--space-6);"></div>
+
+    <!-- ── Announcement Banner ──────────────────────────────── -->
+    <section class="content-section" id="section-banner">
+      <h2>Announcement Banner</h2>
+      <p class="section-desc">A dismissable banner shown at the top of every page. Useful for promotions, shipping notices, or seasonal messages.</p>
+
+      <div class="slide-card">
+        <div class="slide-active-row">
+          <input type="checkbox" id="banner-active" style="width:18px;height:18px;cursor:pointer;">
+          <label for="banner-active" style="cursor:pointer; font-weight: var(--fw-medium);">Show banner on site</label>
+        </div>
+        <div class="field-row">
+          <label for="banner-text">Banner text</label>
+          <input type="text" id="banner-text" placeholder="e.g. Free delivery on orders over PKR 5,000">
+        </div>
+        <div class="field-row">
+          <label for="banner-bg">Background colour</label>
+          <div style="display:flex; gap: var(--space-3); align-items:center;">
+            <input type="color" id="banner-bg" value="#E2202D">
+            <input type="text" id="banner-bg-hex" placeholder="#E2202D" style="width:120px;">
+          </div>
+        </div>
+        <div class="save-row">
+          <button class="btn btn-primary btn-sm" id="save-banner">Save Banner</button>
+          <span class="save-status" id="banner-status"></span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ── Hero Slides ─────────────────────────────────────── -->
+    <section class="content-section" id="section-hero">
+      <h2>Hero Slides</h2>
+      <p class="section-desc">Up to 3 slides cycle automatically. Disable a slide to hide it without deleting its content. Image path is relative to the site root (e.g. <code>images/hero-slide-vanilla-farm.jpg</code>).</p>
+
+      <div id="hero-slides-wrap">
+        <!-- rendered by JS -->
+        <p style="color:var(--text-muted);">Loading…</p>
+      </div>
+
+      <div class="field-row" style="max-width:480px;">
+        <label for="hero-eyebrow">Eyebrow text</label>
+        <input type="text" id="hero-eyebrow" placeholder="CT Artisanal Pantry">
+      </div>
+      <div class="field-row" style="max-width:480px;">
+        <label for="hero-heading">Main heading</label>
+        <input type="text" id="hero-heading" placeholder="Flavour from Madagascar">
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap: var(--space-4); max-width:600px;">
+        <div class="field-row">
+          <label for="hero-cta1-text">Primary button text</label>
+          <input type="text" id="hero-cta1-text" placeholder="Explore the Pantry">
+        </div>
+        <div class="field-row">
+          <label for="hero-cta1-url">Primary button URL</label>
+          <input type="text" id="hero-cta1-url" placeholder="shop.html">
+        </div>
+        <div class="field-row">
+          <label for="hero-cta2-text">Secondary button text</label>
+          <input type="text" id="hero-cta2-text" placeholder="Bulk Buying / Wholesale">
+        </div>
+        <div class="field-row">
+          <label for="hero-cta2-url">Secondary button URL</label>
+          <input type="text" id="hero-cta2-url" placeholder="wholesale.html">
+        </div>
+      </div>
+      <div class="save-row">
+        <button class="btn btn-primary btn-sm" id="save-hero">Save Hero</button>
+        <span class="save-status" id="hero-status"></span>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ── Ticker Keywords ─────────────────────────────────── -->
+    <section class="content-section" id="section-ticker">
+      <h2>Ticker / Marquee Keywords</h2>
+      <p class="section-desc">These words scroll across the bottom of every page. Click × to remove a keyword. Add new ones below.</p>
+
+      <div id="keyword-tags" class="keyword-tags">
+        <span style="color:var(--text-muted); font-size:13px;">Loading…</span>
+      </div>
+      <div class="add-keyword-row" style="max-width:480px; margin-bottom: var(--space-4);">
+        <input type="text" id="new-keyword" placeholder="New keyword or phrase">
+        <button class="btn btn-outline btn-sm" id="add-keyword-btn">Add</button>
+      </div>
+      <div class="save-row">
+        <button class="btn btn-primary btn-sm" id="save-ticker">Save Keywords</button>
+        <span class="save-status" id="ticker-status"></span>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ── Homepage Text ───────────────────────────────────── -->
+    <section class="content-section" id="section-homepage">
+      <h2>Homepage Text</h2>
+      <p class="section-desc">Edit the headings and body copy for each section of the homepage. All fields save together.</p>
+
+      <div id="homepage-fields" style="max-width:600px; display:flex; flex-direction:column; gap: var(--space-6);">
+        <p style="color:var(--text-muted);">Loading…</p>
+      </div>
+      <div class="save-row" style="margin-top: var(--space-6);">
+        <button class="btn btn-primary btn-sm" id="save-homepage">Save Homepage Text</button>
+        <span class="save-status" id="homepage-status"></span>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* ── auth helpers ─────────────────────────────────────────── */
+const token = () => document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('ct_admin_token='))?.split('=')[1] || '';
+
+function authHeaders() {
+  return { 'Content-Type': 'application/json', 'X-Admin-Token': token() };
+}
+
+async function apiGet(url) {
+  const r = await fetch(url, { headers: authHeaders() });
+  if (r.status === 401) { location.href = 'login.html'; throw new Error('Unauthorized'); }
+  return r.json();
+}
+
+async function apiPut(section, key, value) {
+  const r = await fetch(`/api/admin/content?section=${encodeURIComponent(section)}&key=${encodeURIComponent(key)}`, {
+    method: 'PUT',
+    headers: authHeaders(),
+    body: JSON.stringify({ value }),
+  });
+  if (!r.ok) { const d = await r.json(); throw new Error(d.error || 'Save failed'); }
+  return r.json();
+}
+
+function setStatus(id, msg, isErr) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'save-status ' + (isErr ? 'err' : 'ok');
+  if (!isErr) setTimeout(() => { el.textContent = ''; }, 3000);
+}
+
+/* ── populate username / logout ──────────────────────────── */
+(async () => {
+  const el = document.querySelector('[data-admin-username]');
+  try {
+    const d = await apiGet('/api/admin/login');
+    if (d.username) el.textContent = d.username;
+  } catch {}
+})();
+document.querySelector('[data-admin-logout]').addEventListener('click', async () => {
+  await fetch('/api/admin/login', { method: 'DELETE', headers: authHeaders() }).catch(() => {});
+  location.href = 'login.html';
+});
+
+/* ── load all content ────────────────────────────────────── */
+let contentMap = {}; // section:key → row
+
+async function loadContent() {
+  const { content } = await apiGet('/api/admin/content');
+  for (const row of content) {
+    contentMap[`${row.section}:${row.key}`] = row;
+  }
+  renderBanner();
+  renderHeroSlides();
+  renderHeroMeta();
+  renderTicker();
+  renderHomepageFields();
+}
+
+/* ── Banner ──────────────────────────────────────────────── */
+function renderBanner() {
+  const active = contentMap['banner:active'];
+  const text   = contentMap['banner:text'];
+  const bg     = contentMap['banner:bg_color'];
+  if (active) document.getElementById('banner-active').checked = active.value === 'true';
+  if (text)   document.getElementById('banner-text').value = text.value || '';
+  if (bg) {
+    document.getElementById('banner-bg').value = bg.value || '#E2202D';
+    document.getElementById('banner-bg-hex').value = bg.value || '#E2202D';
+  }
+}
+
+// sync color picker ↔ hex text field
+document.getElementById('banner-bg').addEventListener('input', (e) => {
+  document.getElementById('banner-bg-hex').value = e.target.value;
+});
+document.getElementById('banner-bg-hex').addEventListener('input', (e) => {
+  const v = e.target.value;
+  if (/^#[0-9a-fA-F]{6}$/.test(v)) document.getElementById('banner-bg').value = v;
+});
+
+document.getElementById('save-banner').addEventListener('click', async () => {
+  const btn = document.getElementById('save-banner');
+  btn.disabled = true;
+  try {
+    const active  = document.getElementById('banner-active').checked ? 'true' : 'false';
+    const text    = document.getElementById('banner-text').value.trim();
+    const bg      = document.getElementById('banner-bg-hex').value.trim() || document.getElementById('banner-bg').value;
+    await Promise.all([
+      apiPut('banner', 'active',   active),
+      apiPut('banner', 'text',     text),
+      apiPut('banner', 'bg_color', bg),
+    ]);
+    setStatus('banner-status', 'Saved!');
+  } catch (e) {
+    setStatus('banner-status', e.message, true);
+  }
+  btn.disabled = false;
+});
+
+/* ── Hero Slides ─────────────────────────────────────────── */
+function renderHeroSlides() {
+  const wrap = document.getElementById('hero-slides-wrap');
+  wrap.innerHTML = '';
+  ['slide_1', 'slide_2', 'slide_3'].forEach((key, i) => {
+    const row = contentMap[`hero:${key}`];
+    let slide = { image: '', headline: '', subtext: '', active: true };
+    if (row) {
+      try { slide = JSON.parse(row.value); } catch {}
+    }
+    const card = document.createElement('div');
+    card.className = 'slide-card';
+    card.innerHTML = `
+      <h3>Slide ${i + 1}</h3>
+      <div class="slide-active-row">
+        <input type="checkbox" id="slide-${i}-active" ${slide.active !== false ? 'checked' : ''} style="width:18px;height:18px;cursor:pointer;">
+        <label for="slide-${i}-active" style="cursor:pointer;">Show this slide</label>
+      </div>
+      <div class="field-row">
+        <label for="slide-${i}-image">Background image path</label>
+        <input type="text" id="slide-${i}-image" value="${escHtml(slide.image || '')}" placeholder="images/hero-slide-vanilla-farm.jpg">
+        <span class="field-hint">Relative path from site root. Upload images to the <code>images/</code> folder first.</span>
+      </div>
+      <div class="field-row">
+        <label for="slide-${i}-headline">Headline (optional — overrides main heading for this slide)</label>
+        <input type="text" id="slide-${i}-headline" value="${escHtml(slide.headline || '')}" placeholder="Flavour from Madagascar">
+      </div>
+      <div class="field-row">
+        <label for="slide-${i}-subtext">Subtext</label>
+        <input type="text" id="slide-${i}-subtext" value="${escHtml(slide.subtext || '')}" placeholder="Small-batch Madagascar Bourbon Vanilla">
+      </div>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+function renderHeroMeta() {
+  const get = (k) => contentMap[`hero:${k}`]?.value || '';
+  document.getElementById('hero-eyebrow').value    = get('eyebrow');
+  document.getElementById('hero-heading').value    = get('heading');
+  document.getElementById('hero-cta1-text').value  = get('cta_primary_text');
+  document.getElementById('hero-cta1-url').value   = get('cta_primary_url');
+  document.getElementById('hero-cta2-text').value  = get('cta_secondary_text');
+  document.getElementById('hero-cta2-url').value   = get('cta_secondary_url');
+}
+
+document.getElementById('save-hero').addEventListener('click', async () => {
+  const btn = document.getElementById('save-hero');
+  btn.disabled = true;
+  try {
+    const saves = [];
+    ['slide_1', 'slide_2', 'slide_3'].forEach((key, i) => {
+      const slide = {
+        active:   document.getElementById(`slide-${i}-active`).checked,
+        image:    document.getElementById(`slide-${i}-image`).value.trim(),
+        headline: document.getElementById(`slide-${i}-headline`).value.trim(),
+        subtext:  document.getElementById(`slide-${i}-subtext`).value.trim(),
+      };
+      saves.push(apiPut('hero', key, JSON.stringify(slide)));
+    });
+    saves.push(apiPut('hero', 'eyebrow',           document.getElementById('hero-eyebrow').value.trim()));
+    saves.push(apiPut('hero', 'heading',            document.getElementById('hero-heading').value.trim()));
+    saves.push(apiPut('hero', 'cta_primary_text',   document.getElementById('hero-cta1-text').value.trim()));
+    saves.push(apiPut('hero', 'cta_primary_url',    document.getElementById('hero-cta1-url').value.trim()));
+    saves.push(apiPut('hero', 'cta_secondary_text', document.getElementById('hero-cta2-text').value.trim()));
+    saves.push(apiPut('hero', 'cta_secondary_url',  document.getElementById('hero-cta2-url').value.trim()));
+    await Promise.all(saves);
+    setStatus('hero-status', 'Saved!');
+  } catch (e) {
+    setStatus('hero-status', e.message, true);
+  }
+  btn.disabled = false;
+});
+
+/* ── Ticker ──────────────────────────────────────────────── */
+let keywords = [];
+
+function renderTicker() {
+  const row = contentMap['ticker:keywords'];
+  try { keywords = JSON.parse(row?.value || '[]'); } catch { keywords = []; }
+  redrawKeywords();
+}
+
+function redrawKeywords() {
+  const wrap = document.getElementById('keyword-tags');
+  wrap.innerHTML = '';
+  keywords.forEach((kw, i) => {
+    const tag = document.createElement('span');
+    tag.className = 'keyword-tag';
+    tag.innerHTML = `${escHtml(kw)} <button type="button" title="Remove" data-idx="${i}">×</button>`;
+    tag.querySelector('button').addEventListener('click', () => {
+      keywords.splice(i, 1);
+      redrawKeywords();
+    });
+    wrap.appendChild(tag);
+  });
+}
+
+document.getElementById('add-keyword-btn').addEventListener('click', () => {
+  const input = document.getElementById('new-keyword');
+  const val = input.value.trim();
+  if (!val) return;
+  keywords.push(val);
+  redrawKeywords();
+  input.value = '';
+});
+document.getElementById('new-keyword').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); document.getElementById('add-keyword-btn').click(); }
+});
+
+document.getElementById('save-ticker').addEventListener('click', async () => {
+  const btn = document.getElementById('save-ticker');
+  btn.disabled = true;
+  try {
+    await apiPut('ticker', 'keywords', JSON.stringify(keywords));
+    setStatus('ticker-status', 'Saved!');
+  } catch (e) {
+    setStatus('ticker-status', e.message, true);
+  }
+  btn.disabled = false;
+});
+
+/* ── Homepage Text ───────────────────────────────────────── */
+const HOMEPAGE_FIELDS = [
+  { key: 'collection_eyebrow',  label: 'Collection eyebrow',  type: 'text' },
+  { key: 'collection_heading',  label: 'Collection heading',  type: 'text' },
+  { key: 'ingredients_eyebrow', label: 'Ingredients eyebrow', type: 'text' },
+  { key: 'ingredients_heading', label: 'Ingredients heading', type: 'text' },
+  { key: 'signature_eyebrow',   label: 'Signature eyebrow',   type: 'text' },
+  { key: 'signature_heading',   label: 'Signature heading',   type: 'text' },
+  { key: 'signature_body',      label: 'Signature body text', type: 'textarea' },
+  { key: 'origins_heading',     label: 'Origins heading',     type: 'text' },
+  { key: 'origins_body',        label: 'Origins body text',   type: 'textarea' },
+  { key: 'wholesale_eyebrow',   label: 'Wholesale eyebrow',   type: 'text' },
+  { key: 'wholesale_heading',   label: 'Wholesale heading',   type: 'text' },
+  { key: 'wholesale_body',      label: 'Wholesale body text', type: 'textarea' },
+];
+
+function renderHomepageFields() {
+  const wrap = document.getElementById('homepage-fields');
+  wrap.innerHTML = '';
+  HOMEPAGE_FIELDS.forEach(({ key, label, type }) => {
+    const val = contentMap[`homepage:${key}`]?.value || '';
+    const fieldDiv = document.createElement('div');
+    fieldDiv.className = 'field-row';
+    if (type === 'textarea') {
+      fieldDiv.innerHTML = `<label for="hp-${key}">${escHtml(label)}</label><textarea id="hp-${key}">${escHtml(val)}</textarea>`;
+    } else {
+      fieldDiv.innerHTML = `<label for="hp-${key}">${escHtml(label)}</label><input type="text" id="hp-${key}" value="${escHtml(val)}">`;
+    }
+    wrap.appendChild(fieldDiv);
+  });
+}
+
+document.getElementById('save-homepage').addEventListener('click', async () => {
+  const btn = document.getElementById('save-homepage');
+  btn.disabled = true;
+  try {
+    await Promise.all(HOMEPAGE_FIELDS.map(({ key, type }) => {
+      const el = document.getElementById(`hp-${key}`);
+      return apiPut('homepage', key, el.value.trim());
+    }));
+    setStatus('homepage-status', 'Saved!');
+  } catch (e) {
+    setStatus('homepage-status', e.message, true);
+  }
+  btn.disabled = false;
+});
+
+/* ── Helpers ─────────────────────────────────────────────── */
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+loadContent();
+</script>
+
+</body>
+</html>
