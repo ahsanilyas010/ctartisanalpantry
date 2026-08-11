@@ -82,8 +82,8 @@
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>Flavour, Shaped by Place</span><span class="accent">&bull;</span><span>Madagascar</span><span class="accent">&bull;</span><span>Vanilla</span><span class="accent">&bull;</span><span>Peppercorn</span><span class="accent">&bull;</span><span>Cocoa</span><span class="accent">&bull;</span><span>Chili Oil</span><span class="accent">&bull;</span>
-    <span>Flavour, Shaped by Place</span><span class="accent">&bull;</span><span>Madagascar</span><span class="accent">&bull;</span><span>Vanilla</span><span class="accent">&bull;</span><span>Peppercorn</span><span class="accent">&bull;</span><span>Cocoa</span><span class="accent">&bull;</span><span>Chili Oil</span><span class="accent">&bull;</span>
+    <span>Flavour, Shaped by Place</span><span class="accent">&bull;</span><span>Madagascar</span><span class="accent">&bull;</span><span>Vanilla</span><span class="accent">&bull;</span><span>Cocoa</span><span class="accent">&bull;</span><span>Purely Sourced</span><span class="accent">&bull;</span><span>Naturally Grown</span><span class="accent">&bull;</span><span>Farm Fresh</span><span class="accent">&bull;</span><span>Handpicked Quality</span><span class="accent">&bull;</span><span>Direct From Farm</span><span class="accent">&bull;</span><span>Ethically Sourced</span><span class="accent">&bull;</span><span>Carefully Harvested</span><span class="accent">&bull;</span><span>Naturally Cultivated</span><span class="accent">&bull;</span><span>Pure Farm Origin</span><span class="accent">&bull;</span><span>100% Natural</span><span class="accent">&bull;</span>
+    <span>Flavour, Shaped by Place</span><span class="accent">&bull;</span><span>Madagascar</span><span class="accent">&bull;</span><span>Vanilla</span><span class="accent">&bull;</span><span>Cocoa</span><span class="accent">&bull;</span><span>Purely Sourced</span><span class="accent">&bull;</span><span>Naturally Grown</span><span class="accent">&bull;</span><span>Farm Fresh</span><span class="accent">&bull;</span><span>Handpicked Quality</span><span class="accent">&bull;</span><span>Direct From Farm</span><span class="accent">&bull;</span><span>Ethically Sourced</span><span class="accent">&bull;</span><span>Carefully Harvested</span><span class="accent">&bull;</span><span>Naturally Cultivated</span><span class="accent">&bull;</span><span>Pure Farm Origin</span><span class="accent">&bull;</span><span>100% Natural</span><span class="accent">&bull;</span>
   </div>
 </div>
 <footer class="site-footer">
@@ -126,16 +126,23 @@
       grid.innerHTML = '<p style="color:var(--text-muted);">No products available right now.</p>';
       return;
     }
+    const PRODUCT_PAGES = new Set(['vanilla-beans', 'vanilla-caviar', 'vanilla-bean-paste-honey', 'cocoa-powder']);
     grid.innerHTML = products.map((p) => {
       const outOfStock = p.stock_quantity <= 0;
       const lowStock = !outOfStock && p.stock_quantity <= 5;
       let stockNote = '';
       if (outOfStock) stockNote = '<div class="stock-note out">Out of stock</div>';
       else if (lowStock) stockNote = `<div class="stock-note low">Only ${p.stock_quantity} left</div>`;
+      const hasDetailPage = PRODUCT_PAGES.has(p.slug);
+      const nameHtml = hasDetailPage
+        ? `<a href="product/${escapeHtml(p.slug)}.html" style="color:inherit; text-decoration:none;">${escapeHtml(p.name)}</a>`
+        : escapeHtml(p.name);
       return `
         <div class="shop-card" data-slug="${escapeHtml(p.slug)}">
+          ${hasDetailPage ? `<a href="product/${escapeHtml(p.slug)}.html">` : ''}
           <img class="tile-image" src="${escapeHtml(p.image_path || '')}" alt="${escapeHtml(p.name)}">
-          <h3 style="font: var(--text-h3); margin:0;">${escapeHtml(p.name)}</h3>
+          ${hasDetailPage ? '</a>' : ''}
+          <h3 style="font: var(--text-h3); margin:0;">${nameHtml}</h3>
           <p style="font: var(--text-body-sm); color: var(--text-muted); margin:0;">${escapeHtml(p.description || '')}</p>
           <div class="price">${formatPkr(p.price_pkr)} <span style="font: var(--text-body-sm); color: var(--text-muted); font-weight: normal;">/ ${escapeHtml(p.unit_label || '')}</span></div>
           ${stockNote}
