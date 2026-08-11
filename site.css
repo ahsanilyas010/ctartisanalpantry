@@ -32,7 +32,7 @@ img { max-width: 100%; display: block; }
 }
 
 .site-header { padding: 16px var(--content-padding-inline); }
-.site-header .logo { height: 112px; transition: height var(--duration-standard) var(--ease-standard); }
+.site-header .logo { height: 224px; transition: height var(--duration-standard) var(--ease-standard); }
 
 .site-nav {
   display: flex;
@@ -84,7 +84,7 @@ img { max-width: 100%; display: block; }
     z-index: 100;
   }
   .nav-toggle:checked ~ .site-nav { display: flex; }
-  .site-header .logo { height: 88px; }
+  .site-header .logo { height: 176px; }
 }
 
 /* Buttons */
@@ -538,9 +538,9 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
   padding-bottom: 10px;
   box-shadow: var(--shadow-sm);
 }
-.site-header.is-scrolled .logo { height: 56px; }
+.site-header.is-scrolled .logo { height: 112px; }
 @media (max-width: 860px) {
-  .site-header.is-scrolled .logo { height: 44px; }
+  .site-header.is-scrolled .logo { height: 88px; }
 }
 
 /* Preloader */
@@ -555,8 +555,8 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
   transition: opacity 700ms var(--ease-standard), visibility 700ms var(--ease-standard);
 }
 .preloader-mark {
-  width: 60px;
-  height: 60px;
+  width: 120px;
+  height: 120px;
   opacity: 0;
   animation: preloader-pulse 1100ms var(--ease-standard) forwards;
 }
