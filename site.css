@@ -112,7 +112,7 @@ img { max-width: 100%; display: block; }
     z-index: 100;
   }
   .nav-toggle:checked ~ .site-nav { display: flex; }
-  .site-header .logo { height: 176px; }
+  .site-header .logo { height: 100px; }
 }
 
 /* Buttons */
@@ -319,8 +319,17 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 .shop-card:hover { transform: translateY(-4px); }
 
 @media (max-width: 860px) {
-  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+  /* 2-column intermediate step so grids don't jump straight to single-column */
+  .grid-2, .grid-5 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .site-footer .wrap { flex-direction: column; }
+  .site-footer nav.site-nav { flex-direction: column; gap: var(--space-2); }
+}
+
+@media (max-width: 600px) {
+  /* Collapse to single column at small phone widths */
+  .grid-3, .grid-4 { grid-template-columns: 1fr; }
 }
 
 /* Fluid type scale — the base sizes tokens/typography.css builds every
@@ -328,13 +337,29 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
    eyebrow, and label site-wide without touching individual elements. */
 @media (max-width: 640px) {
   :root {
-    --fs-display-xl: 38px;
-    --fs-display-lg: 30px;
-    --fs-display-md: 24px;
-    --fs-display-sm: 20px;
-    --fs-body-lg: 17px;
+    --fs-display-xl: 34px;
+    --fs-display-lg: 27px;
+    --fs-display-md: 22px;
+    --fs-display-sm: 19px;
+    --fs-body-lg: 16px;
   }
-  .section, .site-header, .site-footer { padding-left: var(--space-4); padding-right: var(--space-4); }
+  /* Reduce section vertical rhythm on mobile */
+  .section { padding: var(--space-6) var(--space-4); }
+  .site-header, .site-footer { padding-left: var(--space-4); padding-right: var(--space-4); }
+  .site-header .logo { height: 80px; }
+  /* Hero: less breathing room vertically */
+  .hero-content { padding-top: var(--space-8); padding-bottom: var(--space-8); gap: var(--space-4); }
+  /* Origins overlap card — drop the negative margin on small screens */
+  .origins-card { margin-top: var(--space-4) !important; max-width: 100% !important; border-radius: var(--radius-lg) !important; }
+  .origins-landscape { height: 260px !important; }
+}
+
+@media (max-width: 480px) {
+  /* Stack hero CTAs full-width on small phones */
+  .hero-ctas { flex-direction: column; align-items: stretch; gap: var(--space-3); }
+  .hero-ctas .btn { text-align: center; justify-content: center; }
+  /* Allow word rotator to wrap rather than overflow */
+  .word-rotator-item { white-space: normal; }
 }
 
 /* Cart badge in nav */
@@ -568,7 +593,10 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 }
 .site-header.is-scrolled .logo { height: 112px; }
 @media (max-width: 860px) {
-  .site-header.is-scrolled .logo { height: 88px; }
+  .site-header.is-scrolled .logo { height: 60px; }
+}
+@media (max-width: 640px) {
+  .site-header.is-scrolled .logo { height: 48px; }
 }
 
 /* Preloader */
