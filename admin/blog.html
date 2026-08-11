@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog — CT Artisanal Pantry Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/logo/ct-monogram-v2.jpg">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="brand">CT Admin</div>
+    <nav>
+      <a href="orders.html">Orders</a>
+      <a href="products.html">Products</a>
+      <a href="blog.html" class="active">Blog</a>
+    </nav>
+    <div style="font-size:13px; color: var(--ink-300);">Logged in as <span data-admin-username>…</span></div>
+    <button class="admin-logout" data-admin-logout>Log Out</button>
+  </aside>
+
+  <main class="admin-main">
+    <h1 style="font: var(--text-h1); margin: 0 0 var(--space-6);">Blog &amp; Newsletter</h1>
+    <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0 0 var(--space-6); max-width: 640px;">Posts added here appear on the Newsletter page automatically. The 6 original launch articles link to their own hand-built pages and can be renamed or unpublished here, but their body content isn't editable from this panel. New posts get their own page automatically, built from the fields below.</p>
+
+    <div id="blog-error" class="alert alert-error" style="display:none;"></div>
+    <div id="blog-success" class="alert alert-success" style="display:none;"></div>
+
+    <table class="admin-table" style="margin-bottom: var(--space-8);">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Excerpt</th>
+          <th>Published</th>
+          <th>Link</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="blog-body">
+        <tr><td colspan="5" style="color: var(--text-muted);">Loading…</td></tr>
+      </tbody>
+    </table>
+
+    <h2 style="font: var(--text-h2); margin: 0 0 var(--space-5);">Add a Post</h2>
+    <form id="add-post-form" class="card" style="max-width:560px; display:flex; flex-direction:column; gap: var(--space-3);">
+      <div class="form-field">
+        <label for="new-title">Title</label>
+        <input class="input" type="text" id="new-title" required>
+      </div>
+      <div class="form-field">
+        <label for="new-excerpt">Excerpt (shown on the Newsletter listing card)</label>
+        <input class="input" type="text" id="new-excerpt">
+      </div>
+      <div class="form-field">
+        <label for="new-cover">Cover image path (e.g. images/blog-cocoa.jpg)</label>
+        <input class="input" type="text" id="new-cover">
+      </div>
+      <div class="form-field">
+        <label for="new-meta">Meta description (for search engines, ~150 characters)</label>
+        <input class="input" type="text" id="new-meta">
+      </div>
+      <div class="form-field">
+        <label for="new-body">Body (paragraphs — one per line)</label>
+        <textarea class="input" id="new-body" rows="8" placeholder="Write the article here. Each line becomes its own paragraph."></textarea>
+      </div>
+      <label style="display:flex; align-items:center; gap: var(--space-2); font: var(--text-body-sm);">
+        <input type="checkbox" id="new-published" checked> Published (visible on the Newsletter page)
+      </label>
+      <button class="btn btn-primary" type="submit">Add Post</button>
+    </form>
+  </main>
+</div>
+
+<script src="../js/admin.js"></script>
+<script>
+  let posts = [];
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+  }
+  function showError(msg) {
+    const el = document.getElementById('blog-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+    document.getElementById('blog-success').style.display = 'none';
+  }
+  function showSuccess(msg) {
+    const el = document.getElementById('blog-success');
+    el.textContent = msg;
+    el.style.display = 'block';
+    document.getElementById('blog-error').style.display = 'none';
+    setTimeout(() => { el.style.display = 'none'; }, 2500);
+  }
+
+  function linkFor(p) {
+    return p.custom_url ? '../' + p.custom_url : '../blog/post.html?slug=' + encodeURIComponent(p.slug);
+  }
+
+  function renderPosts() {
+    const body = document.getElementById('blog-body');
+    if (posts.length === 0) {
+      body.innerHTML = '<tr><td colspan="5" style="color: var(--text-muted);">No posts yet.</td></tr>';
+      return;
+    }
+    body.innerHTML = posts.map((p) => `
+      <tr data-row="${p.id}">
+        <td><input type="text" data-field="title" value="${escapeHtml(p.title)}"></td>
+        <td><input type="text" data-field="excerpt" value="${escapeHtml(p.excerpt || '')}"></td>
+        <td style="text-align:center;"><input type="checkbox" data-field="published" ${p.published ? 'checked' : ''}></td>
+        <td><a href="${escapeHtml(linkFor(p))}" target="_blank" rel="noopener" style="font: var(--text-body-sm);">View</a></td>
+        <td style="display:flex; gap: var(--space-2);">
+          <button type="button" class="btn btn-outline btn-sm" data-save="${p.id}">Save</button>
+          <button type="button" class="btn btn-outline btn-sm" data-delete="${p.id}">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+
+    body.querySelectorAll('[data-save]').forEach((btn) => {
+      btn.addEventListener('click', () => savePost(Number(btn.dataset.save)));
+    });
+    body.querySelectorAll('[data-delete]').forEach((btn) => {
+      btn.addEventListener('click', () => deletePost(Number(btn.dataset.delete)));
+    });
+  }
+
+  async function savePost(id) {
+    const row = document.querySelector(`tr[data-row="${id}"]`);
+    const payload = {
+      title: row.querySelector('[data-field="title"]').value,
+      excerpt: row.querySelector('[data-field="excerpt"]').value,
+      published: row.querySelector('[data-field="published"]').checked,
+    };
+    try {
+      const r = await fetch(`/api/admin/blog?id=${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) throw new Error();
+      showSuccess('Saved.');
+    } catch {
+      showError('Failed to save post.');
+    }
+  }
+
+  async function deletePost(id) {
+    if (!confirm('Delete this post? This cannot be undone.')) return;
+    try {
+      const r = await fetch(`/api/admin/blog?id=${id}`, { method: 'DELETE' });
+      if (!r.ok) throw new Error();
+      posts = posts.filter((p) => p.id !== id);
+      renderPosts();
+      showSuccess('Post deleted.');
+    } catch {
+      showError('Failed to delete post.');
+    }
+  }
+
+  document.getElementById('add-post-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const bodyLines = document.getElementById('new-body').value
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const bodyHtml = bodyLines.map((line) => `<p>${escapeHtml(line)}</p>`).join('\n');
+    const payload = {
+      title: document.getElementById('new-title').value,
+      excerpt: document.getElementById('new-excerpt').value,
+      cover_image: document.getElementById('new-cover').value,
+      meta_description: document.getElementById('new-meta').value,
+      body_html: bodyHtml,
+      published: document.getElementById('new-published').checked,
+    };
+    try {
+      const r = await fetch('/api/admin/blog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || 'Failed to add post.');
+      posts.push(data.post);
+      renderPosts();
+      e.target.reset();
+      document.getElementById('new-published').checked = true;
+      showSuccess('Post added.');
+    } catch (err) {
+      showError(err.message);
+    }
+  });
+
+  fetch('/api/admin/blog')
+    .then((r) => {
+      if (!r.ok) throw new Error();
+      return r.json();
+    })
+    .then((data) => {
+      posts = data.posts || [];
+      renderPosts();
+    })
+    .catch(() => showError('Failed to load blog posts.'));
+</script>
+
+</body>
+</html>

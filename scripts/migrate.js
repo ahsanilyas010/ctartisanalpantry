@@ -61,6 +61,51 @@ const SEED_PRODUCTS = [
   },
 ];
 
+const SEED_BLOG_POSTS = [
+  {
+    slug: 'vanilla-beans-caviar-paste',
+    title: 'Vanilla Beans, Caviar, or Paste: Which Should You Use?',
+    excerpt: "A baker's guide to the three forms of Madagascar bourbon vanilla — and when each one earns its place in a recipe.",
+    cover_image: 'images/blog-vanilla-forms.jpg',
+    custom_url: 'blog/vanilla-beans-caviar-paste.html',
+  },
+  {
+    slug: 'wild-red-peppercorn',
+    title: 'What Makes Wild Red Peppercorn Different From Black Pepper',
+    excerpt: "Same vine, different story: why wild-harvested red peppercorn tastes nothing like the pepper in your average grinder.",
+    cover_image: 'images/blog-peppercorn.jpg',
+    custom_url: 'blog/wild-red-peppercorn.html',
+  },
+  {
+    slug: 'single-origin-cocoa-101',
+    title: 'Single-Origin Cocoa 101: From Bean to Powder',
+    excerpt: "What \"single-origin\" actually means, how stone-milling changes flavour, and why unsweetened doesn't mean bland.",
+    cover_image: 'images/blog-cocoa.jpg',
+    custom_url: 'blog/single-origin-cocoa-101.html',
+  },
+  {
+    slug: 'art-of-chili-oil',
+    title: 'The Art of Chili Oil: A Small-Batch Story',
+    excerpt: 'Why good chili oil is a balancing act, not a heat contest — and what small-batch production changes about the result.',
+    cover_image: 'images/blog-chili-oil-bottle.jpg',
+    custom_url: 'blog/art-of-chili-oil.html',
+  },
+  {
+    slug: 'madagascar-growing-regions',
+    title: "Why Origin Matters: Madagascar's Growing Regions",
+    excerpt: "Climate, soil, and cultivation shape flavour long before an ingredient reaches a kitchen — here's how, region by region.",
+    cover_image: 'images/blog-madagascar-origins.jpg',
+    custom_url: 'blog/madagascar-growing-regions.html',
+  },
+  {
+    slug: 'cooking-with-the-pantry',
+    title: 'From Kitchen to Wholesale: Cooking (and Sourcing) With CT Artisanal Pantry',
+    excerpt: 'A practical guide for home cooks and food businesses alike — how to use, store, and buy our ingredients at any scale.',
+    cover_image: 'images/blog-cooking.jpg',
+    custom_url: 'blog/cooking-with-the-pantry.html',
+  },
+];
+
 async function migrate() {
   console.log('Creating tables (if not present)...');
 
@@ -108,11 +153,36 @@ async function migrate() {
     )
   `;
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS blog_posts (
+      id SERIAL PRIMARY KEY,
+      slug TEXT UNIQUE NOT NULL,
+      title TEXT NOT NULL,
+      excerpt TEXT,
+      cover_image TEXT,
+      body_html TEXT,
+      meta_description TEXT,
+      custom_url TEXT,
+      published BOOLEAN NOT NULL DEFAULT true,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `;
+
   console.log('Seeding products (skipping any that already exist)...');
   for (const p of SEED_PRODUCTS) {
     await sql`
       INSERT INTO products (slug, name, description, unit_label, price_pkr, stock_quantity, image_path)
       VALUES (${p.slug}, ${p.name}, ${p.description}, ${p.unit_label}, ${p.price_pkr}, ${p.stock_quantity}, ${p.image_path})
+      ON CONFLICT (slug) DO NOTHING
+    `;
+  }
+
+  console.log('Seeding blog posts (skipping any that already exist)...');
+  for (const b of SEED_BLOG_POSTS) {
+    await sql`
+      INSERT INTO blog_posts (slug, title, excerpt, cover_image, custom_url)
+      VALUES (${b.slug}, ${b.title}, ${b.excerpt}, ${b.cover_image}, ${b.custom_url})
       ON CONFLICT (slug) DO NOTHING
     `;
   }
