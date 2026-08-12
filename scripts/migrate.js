@@ -61,6 +61,48 @@ const SEED_PRODUCTS = [
   },
 ];
 
+const SEED_CONTENT = [
+  // Announcement banner
+  { section: 'banner', key: 'active',   value: 'false',                                        content_type: 'boolean', label: 'Show banner',        sort_order: 1 },
+  { section: 'banner', key: 'text',     value: 'Free delivery on orders over PKR 5,000',       content_type: 'text',    label: 'Banner text',        sort_order: 2 },
+  { section: 'banner', key: 'bg_color', value: '#E2202D',                                      content_type: 'text',    label: 'Background colour',  sort_order: 3 },
+
+  // Hero slides (JSON objects)
+  { section: 'hero', key: 'slide_1', content_type: 'json', label: 'Hero Slide 1', sort_order: 1,
+    value: JSON.stringify({ image: 'images/hero-slide-vanilla-farm.jpg', headline: 'Flavour from Madagascar', subtext: 'Small-batch Madagascar Bourbon Vanilla', active: true }) },
+  { section: 'hero', key: 'slide_2', content_type: 'json', label: 'Hero Slide 2', sort_order: 2,
+    value: JSON.stringify({ image: 'images/hero-slide-cocoa.jpg', headline: 'Single-Origin Cocoa', subtext: 'Stone-milled, pure, unsweetened', active: true }) },
+  { section: 'hero', key: 'slide_3', content_type: 'json', label: 'Hero Slide 3', sort_order: 3,
+    value: JSON.stringify({ image: 'images/hero-slide-vanilla-bundle.jpg', headline: 'The Art of Heat', subtext: 'Small-batch Chili Oil', active: true }) },
+  { section: 'hero', key: 'eyebrow',          value: 'CT Artisanal Pantry',         content_type: 'text', label: 'Eyebrow',                 sort_order: 4 },
+  { section: 'hero', key: 'heading',           value: 'Flavour from Madagascar',     content_type: 'text', label: 'Main heading',            sort_order: 5 },
+  { section: 'hero', key: 'cta_primary_text',  value: 'Explore the Pantry',          content_type: 'text', label: 'Primary CTA text',        sort_order: 6 },
+  { section: 'hero', key: 'cta_primary_url',   value: 'shop.html',                   content_type: 'text', label: 'Primary CTA URL',         sort_order: 7 },
+  { section: 'hero', key: 'cta_secondary_text',value: 'Bulk Buying / Wholesale',     content_type: 'text', label: 'Secondary CTA text',      sort_order: 8 },
+  { section: 'hero', key: 'cta_secondary_url', value: 'wholesale.html',              content_type: 'text', label: 'Secondary CTA URL',       sort_order: 9 },
+
+  // Ticker
+  { section: 'ticker', key: 'keywords', content_type: 'json', label: 'Ticker keywords', sort_order: 1,
+    value: JSON.stringify(['Flavour, Shaped by Place','Madagascar','Vanilla','Cocoa','Purely Sourced','Naturally Grown','Farm Fresh','Handpicked Quality','Direct From Farm','Ethically Sourced','Carefully Harvested','Naturally Cultivated','Pure Farm Origin','100% Natural']) },
+
+  // Homepage text blocks
+  { section: 'homepage', key: 'collection_eyebrow',  value: 'The Pantry',                                                content_type: 'text', label: 'Collection eyebrow',  sort_order: 1 },
+  { section: 'homepage', key: 'collection_heading',   value: 'A Small, Considered Collection',                            content_type: 'text', label: 'Collection heading',  sort_order: 2 },
+  { section: 'homepage', key: 'ingredients_eyebrow',  value: 'Know Your Ingredients',                                     content_type: 'text', label: 'Ingredients eyebrow', sort_order: 3 },
+  { section: 'homepage', key: 'ingredients_heading',  value: 'Five forms, one source of flavour',                         content_type: 'text', label: 'Ingredients heading', sort_order: 4 },
+  { section: 'homepage', key: 'signature_eyebrow',    value: 'Signature',                                                 content_type: 'text', label: 'Signature eyebrow',   sort_order: 5 },
+  { section: 'homepage', key: 'signature_heading',    value: 'The Art of Heat',                                           content_type: 'text', label: 'Signature heading',   sort_order: 6 },
+  { section: 'homepage', key: 'signature_body',       value: 'Crafted in small batches with a base of avocado oil, our chili oil delivers warmth with depth and balance. Designed to elevate simple dishes — from eggs and noodles to roasted vegetables and soups.',
+    content_type: 'text', label: 'Signature body', sort_order: 7 },
+  { section: 'homepage', key: 'origins_heading',      value: 'Where Flavour Begins',                                      content_type: 'text', label: 'Origins heading',      sort_order: 8 },
+  { section: 'homepage', key: 'origins_body',         value: "Climate, soil, and cultivation shape the character of every ingredient in our pantry. From Madagascar's fertile landscapes to remarkable growing regions around the world, each ingredient reflects the place it comes from.",
+    content_type: 'text', label: 'Origins body', sort_order: 9 },
+  { section: 'homepage', key: 'wholesale_eyebrow',    value: 'For Manufacturers, Importers & Brands',                     content_type: 'text', label: 'Wholesale eyebrow',    sort_order: 10 },
+  { section: 'homepage', key: 'wholesale_heading',    value: 'Buying in Bulk?',                                           content_type: 'text', label: 'Wholesale heading',    sort_order: 11 },
+  { section: 'homepage', key: 'wholesale_body',       value: 'We supply premium, single-origin Madagascar cocoa and vanilla to manufacturers, importers, distributors, and private label brands worldwide.',
+    content_type: 'text', label: 'Wholesale body', sort_order: 12 },
+];
+
 const SEED_BLOG_POSTS = [
   {
     slug: 'vanilla-beans-caviar-paste',
@@ -175,6 +217,29 @@ async function migrate() {
       INSERT INTO products (slug, name, description, unit_label, price_pkr, stock_quantity, image_path)
       VALUES (${p.slug}, ${p.name}, ${p.description}, ${p.unit_label}, ${p.price_pkr}, ${p.stock_quantity}, ${p.image_path})
       ON CONFLICT (slug) DO NOTHING
+    `;
+  }
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS site_content (
+      id SERIAL PRIMARY KEY,
+      section TEXT NOT NULL,
+      key TEXT NOT NULL,
+      value TEXT,
+      content_type TEXT NOT NULL DEFAULT 'text',
+      label TEXT,
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      UNIQUE(section, key)
+    )
+  `;
+
+  console.log('Seeding site content (skipping any that already exist)...');
+  for (const c of SEED_CONTENT) {
+    await sql`
+      INSERT INTO site_content (section, key, value, content_type, label, sort_order)
+      VALUES (${c.section}, ${c.key}, ${c.value}, ${c.content_type}, ${c.label}, ${c.sort_order})
+      ON CONFLICT (section, key) DO NOTHING
     `;
   }
 

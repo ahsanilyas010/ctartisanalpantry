@@ -5,6 +5,38 @@
 
 * { box-sizing: border-box; }
 
+/* Prevent any element from creating horizontal scroll */
+html { overflow-x: hidden; }
+body { overflow-x: hidden; }
+
+/* Announcement banner (injected by JS when active) */
+.ann-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: 10px var(--content-padding-inline);
+  font: var(--text-label);
+  color: #fff;
+  position: relative;
+}
+.ann-banner a { color: #fff; text-decoration: underline; }
+.ann-banner-close {
+  position: absolute;
+  right: var(--content-padding-inline);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  opacity: 0.7;
+  padding: 4px 6px;
+}
+.ann-banner-close:hover { opacity: 1; }
+
 body {
   margin: 0;
   background: var(--surface-page);
@@ -12,7 +44,11 @@ body {
   color: var(--text-primary);
 }
 
-img { max-width: 100%; display: block; }
+img, video { max-width: 100%; display: block; }
+
+/* Tables should scroll horizontally inside their container, never push the layout wide */
+table { max-width: 100%; }
+.admin-table-wrap { overflow-x: auto; }
 
 .wrap {
   max-width: var(--content-max-width);
@@ -84,7 +120,7 @@ img { max-width: 100%; display: block; }
     z-index: 100;
   }
   .nav-toggle:checked ~ .site-nav { display: flex; }
-  .site-header .logo { height: 176px; }
+  .site-header .logo { height: 100px; }
 }
 
 /* Buttons */
@@ -291,8 +327,17 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 .shop-card:hover { transform: translateY(-4px); }
 
 @media (max-width: 860px) {
-  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+  /* 2-column intermediate step so grids don't jump straight to single-column */
+  .grid-2, .grid-5 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .site-footer .wrap { flex-direction: column; }
+  .site-footer nav.site-nav { flex-direction: column; gap: var(--space-2); }
+}
+
+@media (max-width: 600px) {
+  /* Collapse to single column at small phone widths */
+  .grid-3, .grid-4 { grid-template-columns: 1fr; }
 }
 
 /* Fluid type scale — the base sizes tokens/typography.css builds every
@@ -300,13 +345,42 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
    eyebrow, and label site-wide without touching individual elements. */
 @media (max-width: 640px) {
   :root {
-    --fs-display-xl: 38px;
-    --fs-display-lg: 30px;
-    --fs-display-md: 24px;
-    --fs-display-sm: 20px;
-    --fs-body-lg: 17px;
+    --fs-display-xl: 34px;
+    --fs-display-lg: 27px;
+    --fs-display-md: 22px;
+    --fs-display-sm: 19px;
+    --fs-body-lg: 16px;
   }
-  .section, .site-header, .site-footer { padding-left: var(--space-4); padding-right: var(--space-4); }
+  /* Reduce section vertical rhythm on mobile */
+  .section { padding: var(--space-6) var(--space-4); }
+  .site-header, .site-footer { padding-left: var(--space-4); padding-right: var(--space-4); }
+  .site-header .logo { height: 80px; }
+  /* Hero: less breathing room vertically */
+  .hero-content { padding-top: var(--space-8); padding-bottom: var(--space-8); gap: var(--space-4); }
+  /* Origins overlap card — drop the negative margin on small screens */
+  .origins-card { margin-top: var(--space-4) !important; max-width: 100% !important; border-radius: var(--radius-lg) !important; }
+  .origins-landscape { height: 260px !important; }
+}
+
+/* On mobile, remove the negative-margin bleed from ingredient card images —
+   avoids any potential overflow on narrow viewports */
+@media (max-width: 640px) {
+  .ingredient-card-image {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: var(--radius-md);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stack hero CTAs full-width on small phones */
+  .hero-ctas { flex-direction: column; align-items: stretch; gap: var(--space-3); }
+  .hero-ctas .btn { text-align: center; justify-content: center; }
+  /* Allow word rotator to wrap rather than overflow on very small phones */
+  .word-rotator-item { white-space: normal; }
+  /* Hero subtext should not overflow */
+  .hero-sub { overflow: hidden; max-width: 100%; }
 }
 
 /* Cart badge in nav */
@@ -540,7 +614,10 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 }
 .site-header.is-scrolled .logo { height: 112px; }
 @media (max-width: 860px) {
-  .site-header.is-scrolled .logo { height: 88px; }
+  .site-header.is-scrolled .logo { height: 60px; }
+}
+@media (max-width: 640px) {
+  .site-header.is-scrolled .logo { height: 48px; }
 }
 
 /* Preloader */
@@ -590,8 +667,8 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 /* Hero background drift blobs */
 .hero-blobs { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; mix-blend-mode: soft-light; }
 .hero-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; }
-.hero-blob-1 { width: 420px; height: 420px; background: var(--red-500); top: -12%; left: -8%; animation: blob-drift-1 22s ease-in-out infinite; }
-.hero-blob-2 { width: 360px; height: 360px; background: var(--cream-200); bottom: -16%; right: -6%; animation: blob-drift-2 26s ease-in-out infinite; }
+.hero-blob-1 { width: min(420px, 90vw); height: min(420px, 90vw); background: var(--red-500); top: -12%; left: -8%; animation: blob-drift-1 22s ease-in-out infinite; }
+.hero-blob-2 { width: min(360px, 80vw); height: min(360px, 80vw); background: var(--cream-200); bottom: -16%; right: -6%; animation: blob-drift-2 26s ease-in-out infinite; }
 @keyframes blob-drift-1 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px, 40px) scale(1.15); } }
 @keyframes blob-drift-2 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,-30px) scale(1.1); } }
 @media (prefers-reduced-motion: reduce) {
