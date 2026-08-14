@@ -2,6 +2,9 @@
   "name": "ctartisanalpantry",
   "private": true,
   "version": "1.0.0",
+  "engines": {
+    "node": ">=18.x"
+  },
   "scripts": {
     "migrate": "node scripts/migrate.js"
   },
