@@ -1,21 +1,13 @@
 // One-time setup endpoint: creates tables and seeds the initial product
-// catalog. Safe to call more than once (idempotent). Protected by a token
-// so random visitors can't trigger it.
+// catalog. Safe to call more than once (idempotent). Protected by admin login.
 //
-// Visit: https://<your-site>/api/setup?token=<SETUP_TOKEN>
+// Visit: https://<your-site>/api/setup (must be logged into /admin)
 
 const { migrate } = require('../scripts/migrate');
+const { requireAdmin } = require('../lib/auth');
 
 module.exports = async (req, res) => {
-  const token = process.env.SETUP_TOKEN;
-  if (!token) {
-    res.status(500).json({ error: 'SETUP_TOKEN environment variable is not set.' });
-    return;
-  }
-  if (req.query.token !== token) {
-    res.status(401).json({ error: 'Invalid or missing token.' });
-    return;
-  }
+  if (!requireAdmin(req, res)) return;
 
   try {
     await migrate();

@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/admin",
+      "destination": "/admin/login.html",
+      "permanent": false
+    },
+    {
       "source": "/origins.html",
       "destination": "/our-story.html#origins",
       "permanent": true
