@@ -26,7 +26,11 @@ module.exports = async (req, res) => {
             });
             resolve({ url: blob.url });
           } catch (err) {
-            reject(err);
+            if (err.message && err.message.includes('private store')) {
+              reject(new Error('Your Blob store is set to private. Delete it in the Vercel Dashboard and recreate it with Public access — images must be publicly accessible to display on the site.'));
+            } else {
+              reject(err);
+            }
           }
         });
       });
