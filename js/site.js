@@ -50,6 +50,24 @@
       }
     });
 
+    // Apply data-content-img → img src
+    document.querySelectorAll('[data-content-img]').forEach((el) => {
+      const k = el.getAttribute('data-content-img');
+      if (content[k] && typeof content[k] === 'string') el.src = content[k];
+    });
+
+    // Apply data-content-bg → CSS background-image
+    document.querySelectorAll('[data-content-bg]').forEach((el) => {
+      const k = el.getAttribute('data-content-bg');
+      if (content[k] && typeof content[k] === 'string') el.style.backgroundImage = `url(${content[k]})`;
+    });
+
+    // Apply data-content-href → anchor href
+    document.querySelectorAll('[data-content-href]').forEach((el) => {
+      const k = el.getAttribute('data-content-href');
+      if (content[k] && typeof content[k] === 'string') el.href = content[k];
+    });
+
     // Homepage-specific: rebuild hero slides, ticker
     rebuildHeroSlides(content);
     rebuildTicker(content);

@@ -1,4 +1,8 @@
 {
+  "rewrites": [
+    { "source": "/api/admin/me", "destination": "/api/admin/login?action=me" },
+    { "source": "/api/admin/logout", "destination": "/api/admin/login?action=logout" }
+  ],
   "redirects": [
     {
       "source": "/admin",

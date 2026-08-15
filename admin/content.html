@@ -9,30 +9,45 @@
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="../site.css">
 <style>
+  .tab-nav { display:flex; flex-wrap:wrap; gap:4px; margin-bottom: var(--space-7); border-bottom:2px solid var(--border-subtle); padding-bottom:0; }
+  .tab-btn { padding:8px 16px; font-size:13px; font-weight:var(--fw-medium); background:none; border:none; border-bottom:2px solid transparent; margin-bottom:-2px; cursor:pointer; color:var(--text-muted); border-radius: var(--radius-sm) var(--radius-sm) 0 0; transition:color .15s, border-color .15s; }
+  .tab-btn:hover { color:var(--text-primary); }
+  .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); background:var(--surface-accent-soft); }
+  .tab-pane { display:none; }
+  .tab-pane.active { display:block; }
   .content-section { margin-bottom: var(--space-10); }
   .content-section h2 { font: var(--text-h2); margin: 0 0 var(--space-2); }
   .content-section .section-desc { font: var(--text-body-sm); color: var(--text-muted); margin: 0 0 var(--space-6); }
-  .field-row { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-4); }
-  .field-row label { font-size: 13px; font-weight: var(--fw-medium); color: var(--text-secondary); }
+  .field-row { display:flex; flex-direction:column; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .field-row label { font-size:13px; font-weight:var(--fw-medium); color:var(--text-secondary); }
   .field-row input[type="text"], .field-row input[type="url"], .field-row input[type="color"],
-  .field-row textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--border-default); border-radius: var(--radius-md); font: var(--text-body-sm); background: var(--surface-card); color: var(--text-primary); }
-  .field-row textarea { min-height: 90px; resize: vertical; }
-  .field-row input[type="color"] { height: 40px; padding: 4px 6px; width: 80px; cursor: pointer; }
-  .field-row .field-hint { font-size: 12px; color: var(--text-muted); }
-  .save-row { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-5); }
-  .save-row .save-status { font-size: 13px; color: var(--text-muted); }
-  .save-row .save-status.ok { color: #1E6B44; }
-  .save-row .save-status.err { color: var(--accent); }
-  .slide-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-5); }
-  .slide-card h3 { font: var(--text-h3); margin: 0 0 var(--space-4); }
-  .slide-active-row { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); font: var(--text-body-sm); }
-  .keyword-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
-  .keyword-tag { display: inline-flex; align-items: center; gap: var(--space-2); background: var(--cream-100); border: 1px solid var(--border-subtle); border-radius: 999px; padding: 4px 12px; font-size: 13px; }
-  .keyword-tag button { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 15px; line-height: 1; padding: 0; }
-  .keyword-tag button:hover { color: var(--accent); }
-  .add-keyword-row { display: flex; gap: var(--space-3); align-items: center; }
-  .add-keyword-row input { flex: 1; padding: 8px 12px; border: 1px solid var(--border-default); border-radius: var(--radius-md); font: var(--text-body-sm); }
-  .section-divider { border: none; border-top: 1px solid var(--border-subtle); margin: var(--space-8) 0; }
+  .field-row textarea { width:100%; padding:8px 12px; border:1px solid var(--border-default); border-radius:var(--radius-md); font:var(--text-body-sm); background:var(--surface-card); color:var(--text-primary); }
+  .field-row textarea { min-height:90px; resize:vertical; }
+  .field-row input[type="color"] { height:40px; padding:4px 6px; width:80px; cursor:pointer; }
+  .field-row .field-hint { font-size:12px; color:var(--text-muted); }
+  .save-row { display:flex; align-items:center; gap: var(--space-4); margin-top: var(--space-5); }
+  .save-row .save-status { font-size:13px; color:var(--text-muted); }
+  .save-row .save-status.ok { color:#1E6B44; }
+  .save-row .save-status.err { color:var(--accent); }
+  .slide-card { border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:var(--space-5); margin-bottom:var(--space-5); }
+  .slide-card h3 { font:var(--text-h3); margin:0 0 var(--space-4); }
+  .slide-active-row { display:flex; align-items:center; gap:var(--space-3); margin-bottom:var(--space-4); font:var(--text-body-sm); }
+  .keyword-tags { display:flex; flex-wrap:wrap; gap:var(--space-2); margin-bottom:var(--space-4); }
+  .keyword-tag { display:inline-flex; align-items:center; gap:var(--space-2); background:var(--cream-100); border:1px solid var(--border-subtle); border-radius:999px; padding:4px 12px; font-size:13px; }
+  .keyword-tag button { background:none; border:none; cursor:pointer; color:var(--text-muted); font-size:15px; line-height:1; padding:0; }
+  .keyword-tag button:hover { color:var(--accent); }
+  .add-keyword-row { display:flex; gap:var(--space-3); align-items:center; }
+  .add-keyword-row input { flex:1; padding:8px 12px; border:1px solid var(--border-default); border-radius:var(--radius-md); font:var(--text-body-sm); }
+  .section-divider { border:none; border-top:1px solid var(--border-subtle); margin:var(--space-8) 0; }
+  .img-upload-row { display:flex; gap:var(--space-3); align-items:flex-start; flex-wrap:wrap; }
+  .img-upload-row input[type="text"] { flex:1; min-width:200px; }
+  .img-preview { width:80px; height:60px; object-fit:cover; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); display:none; }
+  .upload-btn { white-space:nowrap; }
+  .product-tab-bar { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:var(--space-6); }
+  .product-tab-btn { padding:6px 14px; font-size:12px; font-weight:var(--fw-medium); background:var(--surface-muted); border:1px solid var(--border-subtle); border-radius:999px; cursor:pointer; color:var(--text-secondary); }
+  .product-tab-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .product-fields-wrap { display:none; }
+  .product-fields-wrap.active { display:block; }
 </style>
 </head>
 <body>
@@ -46,139 +61,357 @@
       <a href="blog.html">Blog</a>
       <a href="content.html" class="active">Content</a>
     </nav>
-    <div style="font-size:13px; color: var(--ink-300);">Logged in as <span data-admin-username>…</span></div>
+    <div style="font-size:13px; color:var(--ink-300);">Logged in as <span data-admin-username>…</span></div>
     <button class="admin-logout" data-admin-logout>Log Out</button>
   </aside>
 
   <main class="admin-main">
-    <h1 style="font: var(--text-h1); margin: 0 0 var(--space-2);">Content Manager</h1>
-    <p style="font: var(--text-body-sm); color: var(--text-muted); margin: 0 0 var(--space-8); max-width: 640px;">
-      Edit banners, hero slides, ticker keywords, and homepage text. Changes go live immediately after saving — no redeploy needed.
-    </p>
+    <h1 style="font:var(--text-h1); margin:0 0 var(--space-2);">Content Manager</h1>
+    <p style="font:var(--text-body-sm); color:var(--text-muted); margin:0 0 var(--space-6); max-width:640px;">Edit all page content and upload images. Changes go live immediately — no redeploy needed.</p>
 
-    <div id="global-error" class="alert alert-error" style="display:none; margin-bottom: var(--space-6);"></div>
+    <div id="global-error" class="alert alert-error" style="display:none; margin-bottom:var(--space-6);"></div>
 
-    <!-- ── Announcement Banner ──────────────────────────────── -->
-    <section class="content-section" id="section-banner">
-      <h2>Announcement Banner</h2>
-      <p class="section-desc">A dismissable banner shown at the top of every page. Useful for promotions, shipping notices, or seasonal messages.</p>
+    <nav class="tab-nav" id="tab-nav">
+      <button class="tab-btn active" data-tab="global">Global</button>
+      <button class="tab-btn" data-tab="homepage">Homepage</button>
+      <button class="tab-btn" data-tab="hero">Hero Slides</button>
+      <button class="tab-btn" data-tab="shop">Shop</button>
+      <button class="tab-btn" data-tab="our-story">Our Story</button>
+      <button class="tab-btn" data-tab="wholesale">Wholesale</button>
+      <button class="tab-btn" data-tab="contact">Contact</button>
+      <button class="tab-btn" data-tab="products">Product Pages</button>
+    </nav>
 
-      <div class="slide-card">
-        <div class="slide-active-row">
-          <input type="checkbox" id="banner-active" style="width:18px;height:18px;cursor:pointer;">
-          <label for="banner-active" style="cursor:pointer; font-weight: var(--fw-medium);">Show banner on site</label>
+    <!-- ── GLOBAL TAB ─────────────────────────────────────── -->
+    <div class="tab-pane active" id="tab-global">
+      <section class="content-section">
+        <h2>Announcement Banner</h2>
+        <p class="section-desc">A dismissable banner shown at the top of every page.</p>
+        <div class="slide-card">
+          <div class="slide-active-row">
+            <input type="checkbox" id="banner-active" style="width:18px;height:18px;cursor:pointer;">
+            <label for="banner-active" style="cursor:pointer; font-weight:var(--fw-medium);">Show banner on site</label>
+          </div>
+          <div class="field-row">
+            <label for="banner-text">Banner text</label>
+            <input type="text" id="banner-text" placeholder="e.g. Free delivery on orders over PKR 5,000">
+          </div>
+          <div class="field-row">
+            <label for="banner-bg">Background colour</label>
+            <div style="display:flex; gap:var(--space-3); align-items:center;">
+              <input type="color" id="banner-bg" value="#E2202D">
+              <input type="text" id="banner-bg-hex" placeholder="#E2202D" style="width:120px;">
+            </div>
+          </div>
+          <div class="save-row">
+            <button class="btn btn-primary btn-sm" id="save-banner">Save Banner</button>
+            <span class="save-status" id="banner-status"></span>
+          </div>
         </div>
-        <div class="field-row">
-          <label for="banner-text">Banner text</label>
-          <input type="text" id="banner-text" placeholder="e.g. Free delivery on orders over PKR 5,000">
+      </section>
+
+      <hr class="section-divider">
+
+      <section class="content-section">
+        <h2>Ticker / Marquee Keywords</h2>
+        <p class="section-desc">These words scroll across the bottom of every page. Click × to remove, add new ones below.</p>
+        <div id="keyword-tags" class="keyword-tags"><span style="color:var(--text-muted);font-size:13px;">Loading…</span></div>
+        <div class="add-keyword-row" style="max-width:480px; margin-bottom:var(--space-4);">
+          <input type="text" id="new-keyword" placeholder="New keyword or phrase">
+          <button class="btn btn-outline btn-sm" id="add-keyword-btn">Add</button>
         </div>
-        <div class="field-row">
-          <label for="banner-bg">Background colour</label>
-          <div style="display:flex; gap: var(--space-3); align-items:center;">
-            <input type="color" id="banner-bg" value="#E2202D">
-            <input type="text" id="banner-bg-hex" placeholder="#E2202D" style="width:120px;">
+        <div class="save-row">
+          <button class="btn btn-primary btn-sm" id="save-ticker">Save Keywords</button>
+          <span class="save-status" id="ticker-status"></span>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── HOMEPAGE TAB ───────────────────────────────────── -->
+    <div class="tab-pane" id="tab-homepage">
+      <section class="content-section">
+        <h2>Homepage Text</h2>
+        <p class="section-desc">Edit headings and copy for each section of the homepage.</p>
+        <div id="homepage-fields" style="max-width:600px; display:flex; flex-direction:column; gap:var(--space-6);">
+          <p style="color:var(--text-muted);">Loading…</p>
+        </div>
+        <div class="save-row" style="margin-top:var(--space-6);">
+          <button class="btn btn-primary btn-sm" id="save-homepage">Save Homepage</button>
+          <span class="save-status" id="homepage-status"></span>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── HERO SLIDES TAB ────────────────────────────────── -->
+    <div class="tab-pane" id="tab-hero">
+      <section class="content-section">
+        <h2>Hero Slides</h2>
+        <p class="section-desc">Up to 3 slides cycle automatically on the homepage. Upload images or enter a path.</p>
+        <div id="hero-slides-wrap"><p style="color:var(--text-muted);">Loading…</p></div>
+        <div style="max-width:480px;">
+          <div class="field-row">
+            <label for="hero-eyebrow">Eyebrow text</label>
+            <input type="text" id="hero-eyebrow" placeholder="CT Artisanal Pantry">
+          </div>
+          <div class="field-row">
+            <label for="hero-heading">Main heading</label>
+            <input type="text" id="hero-heading" placeholder="Flavour from Madagascar">
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4);">
+            <div class="field-row">
+              <label for="hero-cta1-text">Primary button text</label>
+              <input type="text" id="hero-cta1-text">
+            </div>
+            <div class="field-row">
+              <label for="hero-cta1-url">Primary button URL</label>
+              <input type="text" id="hero-cta1-url">
+            </div>
+            <div class="field-row">
+              <label for="hero-cta2-text">Secondary button text</label>
+              <input type="text" id="hero-cta2-text">
+            </div>
+            <div class="field-row">
+              <label for="hero-cta2-url">Secondary button URL</label>
+              <input type="text" id="hero-cta2-url">
+            </div>
           </div>
         </div>
         <div class="save-row">
-          <button class="btn btn-primary btn-sm" id="save-banner">Save Banner</button>
-          <span class="save-status" id="banner-status"></span>
+          <button class="btn btn-primary btn-sm" id="save-hero">Save Hero</button>
+          <span class="save-status" id="hero-status"></span>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <hr class="section-divider">
-
-    <!-- ── Hero Slides ─────────────────────────────────────── -->
-    <section class="content-section" id="section-hero">
-      <h2>Hero Slides</h2>
-      <p class="section-desc">Up to 3 slides cycle automatically. Disable a slide to hide it without deleting its content. Image path is relative to the site root (e.g. <code>images/hero-slide-vanilla-farm.jpg</code>).</p>
-
-      <div id="hero-slides-wrap">
-        <!-- rendered by JS -->
-        <p style="color:var(--text-muted);">Loading…</p>
-      </div>
-
-      <div class="field-row" style="max-width:480px;">
-        <label for="hero-eyebrow">Eyebrow text</label>
-        <input type="text" id="hero-eyebrow" placeholder="CT Artisanal Pantry">
-      </div>
-      <div class="field-row" style="max-width:480px;">
-        <label for="hero-heading">Main heading</label>
-        <input type="text" id="hero-heading" placeholder="Flavour from Madagascar">
-      </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap: var(--space-4); max-width:600px;">
-        <div class="field-row">
-          <label for="hero-cta1-text">Primary button text</label>
-          <input type="text" id="hero-cta1-text" placeholder="Explore the Pantry">
+    <!-- ── SHOP TAB ───────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-shop">
+      <section class="content-section">
+        <h2>Shop Page</h2>
+        <p class="section-desc">Edit the hero text on the Shop page.</p>
+        <div style="max-width:600px; display:flex; flex-direction:column; gap:var(--space-4);">
+          <div class="field-row">
+            <label>Eyebrow text</label>
+            <input type="text" id="shop-eyebrow">
+          </div>
+          <div class="field-row">
+            <label>Heading</label>
+            <input type="text" id="shop-heading">
+          </div>
+          <div class="field-row">
+            <label>Subtext paragraph</label>
+            <textarea id="shop-subtext"></textarea>
+          </div>
         </div>
-        <div class="field-row">
-          <label for="hero-cta1-url">Primary button URL</label>
-          <input type="text" id="hero-cta1-url" placeholder="shop.html">
+        <div class="save-row">
+          <button class="btn btn-primary btn-sm" id="save-shop">Save Shop</button>
+          <span class="save-status" id="shop-status"></span>
         </div>
-        <div class="field-row">
-          <label for="hero-cta2-text">Secondary button text</label>
-          <input type="text" id="hero-cta2-text" placeholder="Bulk Buying / Wholesale">
+      </section>
+    </div>
+
+    <!-- ── OUR STORY TAB ──────────────────────────────────── -->
+    <div class="tab-pane" id="tab-our-story">
+      <section class="content-section">
+        <h2>Our Story Page</h2>
+        <p class="section-desc">Edit all editable text and images on the Our Story page.</p>
+        <div style="max-width:600px; display:flex; flex-direction:column; gap:var(--space-4);">
+          <div class="field-row">
+            <label>Main heading (H1)</label>
+            <input type="text" id="story-h1">
+          </div>
+          <div class="field-row">
+            <label>Intro paragraph</label>
+            <textarea id="story-intro"></textarea>
+          </div>
+          <div class="field-row">
+            <label>"How It Started" eyebrow</label>
+            <input type="text" id="story-how-eyebrow">
+          </div>
+          <div class="field-row">
+            <label>"How It Started" heading</label>
+            <input type="text" id="story-how-heading">
+          </div>
+          <div class="field-row">
+            <label>"How It Started" paragraph</label>
+            <textarea id="story-how-body"></textarea>
+          </div>
+          <div class="field-row">
+            <label>Side image</label>
+            <div class="img-upload-row">
+              <input type="text" id="story-side-image" placeholder="images/madagascar-vanilla-vine.jpg">
+              <img class="img-preview" id="story-side-image-preview">
+              <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('story-side-image', 'story-side-image-preview')">Upload Image</button>
+            </div>
+          </div>
+          <div class="field-row">
+            <label>Origins heading</label>
+            <input type="text" id="story-origins-heading">
+          </div>
+          <div class="field-row">
+            <label>Origins paragraph</label>
+            <textarea id="story-origins-body"></textarea>
+          </div>
+          <div class="field-row">
+            <label>Landscape / background image</label>
+            <div class="img-upload-row">
+              <input type="text" id="story-landscape-image" placeholder="images/madagascar-farm-landscape.jpg">
+              <img class="img-preview" id="story-landscape-image-preview">
+              <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('story-landscape-image', 'story-landscape-image-preview')">Upload Image</button>
+            </div>
+          </div>
+          <div class="field-row">
+            <label>Traceable heading</label>
+            <input type="text" id="story-traceable-heading">
+          </div>
+          <div class="field-row">
+            <label>Traceable paragraph</label>
+            <textarea id="story-traceable-body"></textarea>
+          </div>
         </div>
-        <div class="field-row">
-          <label for="hero-cta2-url">Secondary button URL</label>
-          <input type="text" id="hero-cta2-url" placeholder="wholesale.html">
+        <div class="save-row">
+          <button class="btn btn-primary btn-sm" id="save-story">Save Our Story</button>
+          <span class="save-status" id="story-status"></span>
         </div>
-      </div>
-      <div class="save-row">
-        <button class="btn btn-primary btn-sm" id="save-hero">Save Hero</button>
-        <span class="save-status" id="hero-status"></span>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <hr class="section-divider">
+    <!-- ── WHOLESALE TAB ──────────────────────────────────── -->
+    <div class="tab-pane" id="tab-wholesale">
+      <section class="content-section">
+        <h2>Wholesale Page</h2>
+        <p class="section-desc">Edit the wholesale page text and WhatsApp link.</p>
+        <div style="max-width:600px; display:flex; flex-direction:column; gap:var(--space-4);">
+          <div class="field-row">
+            <label>Page eyebrow</label>
+            <input type="text" id="ws-hero-eyebrow">
+          </div>
+          <div class="field-row">
+            <label>Main heading (H1)</label>
+            <input type="text" id="ws-hero-h1">
+          </div>
+          <div class="field-row">
+            <label>Intro paragraph 1</label>
+            <textarea id="ws-hero-body1"></textarea>
+          </div>
+          <div class="field-row">
+            <label>Intro paragraph 2</label>
+            <textarea id="ws-hero-body2"></textarea>
+          </div>
+          <div class="field-row">
+            <label>WhatsApp URL (e.g. https://wa.me/923001234567)</label>
+            <input type="text" id="ws-whatsapp-url" placeholder="https://wa.me/923000000000">
+          </div>
+          <div class="field-row">
+            <label>Product range eyebrow</label>
+            <input type="text" id="ws-range-eyebrow">
+          </div>
+          <div class="field-row">
+            <label>Product range heading</label>
+            <input type="text" id="ws-range-heading">
+          </div>
+          <div class="field-row">
+            <label>Final CTA heading</label>
+            <input type="text" id="ws-cta-heading">
+          </div>
+          <div class="field-row">
+            <label>Final CTA paragraph</label>
+            <textarea id="ws-cta-body"></textarea>
+          </div>
+        </div>
+        <div class="save-row">
+          <button class="btn btn-primary btn-sm" id="save-wholesale">Save Wholesale</button>
+          <span class="save-status" id="wholesale-status"></span>
+        </div>
+      </section>
+    </div>
 
-    <!-- ── Ticker Keywords ─────────────────────────────────── -->
-    <section class="content-section" id="section-ticker">
-      <h2>Ticker / Marquee Keywords</h2>
-      <p class="section-desc">These words scroll across the bottom of every page. Click × to remove a keyword. Add new ones below.</p>
+    <!-- ── CONTACT TAB ────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-contact">
+      <section class="content-section">
+        <h2>Contact Page</h2>
+        <p class="section-desc">Edit the contact page text, phone numbers, links, and image.</p>
+        <div style="max-width:600px; display:flex; flex-direction:column; gap:var(--space-4);">
+          <div class="field-row">
+            <label>Page heading</label>
+            <input type="text" id="ct-heading">
+          </div>
+          <div class="field-row">
+            <label>Subtext paragraph</label>
+            <textarea id="ct-subtext"></textarea>
+          </div>
+          <div class="field-row">
+            <label>WhatsApp display number (what visitors see)</label>
+            <input type="text" id="ct-whatsapp-display" placeholder="+92 300 0000000">
+          </div>
+          <div class="field-row">
+            <label>WhatsApp URL (e.g. https://wa.me/923001234567)</label>
+            <input type="text" id="ct-whatsapp-url" placeholder="https://wa.me/923000000000">
+          </div>
+          <div class="field-row">
+            <label>Madagascar phone number</label>
+            <input type="text" id="ct-madagascar-phone" placeholder="+261 38 097 9425">
+          </div>
+          <div class="field-row">
+            <label>Instagram handle (e.g. @ctartisanal)</label>
+            <input type="text" id="ct-instagram-handle" placeholder="@ctartisanal">
+          </div>
+          <div class="field-row">
+            <label>Instagram URL</label>
+            <input type="text" id="ct-instagram-url" placeholder="https://www.instagram.com/ctartisanal">
+          </div>
+          <div class="field-row">
+            <label>Side image</label>
+            <div class="img-upload-row">
+              <input type="text" id="ct-side-image" placeholder="images/contact-vanilla-bulk.jpg">
+              <img class="img-preview" id="ct-side-image-preview">
+              <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('ct-side-image', 'ct-side-image-preview')">Upload Image</button>
+            </div>
+          </div>
+        </div>
+        <div class="save-row">
+          <button class="btn btn-primary btn-sm" id="save-contact">Save Contact</button>
+          <span class="save-status" id="contact-status"></span>
+        </div>
+      </section>
+    </div>
 
-      <div id="keyword-tags" class="keyword-tags">
-        <span style="color:var(--text-muted); font-size:13px;">Loading…</span>
-      </div>
-      <div class="add-keyword-row" style="max-width:480px; margin-bottom: var(--space-4);">
-        <input type="text" id="new-keyword" placeholder="New keyword or phrase">
-        <button class="btn btn-outline btn-sm" id="add-keyword-btn">Add</button>
-      </div>
-      <div class="save-row">
-        <button class="btn btn-primary btn-sm" id="save-ticker">Save Keywords</button>
-        <span class="save-status" id="ticker-status"></span>
-      </div>
-    </section>
-
-    <hr class="section-divider">
-
-    <!-- ── Homepage Text ───────────────────────────────────── -->
-    <section class="content-section" id="section-homepage">
-      <h2>Homepage Text</h2>
-      <p class="section-desc">Edit the headings and body copy for each section of the homepage. All fields save together.</p>
-
-      <div id="homepage-fields" style="max-width:600px; display:flex; flex-direction:column; gap: var(--space-6);">
-        <p style="color:var(--text-muted);">Loading…</p>
-      </div>
-      <div class="save-row" style="margin-top: var(--space-6);">
-        <button class="btn btn-primary btn-sm" id="save-homepage">Save Homepage Text</button>
-        <span class="save-status" id="homepage-status"></span>
-      </div>
-    </section>
+    <!-- ── PRODUCT PAGES TAB ─────────────────────────────── -->
+    <div class="tab-pane" id="tab-products">
+      <section class="content-section">
+        <h2>Product Detail Pages</h2>
+        <p class="section-desc">Edit the info cards, tip text, and product image for each product detail page. Prices and stock are managed in the <a href="products.html">Products</a> section.</p>
+        <div class="product-tab-bar" id="product-tab-bar">
+          <button class="product-tab-btn active" data-product="vanilla-beans">Vanilla Beans</button>
+          <button class="product-tab-btn" data-product="vanilla-caviar">Vanilla Caviar</button>
+          <button class="product-tab-btn" data-product="vanilla-bean-paste-honey">Vanilla Paste</button>
+          <button class="product-tab-btn" data-product="cocoa-powder">Cocoa Powder</button>
+          <button class="product-tab-btn" data-product="wild-red-peppercorn">Red Peppercorn</button>
+          <button class="product-tab-btn" data-product="chili-oil">Chili Oil</button>
+        </div>
+        <div id="product-fields-container"></div>
+        <div class="save-row">
+          <button class="btn btn-primary btn-sm" id="save-product-detail">Save Product Page</button>
+          <span class="save-status" id="product-detail-status"></span>
+        </div>
+      </section>
+    </div>
 
   </main>
 </div>
 
-<script>
-/* ── auth helpers ─────────────────────────────────────────── */
-const token = () => document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('ct_admin_token='))?.split('=')[1] || '';
+<!-- Hidden file input for image uploads -->
+<input type="file" id="upload-file-input" accept="image/*" style="display:none;">
 
-function authHeaders() {
-  return { 'Content-Type': 'application/json', 'X-Admin-Token': token() };
+<script>
+/* ── Auth & API helpers ────────────────────────────────── */
+function authHeaders(contentType) {
+  const h = {};
+  if (contentType) h['Content-Type'] = contentType;
+  return h;
 }
 
 async function apiGet(url) {
-  const r = await fetch(url, { headers: authHeaders() });
+  const r = await fetch(url, { credentials: 'include' });
   if (r.status === 401) { location.href = 'login.html'; throw new Error('Unauthorized'); }
   return r.json();
 }
@@ -186,7 +419,8 @@ async function apiGet(url) {
 async function apiPut(section, key, value) {
   const r = await fetch(`/api/admin/content?section=${encodeURIComponent(section)}&key=${encodeURIComponent(key)}`, {
     method: 'PUT',
-    headers: authHeaders(),
+    headers: authHeaders('application/json'),
+    credentials: 'include',
     body: JSON.stringify({ value }),
   });
   if (!r.ok) { const d = await r.json(); throw new Error(d.error || 'Save failed'); }
@@ -200,21 +434,79 @@ function setStatus(id, msg, isErr) {
   if (!isErr) setTimeout(() => { el.textContent = ''; }, 3000);
 }
 
-/* ── populate username / logout ──────────────────────────── */
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── Tab navigation ────────────────────────────────────── */
+document.querySelectorAll('.tab-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ── Auth header / logout ──────────────────────────────── */
 (async () => {
   const el = document.querySelector('[data-admin-username]');
   try {
-    const d = await apiGet('/api/admin/login');
+    const d = await apiGet('/api/admin/me');
     if (d.username) el.textContent = d.username;
   } catch {}
 })();
 document.querySelector('[data-admin-logout]').addEventListener('click', async () => {
-  await fetch('/api/admin/login', { method: 'DELETE', headers: authHeaders() }).catch(() => {});
+  await fetch('/api/admin/login', { method: 'DELETE', credentials: 'include' }).catch(() => {});
   location.href = 'login.html';
 });
 
-/* ── load all content ────────────────────────────────────── */
-let contentMap = {}; // section:key → row
+/* ── Image upload ──────────────────────────────────────── */
+let _uploadTarget = null;
+let _uploadPreview = null;
+
+function triggerUpload(inputId, previewId) {
+  _uploadTarget = inputId;
+  _uploadPreview = previewId;
+  document.getElementById('upload-file-input').click();
+}
+
+document.getElementById('upload-file-input').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file || !_uploadTarget) return;
+  e.target.value = '';
+  const fd = new FormData();
+  fd.append('file', file, file.name);
+  const statusMsg = document.createElement('span');
+  try {
+    const r = await fetch('/api/admin/upload', {
+      method: 'POST',
+      credentials: 'include',
+      body: fd,
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Upload failed');
+    const input = document.getElementById(_uploadTarget);
+    if (input) input.value = data.url;
+    const preview = document.getElementById(_uploadPreview);
+    if (preview) { preview.src = data.url; preview.style.display = 'block'; }
+  } catch (err) {
+    alert('Upload failed: ' + err.message);
+  }
+});
+
+function updatePreview(inputId, previewId) {
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  if (!input || !preview) return;
+  input.addEventListener('input', () => {
+    if (input.value) { preview.src = input.value; preview.style.display = 'block'; }
+    else preview.style.display = 'none';
+  });
+}
+
+/* ── Load all content ──────────────────────────────────── */
+let contentMap = {};
 
 async function loadContent() {
   const { content } = await apiGet('/api/admin/content');
@@ -222,176 +514,81 @@ async function loadContent() {
     contentMap[`${row.section}:${row.key}`] = row;
   }
   renderBanner();
-  renderHeroSlides();
-  renderHeroMeta();
   renderTicker();
   renderHomepageFields();
+  renderHeroSlides();
+  renderHeroMeta();
+  renderShopFields();
+  renderOurStoryFields();
+  renderWholesaleFields();
+  renderContactFields();
+  renderProductFields(currentProduct);
 }
 
-/* ── Banner ──────────────────────────────────────────────── */
+function get(section, key) {
+  return contentMap[`${section}:${key}`]?.value || '';
+}
+
+/* ── Banner ─────────────────────────────────────────────── */
 function renderBanner() {
-  const active = contentMap['banner:active'];
-  const text   = contentMap['banner:text'];
-  const bg     = contentMap['banner:bg_color'];
-  if (active) document.getElementById('banner-active').checked = active.value === 'true';
-  if (text)   document.getElementById('banner-text').value = text.value || '';
-  if (bg) {
-    document.getElementById('banner-bg').value = bg.value || '#E2202D';
-    document.getElementById('banner-bg-hex').value = bg.value || '#E2202D';
-  }
+  const active = get('banner', 'active');
+  document.getElementById('banner-active').checked = active === 'true';
+  document.getElementById('banner-text').value = get('banner', 'text');
+  const bg = get('banner', 'bg_color') || '#E2202D';
+  document.getElementById('banner-bg').value = bg;
+  document.getElementById('banner-bg-hex').value = bg;
 }
-
-// sync color picker ↔ hex text field
 document.getElementById('banner-bg').addEventListener('input', (e) => {
   document.getElementById('banner-bg-hex').value = e.target.value;
 });
 document.getElementById('banner-bg-hex').addEventListener('input', (e) => {
-  const v = e.target.value;
-  if (/^#[0-9a-fA-F]{6}$/.test(v)) document.getElementById('banner-bg').value = v;
+  if (/^#[0-9a-fA-F]{6}$/.test(e.target.value)) document.getElementById('banner-bg').value = e.target.value;
 });
-
 document.getElementById('save-banner').addEventListener('click', async () => {
-  const btn = document.getElementById('save-banner');
-  btn.disabled = true;
+  const btn = document.getElementById('save-banner'); btn.disabled = true;
   try {
-    const active  = document.getElementById('banner-active').checked ? 'true' : 'false';
-    const text    = document.getElementById('banner-text').value.trim();
-    const bg      = document.getElementById('banner-bg-hex').value.trim() || document.getElementById('banner-bg').value;
     await Promise.all([
-      apiPut('banner', 'active',   active),
-      apiPut('banner', 'text',     text),
-      apiPut('banner', 'bg_color', bg),
+      apiPut('banner', 'active', document.getElementById('banner-active').checked ? 'true' : 'false'),
+      apiPut('banner', 'text', document.getElementById('banner-text').value.trim()),
+      apiPut('banner', 'bg_color', document.getElementById('banner-bg-hex').value.trim() || document.getElementById('banner-bg').value),
     ]);
     setStatus('banner-status', 'Saved!');
-  } catch (e) {
-    setStatus('banner-status', e.message, true);
-  }
+  } catch (e) { setStatus('banner-status', e.message, true); }
   btn.disabled = false;
 });
 
-/* ── Hero Slides ─────────────────────────────────────────── */
-function renderHeroSlides() {
-  const wrap = document.getElementById('hero-slides-wrap');
-  wrap.innerHTML = '';
-  ['slide_1', 'slide_2', 'slide_3'].forEach((key, i) => {
-    const row = contentMap[`hero:${key}`];
-    let slide = { image: '', headline: '', subtext: '', active: true };
-    if (row) {
-      try { slide = JSON.parse(row.value); } catch {}
-    }
-    const card = document.createElement('div');
-    card.className = 'slide-card';
-    card.innerHTML = `
-      <h3>Slide ${i + 1}</h3>
-      <div class="slide-active-row">
-        <input type="checkbox" id="slide-${i}-active" ${slide.active !== false ? 'checked' : ''} style="width:18px;height:18px;cursor:pointer;">
-        <label for="slide-${i}-active" style="cursor:pointer;">Show this slide</label>
-      </div>
-      <div class="field-row">
-        <label for="slide-${i}-image">Background image path</label>
-        <input type="text" id="slide-${i}-image" value="${escHtml(slide.image || '')}" placeholder="images/hero-slide-vanilla-farm.jpg">
-        <span class="field-hint">Relative path from site root. Upload images to the <code>images/</code> folder first.</span>
-      </div>
-      <div class="field-row">
-        <label for="slide-${i}-headline">Headline (optional — overrides main heading for this slide)</label>
-        <input type="text" id="slide-${i}-headline" value="${escHtml(slide.headline || '')}" placeholder="Flavour from Madagascar">
-      </div>
-      <div class="field-row">
-        <label for="slide-${i}-subtext">Subtext</label>
-        <input type="text" id="slide-${i}-subtext" value="${escHtml(slide.subtext || '')}" placeholder="Small-batch Madagascar Bourbon Vanilla">
-      </div>
-    `;
-    wrap.appendChild(card);
-  });
-}
-
-function renderHeroMeta() {
-  const get = (k) => contentMap[`hero:${k}`]?.value || '';
-  document.getElementById('hero-eyebrow').value    = get('eyebrow');
-  document.getElementById('hero-heading').value    = get('heading');
-  document.getElementById('hero-cta1-text').value  = get('cta_primary_text');
-  document.getElementById('hero-cta1-url').value   = get('cta_primary_url');
-  document.getElementById('hero-cta2-text').value  = get('cta_secondary_text');
-  document.getElementById('hero-cta2-url').value   = get('cta_secondary_url');
-}
-
-document.getElementById('save-hero').addEventListener('click', async () => {
-  const btn = document.getElementById('save-hero');
-  btn.disabled = true;
-  try {
-    const saves = [];
-    ['slide_1', 'slide_2', 'slide_3'].forEach((key, i) => {
-      const slide = {
-        active:   document.getElementById(`slide-${i}-active`).checked,
-        image:    document.getElementById(`slide-${i}-image`).value.trim(),
-        headline: document.getElementById(`slide-${i}-headline`).value.trim(),
-        subtext:  document.getElementById(`slide-${i}-subtext`).value.trim(),
-      };
-      saves.push(apiPut('hero', key, JSON.stringify(slide)));
-    });
-    saves.push(apiPut('hero', 'eyebrow',           document.getElementById('hero-eyebrow').value.trim()));
-    saves.push(apiPut('hero', 'heading',            document.getElementById('hero-heading').value.trim()));
-    saves.push(apiPut('hero', 'cta_primary_text',   document.getElementById('hero-cta1-text').value.trim()));
-    saves.push(apiPut('hero', 'cta_primary_url',    document.getElementById('hero-cta1-url').value.trim()));
-    saves.push(apiPut('hero', 'cta_secondary_text', document.getElementById('hero-cta2-text').value.trim()));
-    saves.push(apiPut('hero', 'cta_secondary_url',  document.getElementById('hero-cta2-url').value.trim()));
-    await Promise.all(saves);
-    setStatus('hero-status', 'Saved!');
-  } catch (e) {
-    setStatus('hero-status', e.message, true);
-  }
-  btn.disabled = false;
-});
-
-/* ── Ticker ──────────────────────────────────────────────── */
+/* ── Ticker ─────────────────────────────────────────────── */
 let keywords = [];
-
 function renderTicker() {
-  const row = contentMap['ticker:keywords'];
-  try { keywords = JSON.parse(row?.value || '[]'); } catch { keywords = []; }
+  try { keywords = JSON.parse(get('ticker', 'keywords') || '[]'); } catch { keywords = []; }
   redrawKeywords();
 }
-
 function redrawKeywords() {
   const wrap = document.getElementById('keyword-tags');
   wrap.innerHTML = '';
   keywords.forEach((kw, i) => {
     const tag = document.createElement('span');
     tag.className = 'keyword-tag';
-    tag.innerHTML = `${escHtml(kw)} <button type="button" title="Remove" data-idx="${i}">×</button>`;
-    tag.querySelector('button').addEventListener('click', () => {
-      keywords.splice(i, 1);
-      redrawKeywords();
-    });
+    tag.innerHTML = `${escHtml(kw)} <button type="button" data-idx="${i}">×</button>`;
+    tag.querySelector('button').addEventListener('click', () => { keywords.splice(i, 1); redrawKeywords(); });
     wrap.appendChild(tag);
   });
 }
-
 document.getElementById('add-keyword-btn').addEventListener('click', () => {
   const input = document.getElementById('new-keyword');
-  const val = input.value.trim();
-  if (!val) return;
-  keywords.push(val);
-  redrawKeywords();
-  input.value = '';
+  if (input.value.trim()) { keywords.push(input.value.trim()); redrawKeywords(); input.value = ''; }
 });
 document.getElementById('new-keyword').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') { e.preventDefault(); document.getElementById('add-keyword-btn').click(); }
 });
-
 document.getElementById('save-ticker').addEventListener('click', async () => {
-  const btn = document.getElementById('save-ticker');
-  btn.disabled = true;
-  try {
-    await apiPut('ticker', 'keywords', JSON.stringify(keywords));
-    setStatus('ticker-status', 'Saved!');
-  } catch (e) {
-    setStatus('ticker-status', e.message, true);
-  }
+  const btn = document.getElementById('save-ticker'); btn.disabled = true;
+  try { await apiPut('ticker', 'keywords', JSON.stringify(keywords)); setStatus('ticker-status', 'Saved!'); }
+  catch (e) { setStatus('ticker-status', e.message, true); }
   btn.disabled = false;
 });
 
-/* ── Homepage Text ───────────────────────────────────────── */
+/* ── Homepage ────────────────────────────────────────────── */
 const HOMEPAGE_FIELDS = [
   { key: 'collection_eyebrow',  label: 'Collection eyebrow',  type: 'text' },
   { key: 'collection_heading',  label: 'Collection heading',  type: 'text' },
@@ -406,42 +603,293 @@ const HOMEPAGE_FIELDS = [
   { key: 'wholesale_heading',   label: 'Wholesale heading',   type: 'text' },
   { key: 'wholesale_body',      label: 'Wholesale body text', type: 'textarea' },
 ];
-
 function renderHomepageFields() {
   const wrap = document.getElementById('homepage-fields');
   wrap.innerHTML = '';
   HOMEPAGE_FIELDS.forEach(({ key, label, type }) => {
-    const val = contentMap[`homepage:${key}`]?.value || '';
-    const fieldDiv = document.createElement('div');
-    fieldDiv.className = 'field-row';
-    if (type === 'textarea') {
-      fieldDiv.innerHTML = `<label for="hp-${key}">${escHtml(label)}</label><textarea id="hp-${key}">${escHtml(val)}</textarea>`;
-    } else {
-      fieldDiv.innerHTML = `<label for="hp-${key}">${escHtml(label)}</label><input type="text" id="hp-${key}" value="${escHtml(val)}">`;
-    }
-    wrap.appendChild(fieldDiv);
+    const val = get('homepage', key);
+    const div = document.createElement('div');
+    div.className = 'field-row';
+    div.innerHTML = type === 'textarea'
+      ? `<label for="hp-${key}">${escHtml(label)}</label><textarea id="hp-${key}">${escHtml(val)}</textarea>`
+      : `<label for="hp-${key}">${escHtml(label)}</label><input type="text" id="hp-${key}" value="${escHtml(val)}">`;
+    wrap.appendChild(div);
   });
 }
-
 document.getElementById('save-homepage').addEventListener('click', async () => {
-  const btn = document.getElementById('save-homepage');
-  btn.disabled = true;
+  const btn = document.getElementById('save-homepage'); btn.disabled = true;
   try {
-    await Promise.all(HOMEPAGE_FIELDS.map(({ key, type }) => {
+    await Promise.all(HOMEPAGE_FIELDS.map(({ key }) => {
       const el = document.getElementById(`hp-${key}`);
       return apiPut('homepage', key, el.value.trim());
     }));
     setStatus('homepage-status', 'Saved!');
-  } catch (e) {
-    setStatus('homepage-status', e.message, true);
-  }
+  } catch (e) { setStatus('homepage-status', e.message, true); }
   btn.disabled = false;
 });
 
-/* ── Helpers ─────────────────────────────────────────────── */
-function escHtml(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+/* ── Hero Slides ─────────────────────────────────────────── */
+function renderHeroSlides() {
+  const wrap = document.getElementById('hero-slides-wrap');
+  wrap.innerHTML = '';
+  ['slide_1', 'slide_2', 'slide_3'].forEach((key, i) => {
+    let slide = { image: '', headline: '', subtext: '', active: true };
+    try { slide = JSON.parse(get('hero', key) || '{}'); } catch {}
+    const card = document.createElement('div');
+    card.className = 'slide-card';
+    const imgId = `slide-${i}-image`;
+    const prevId = `slide-${i}-image-preview`;
+    card.innerHTML = `
+      <h3>Slide ${i + 1}</h3>
+      <div class="slide-active-row">
+        <input type="checkbox" id="slide-${i}-active" ${slide.active !== false ? 'checked' : ''} style="width:18px;height:18px;cursor:pointer;">
+        <label for="slide-${i}-active" style="cursor:pointer;">Show this slide</label>
+      </div>
+      <div class="field-row">
+        <label>Background image</label>
+        <div class="img-upload-row">
+          <input type="text" id="${imgId}" value="${escHtml(slide.image || '')}" placeholder="images/hero-slide-vanilla-farm.jpg">
+          <img class="img-preview" id="${prevId}" ${slide.image ? `src="${escHtml(slide.image)}" style="display:block;"` : ''}>
+          <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('${imgId}','${prevId}')">Upload Image</button>
+        </div>
+      </div>
+      <div class="field-row">
+        <label for="slide-${i}-headline">Headline</label>
+        <input type="text" id="slide-${i}-headline" value="${escHtml(slide.headline || '')}" placeholder="Flavour from Madagascar">
+      </div>
+      <div class="field-row">
+        <label for="slide-${i}-subtext">Subtext</label>
+        <input type="text" id="slide-${i}-subtext" value="${escHtml(slide.subtext || '')}" placeholder="Small-batch Madagascar Bourbon Vanilla">
+      </div>
+    `;
+    wrap.appendChild(card);
+  });
 }
+function renderHeroMeta() {
+  document.getElementById('hero-eyebrow').value    = get('hero', 'eyebrow');
+  document.getElementById('hero-heading').value    = get('hero', 'heading');
+  document.getElementById('hero-cta1-text').value  = get('hero', 'cta_primary_text');
+  document.getElementById('hero-cta1-url').value   = get('hero', 'cta_primary_url');
+  document.getElementById('hero-cta2-text').value  = get('hero', 'cta_secondary_text');
+  document.getElementById('hero-cta2-url').value   = get('hero', 'cta_secondary_url');
+}
+document.getElementById('save-hero').addEventListener('click', async () => {
+  const btn = document.getElementById('save-hero'); btn.disabled = true;
+  try {
+    const saves = [];
+    ['slide_1', 'slide_2', 'slide_3'].forEach((key, i) => {
+      saves.push(apiPut('hero', key, JSON.stringify({
+        active:   document.getElementById(`slide-${i}-active`).checked,
+        image:    document.getElementById(`slide-${i}-image`).value.trim(),
+        headline: document.getElementById(`slide-${i}-headline`).value.trim(),
+        subtext:  document.getElementById(`slide-${i}-subtext`).value.trim(),
+      })));
+    });
+    saves.push(apiPut('hero', 'eyebrow',           document.getElementById('hero-eyebrow').value.trim()));
+    saves.push(apiPut('hero', 'heading',            document.getElementById('hero-heading').value.trim()));
+    saves.push(apiPut('hero', 'cta_primary_text',   document.getElementById('hero-cta1-text').value.trim()));
+    saves.push(apiPut('hero', 'cta_primary_url',    document.getElementById('hero-cta1-url').value.trim()));
+    saves.push(apiPut('hero', 'cta_secondary_text', document.getElementById('hero-cta2-text').value.trim()));
+    saves.push(apiPut('hero', 'cta_secondary_url',  document.getElementById('hero-cta2-url').value.trim()));
+    await Promise.all(saves);
+    setStatus('hero-status', 'Saved!');
+  } catch (e) { setStatus('hero-status', e.message, true); }
+  btn.disabled = false;
+});
+
+/* ── Shop ────────────────────────────────────────────────── */
+function renderShopFields() {
+  document.getElementById('shop-eyebrow').value  = get('shop', 'eyebrow');
+  document.getElementById('shop-heading').value  = get('shop', 'heading');
+  document.getElementById('shop-subtext').value  = get('shop', 'subtext');
+}
+document.getElementById('save-shop').addEventListener('click', async () => {
+  const btn = document.getElementById('save-shop'); btn.disabled = true;
+  try {
+    await Promise.all([
+      apiPut('shop', 'eyebrow', document.getElementById('shop-eyebrow').value.trim()),
+      apiPut('shop', 'heading', document.getElementById('shop-heading').value.trim()),
+      apiPut('shop', 'subtext', document.getElementById('shop-subtext').value.trim()),
+    ]);
+    setStatus('shop-status', 'Saved!');
+  } catch (e) { setStatus('shop-status', e.message, true); }
+  btn.disabled = false;
+});
+
+/* ── Our Story ───────────────────────────────────────────── */
+function renderOurStoryFields() {
+  document.getElementById('story-h1').value             = get('our-story', 'h1');
+  document.getElementById('story-intro').value          = get('our-story', 'intro');
+  document.getElementById('story-how-eyebrow').value    = get('our-story', 'how_started_eyebrow');
+  document.getElementById('story-how-heading').value    = get('our-story', 'how_started_heading');
+  document.getElementById('story-how-body').value       = get('our-story', 'how_started_body');
+  document.getElementById('story-origins-heading').value= get('our-story', 'origins_heading');
+  document.getElementById('story-origins-body').value   = get('our-story', 'origins_body');
+  document.getElementById('story-traceable-heading').value = get('our-story', 'traceability_heading');
+  document.getElementById('story-traceable-body').value    = get('our-story', 'traceability_body');
+  const sideImg = get('our-story', 'side_image');
+  document.getElementById('story-side-image').value = sideImg;
+  if (sideImg) { document.getElementById('story-side-image-preview').src = sideImg; document.getElementById('story-side-image-preview').style.display = 'block'; }
+  const landImg = get('our-story', 'landscape_image');
+  document.getElementById('story-landscape-image').value = landImg;
+  if (landImg) { document.getElementById('story-landscape-image-preview').src = landImg; document.getElementById('story-landscape-image-preview').style.display = 'block'; }
+}
+document.getElementById('save-story').addEventListener('click', async () => {
+  const btn = document.getElementById('save-story'); btn.disabled = true;
+  try {
+    await Promise.all([
+      apiPut('our-story', 'h1',                   document.getElementById('story-h1').value.trim()),
+      apiPut('our-story', 'intro',                 document.getElementById('story-intro').value.trim()),
+      apiPut('our-story', 'how_started_eyebrow',   document.getElementById('story-how-eyebrow').value.trim()),
+      apiPut('our-story', 'how_started_heading',   document.getElementById('story-how-heading').value.trim()),
+      apiPut('our-story', 'how_started_body',      document.getElementById('story-how-body').value.trim()),
+      apiPut('our-story', 'side_image',            document.getElementById('story-side-image').value.trim()),
+      apiPut('our-story', 'origins_heading',       document.getElementById('story-origins-heading').value.trim()),
+      apiPut('our-story', 'origins_body',          document.getElementById('story-origins-body').value.trim()),
+      apiPut('our-story', 'landscape_image',       document.getElementById('story-landscape-image').value.trim()),
+      apiPut('our-story', 'traceability_heading',  document.getElementById('story-traceable-heading').value.trim()),
+      apiPut('our-story', 'traceability_body',     document.getElementById('story-traceable-body').value.trim()),
+    ]);
+    setStatus('story-status', 'Saved!');
+  } catch (e) { setStatus('story-status', e.message, true); }
+  btn.disabled = false;
+});
+
+/* ── Wholesale ───────────────────────────────────────────── */
+function renderWholesaleFields() {
+  document.getElementById('ws-hero-eyebrow').value  = get('wholesale', 'hero_eyebrow');
+  document.getElementById('ws-hero-h1').value       = get('wholesale', 'hero_h1');
+  document.getElementById('ws-hero-body1').value    = get('wholesale', 'hero_body1');
+  document.getElementById('ws-hero-body2').value    = get('wholesale', 'hero_body2');
+  document.getElementById('ws-whatsapp-url').value  = get('wholesale', 'whatsapp_url');
+  document.getElementById('ws-range-eyebrow').value = get('wholesale', 'range_eyebrow');
+  document.getElementById('ws-range-heading').value = get('wholesale', 'range_heading');
+  document.getElementById('ws-cta-heading').value   = get('wholesale', 'cta_heading');
+  document.getElementById('ws-cta-body').value      = get('wholesale', 'cta_body');
+}
+document.getElementById('save-wholesale').addEventListener('click', async () => {
+  const btn = document.getElementById('save-wholesale'); btn.disabled = true;
+  try {
+    await Promise.all([
+      apiPut('wholesale', 'hero_eyebrow',  document.getElementById('ws-hero-eyebrow').value.trim()),
+      apiPut('wholesale', 'hero_h1',       document.getElementById('ws-hero-h1').value.trim()),
+      apiPut('wholesale', 'hero_body1',    document.getElementById('ws-hero-body1').value.trim()),
+      apiPut('wholesale', 'hero_body2',    document.getElementById('ws-hero-body2').value.trim()),
+      apiPut('wholesale', 'whatsapp_url',  document.getElementById('ws-whatsapp-url').value.trim()),
+      apiPut('wholesale', 'range_eyebrow', document.getElementById('ws-range-eyebrow').value.trim()),
+      apiPut('wholesale', 'range_heading', document.getElementById('ws-range-heading').value.trim()),
+      apiPut('wholesale', 'cta_heading',   document.getElementById('ws-cta-heading').value.trim()),
+      apiPut('wholesale', 'cta_body',      document.getElementById('ws-cta-body').value.trim()),
+    ]);
+    setStatus('wholesale-status', 'Saved!');
+  } catch (e) { setStatus('wholesale-status', e.message, true); }
+  btn.disabled = false;
+});
+
+/* ── Contact ─────────────────────────────────────────────── */
+function renderContactFields() {
+  document.getElementById('ct-heading').value          = get('contact', 'heading');
+  document.getElementById('ct-subtext').value          = get('contact', 'subtext');
+  document.getElementById('ct-whatsapp-display').value = get('contact', 'whatsapp_display');
+  document.getElementById('ct-whatsapp-url').value     = get('contact', 'whatsapp_url');
+  document.getElementById('ct-madagascar-phone').value = get('contact', 'madagascar_phone');
+  document.getElementById('ct-instagram-handle').value = get('contact', 'instagram_handle');
+  document.getElementById('ct-instagram-url').value    = get('contact', 'instagram_url');
+  const img = get('contact', 'side_image');
+  document.getElementById('ct-side-image').value = img;
+  if (img) { document.getElementById('ct-side-image-preview').src = img; document.getElementById('ct-side-image-preview').style.display = 'block'; }
+}
+document.getElementById('save-contact').addEventListener('click', async () => {
+  const btn = document.getElementById('save-contact'); btn.disabled = true;
+  try {
+    await Promise.all([
+      apiPut('contact', 'heading',         document.getElementById('ct-heading').value.trim()),
+      apiPut('contact', 'subtext',         document.getElementById('ct-subtext').value.trim()),
+      apiPut('contact', 'whatsapp_display',document.getElementById('ct-whatsapp-display').value.trim()),
+      apiPut('contact', 'whatsapp_url',    document.getElementById('ct-whatsapp-url').value.trim()),
+      apiPut('contact', 'madagascar_phone',document.getElementById('ct-madagascar-phone').value.trim()),
+      apiPut('contact', 'instagram_handle',document.getElementById('ct-instagram-handle').value.trim()),
+      apiPut('contact', 'instagram_url',   document.getElementById('ct-instagram-url').value.trim()),
+      apiPut('contact', 'side_image',      document.getElementById('ct-side-image').value.trim()),
+    ]);
+    setStatus('contact-status', 'Saved!');
+  } catch (e) { setStatus('contact-status', e.message, true); }
+  btn.disabled = false;
+});
+
+/* ── Product Detail Pages ────────────────────────────────── */
+const PRODUCTS = [
+  { slug: 'vanilla-beans',            label: 'Vanilla Beans' },
+  { slug: 'vanilla-caviar',           label: 'Vanilla Caviar' },
+  { slug: 'vanilla-bean-paste-honey', label: 'Vanilla Paste' },
+  { slug: 'cocoa-powder',             label: 'Cocoa Powder' },
+  { slug: 'wild-red-peppercorn',      label: 'Red Peppercorn' },
+  { slug: 'chili-oil',               label: 'Chili Oil' },
+];
+
+let currentProduct = PRODUCTS[0].slug;
+
+function renderProductFields(slug) {
+  const container = document.getElementById('product-fields-container');
+  const imgId = `pd-img-${slug}`;
+  const prevId = `pd-img-preview-${slug}`;
+  const imgVal = get(`product:${slug}`, 'page_image');
+
+  container.innerHTML = `
+    <div style="max-width:600px; display:flex; flex-direction:column; gap:var(--space-4);">
+      <div class="field-row">
+        <label>Product image</label>
+        <div class="img-upload-row">
+          <input type="text" id="${imgId}" value="${escHtml(imgVal)}" placeholder="images/wholesale-vanilla-beans.jpg">
+          <img class="img-preview" id="${prevId}" ${imgVal ? `src="${escHtml(imgVal)}" style="display:block;"` : ''}>
+          <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('${imgId}','${prevId}')">Upload Image</button>
+        </div>
+      </div>
+      <div class="field-row">
+        <label>What It Is (card text)</label>
+        <textarea id="pd-what-${slug}" rows="4">${escHtml(get('product:' + slug, 'what_it_is'))}</textarea>
+      </div>
+      <div class="field-row">
+        <label>How to Use (card text)</label>
+        <textarea id="pd-use-${slug}" rows="4">${escHtml(get('product:' + slug, 'how_to_use'))}</textarea>
+      </div>
+      <div class="field-row">
+        <label>How to Store (card text)</label>
+        <textarea id="pd-store-${slug}" rows="4">${escHtml(get('product:' + slug, 'how_to_store'))}</textarea>
+      </div>
+      <div class="field-row">
+        <label>Tip for Home Cooks</label>
+        <textarea id="pd-tip-${slug}" rows="3">${escHtml(get('product:' + slug, 'tip'))}</textarea>
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('product-tab-bar').querySelectorAll('.product-tab-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.product-tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentProduct = btn.dataset.product;
+    renderProductFields(currentProduct);
+  });
+});
+
+document.getElementById('save-product-detail').addEventListener('click', async () => {
+  const btn = document.getElementById('save-product-detail'); btn.disabled = true;
+  const slug = currentProduct;
+  const section = `product:${slug}`;
+  try {
+    await Promise.all([
+      apiPut(section, 'page_image',   document.getElementById(`pd-img-${slug}`).value.trim()),
+      apiPut(section, 'what_it_is',   document.getElementById(`pd-what-${slug}`).value.trim()),
+      apiPut(section, 'how_to_use',   document.getElementById(`pd-use-${slug}`).value.trim()),
+      apiPut(section, 'how_to_store', document.getElementById(`pd-store-${slug}`).value.trim()),
+      apiPut(section, 'tip',          document.getElementById(`pd-tip-${slug}`).value.trim()),
+    ]);
+    setStatus('product-detail-status', 'Saved!');
+  } catch (e) { setStatus('product-detail-status', e.message, true); }
+  btn.disabled = false;
+});
 
 loadContent();
 </script>
