@@ -756,3 +756,28 @@ body.has-custom-cursor, body.has-custom-cursor * { cursor: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation-duration: 90s; }
 }
+
+/* Partner / stockist logo strip */
+.partner-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+}
+.partner-logo-item img {
+  height: 44px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  filter: grayscale(1) opacity(0.55);
+  transition: filter 0.3s ease;
+  mix-blend-mode: multiply;
+}
+.partner-logo-item:hover img {
+  filter: grayscale(0) opacity(1);
+}
+@media (max-width: 600px) {
+  .partner-logos { gap: var(--space-6); }
+  .partner-logo-item img { height: 36px; max-width: 110px; }
+}
