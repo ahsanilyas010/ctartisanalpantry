@@ -56,6 +56,25 @@
       if (content[k] && typeof content[k] === 'string') el.src = content[k];
     });
 
+    // Apply data-content-key-alt → img alt
+    document.querySelectorAll('[data-content-key-alt]').forEach((el) => {
+      const k = el.getAttribute('data-content-key-alt');
+      if (content[k]) el.alt = content[k];
+    });
+
+    // Hide partner logo items that have no logo URL yet; hide whole strip if all empty
+    document.querySelectorAll('.partner-logo-item img').forEach((img) => {
+      if (!img.src || img.src === window.location.href) {
+        img.closest('.partner-logo-item').style.display = 'none';
+      }
+    });
+    document.querySelectorAll('.partner-logos').forEach((row) => {
+      const anyVisible = [...row.querySelectorAll('.partner-logo-item')].some(
+        (el) => el.style.display !== 'none'
+      );
+      if (!anyVisible) row.closest('[data-reveal-section]').style.display = 'none';
+    });
+
     // Apply data-content-bg → CSS background-image
     document.querySelectorAll('[data-content-bg]').forEach((el) => {
       const k = el.getAttribute('data-content-bg');

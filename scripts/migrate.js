@@ -177,6 +177,16 @@ const SEED_CONTENT = [
   { section: 'product:chili-oil', key: 'how_to_use',   value: 'Spoon it over just about anything that could use warmth and texture: fried eggs, noodles, roasted vegetables, soups, or dumplings. Give the jar a stir first — the solids settle.', content_type: 'text', label: 'How to Use', sort_order: 3 },
   { section: 'product:chili-oil', key: 'how_to_store', value: 'Store at room temperature, away from direct sunlight. No refrigeration needed. Use within 6 months of opening.',                                   content_type: 'text', label: 'How to Store', sort_order: 4 },
   { section: 'product:chili-oil', key: 'tip',          value: 'The solids at the bottom are the best part — always stir before using. For extra heat, tip the jar and let the chili sediment pour out first.', content_type: 'text', label: 'Tip', sort_order: 5 },
+
+  // Retail partners / stockists
+  { section: 'partners', key: 'logo-1', value: '', content_type: 'image', label: 'Partner Logo 1', sort_order: 1 },
+  { section: 'partners', key: 'name-1', value: 'La Maison',    content_type: 'text',  label: 'Partner Name 1', sort_order: 2 },
+  { section: 'partners', key: 'logo-2', value: '', content_type: 'image', label: 'Partner Logo 2', sort_order: 3 },
+  { section: 'partners', key: 'name-2', value: 'Shams',        content_type: 'text',  label: 'Partner Name 2', sort_order: 4 },
+  { section: 'partners', key: 'logo-3', value: '', content_type: 'image', label: 'Partner Logo 3', sort_order: 5 },
+  { section: 'partners', key: 'name-3', value: 'Baked',        content_type: 'text',  label: 'Partner Name 3', sort_order: 6 },
+  { section: 'partners', key: 'logo-4', value: '', content_type: 'image', label: 'Partner Logo 4', sort_order: 7 },
+  { section: 'partners', key: 'name-4', value: 'Fresh Basket', content_type: 'text',  label: 'Partner Name 4', sort_order: 8 },
 ];
 
 const SEED_BLOG_POSTS = [
