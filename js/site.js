@@ -53,7 +53,10 @@
     // Apply data-content-img → img src
     document.querySelectorAll('[data-content-img]').forEach((el) => {
       const k = el.getAttribute('data-content-img');
-      if (content[k] && typeof content[k] === 'string') el.src = content[k];
+      if (content[k] && typeof content[k] === 'string') {
+        const src = content[k];
+        el.src = (src.startsWith('http') || src.startsWith('/')) ? src : '/' + src;
+      }
     });
 
     // Apply data-content-key-alt → img alt
@@ -78,7 +81,11 @@
     // Apply data-content-bg → CSS background-image
     document.querySelectorAll('[data-content-bg]').forEach((el) => {
       const k = el.getAttribute('data-content-bg');
-      if (content[k] && typeof content[k] === 'string') el.style.backgroundImage = `url(${content[k]})`;
+      if (content[k] && typeof content[k] === 'string') {
+        const src = content[k];
+        const url = (src.startsWith('http') || src.startsWith('/')) ? src : '/' + src;
+        el.style.backgroundImage = `url(${url})`;
+      }
     });
 
     // Apply data-content-href → anchor href
