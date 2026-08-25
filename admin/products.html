@@ -138,7 +138,9 @@
           credentials: 'include',
           body: fd,
         });
-        const data = await r.json();
+        const text = await r.text();
+        let data = {};
+        try { data = JSON.parse(text); } catch { data = { error: text.slice(0, 300) }; }
         if (!r.ok) throw new Error(data.error || 'Upload failed');
         const url = data.url;
         if (pathInputId) {
@@ -276,7 +278,9 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const data = await r.json();
+      const text = await r.text();
+      let data = {};
+      try { data = JSON.parse(text); } catch { data = { error: text.slice(0, 300) }; }
       if (!r.ok) throw new Error(data.error || 'Failed to add product.');
       products.push(data.product);
       renderProducts();
