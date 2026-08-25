@@ -116,7 +116,9 @@
     slides.forEach((slide, i) => {
       const div = document.createElement('div');
       div.className = 'hero-slide';
-      div.style.backgroundImage = `url(${slide.image || ''})`;
+      const imgSrc = slide.image || '';
+      const absImg = (imgSrc.startsWith('http') || imgSrc.startsWith('/')) ? imgSrc : '/' + imgSrc;
+      div.style.backgroundImage = `url(${absImg})`;
       div.style.animationDelay = `${i * 6}s`;
       slider.insertAdjacentElement('afterbegin', div);
     });

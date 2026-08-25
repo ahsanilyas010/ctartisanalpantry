@@ -99,6 +99,7 @@
         try {
           const r = await fetch(`/api/admin/orders?id=${id}`, {
             method: 'PATCH',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: newStatus }),
           });
@@ -111,7 +112,7 @@
   }
 
   async function viewOrder(id) {
-    const r = await fetch(`/api/admin/orders?id=${id}`);
+    const r = await fetch(`/api/admin/orders?id=${id}`, { credentials: 'include' });
     if (!r.ok) return showError('Failed to load order.');
     const { order, items } = await r.json();
     const itemRows = items.map((it) => `
@@ -153,7 +154,7 @@
     el.style.display = 'block';
   }
 
-  fetch('/api/admin/orders')
+  fetch('/api/admin/orders', { credentials: 'include' })
     .then((r) => {
       if (!r.ok) throw new Error();
       return r.json();
