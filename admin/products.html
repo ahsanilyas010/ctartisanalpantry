@@ -108,6 +108,36 @@
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
   }
+  function absImg(src) {
+    if (!src) return src;
+    return (src.startsWith('http') || src.startsWith('/')) ? src : '/' + src;
+  }
+  async function compressImage(file, maxMB = 4) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const objUrl = URL.createObjectURL(file);
+      img.onload = () => {
+        const MAX_PX = 2000;
+        let w = img.naturalWidth, h = img.naturalHeight;
+        if (w > MAX_PX || h > MAX_PX) {
+          const ratio = Math.min(MAX_PX / w, MAX_PX / h);
+          w = Math.round(w * ratio); h = Math.round(h * ratio);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(objUrl);
+        canvas.toBlob((blob) => {
+          if (!blob) return reject(new Error('Compression failed'));
+          const mb = blob.size / 1024 / 1024;
+          if (mb > maxMB) return reject(new Error(`Image is too large (${mb.toFixed(1)} MB after compression). Please use an image under ${maxMB} MB.`));
+          resolve(new File([blob], file.name.replace(/\.\w+$/, '.jpg'), { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.85);
+      };
+      img.onerror = () => { URL.revokeObjectURL(objUrl); reject(new Error('Could not load image')); };
+      img.src = objUrl;
+    });
+  }
   function showError(msg) {
     const el = document.getElementById('products-error');
     el.textContent = msg;
@@ -129,10 +159,12 @@
       const file = fileInput.files[0];
       if (!file) return;
       const label = labelId ? document.getElementById(labelId) : null;
-      if (label) label.textContent = 'Uploading…';
+      if (label) label.textContent = 'Compressing…';
       try {
+        const compressed = await compressImage(file).catch((err) => { throw err; });
+        if (label) label.textContent = 'Uploading…';
         const fd = new FormData();
-        fd.append('file', file);
+        fd.append('file', compressed, compressed.name);
         const r = await fetch('/api/admin/upload', {
           method: 'POST',
           credentials: 'include',
@@ -166,7 +198,7 @@
     }
 
     body.innerHTML = products.map((p) => {
-      const imgSrc = p.image_path || '';
+      const imgSrc = absImg(p.image_path || '');
       const rowHtml = `
         <tr data-row="${p.id}">
           <td>

@@ -479,6 +479,38 @@ document.querySelector('[data-admin-logout]').addEventListener('click', async ()
 });
 
 /* ── Image upload ──────────────────────────────────────── */
+function absImg(src) {
+  if (!src) return src;
+  return (src.startsWith('http') || src.startsWith('/')) ? src : '/' + src;
+}
+
+async function compressImage(file, maxMB = 4) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objUrl = URL.createObjectURL(file);
+    img.onload = () => {
+      const MAX_PX = 2000;
+      let w = img.naturalWidth, h = img.naturalHeight;
+      if (w > MAX_PX || h > MAX_PX) {
+        const ratio = Math.min(MAX_PX / w, MAX_PX / h);
+        w = Math.round(w * ratio); h = Math.round(h * ratio);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(objUrl);
+      canvas.toBlob((blob) => {
+        if (!blob) return reject(new Error('Compression failed'));
+        const mb = blob.size / 1024 / 1024;
+        if (mb > maxMB) return reject(new Error(`Image is too large (${mb.toFixed(1)} MB after compression). Please use an image under ${maxMB} MB.`));
+        resolve(new File([blob], file.name.replace(/\.\w+$/, '.jpg'), { type: 'image/jpeg' }));
+      }, 'image/jpeg', 0.85);
+    };
+    img.onerror = () => { URL.revokeObjectURL(objUrl); reject(new Error('Could not load image')); };
+    img.src = objUrl;
+  });
+}
+
 let _uploadTarget = null;
 let _uploadPreview = null;
 
@@ -492,10 +524,10 @@ document.getElementById('upload-file-input').addEventListener('change', async (e
   const file = e.target.files[0];
   if (!file || !_uploadTarget) return;
   e.target.value = '';
-  const fd = new FormData();
-  fd.append('file', file, file.name);
-  const statusMsg = document.createElement('span');
   try {
+    const compressed = await compressImage(file);
+    const fd = new FormData();
+    fd.append('file', compressed, compressed.name);
     const r = await fetch('/api/admin/upload', {
       method: 'POST',
       credentials: 'include',
@@ -669,7 +701,7 @@ function renderHeroSlides() {
         <label>Background image</label>
         <div class="img-upload-row">
           <input type="text" id="${imgId}" value="${escHtml(slide.image || '')}" placeholder="images/hero-slide-vanilla-farm.jpg">
-          <img class="img-preview" id="${prevId}" ${slide.image ? `src="${escHtml(slide.image)}" style="display:block;"` : ''}>
+          <img class="img-preview" id="${prevId}" ${slide.image ? `src="${escHtml(absImg(slide.image))}" style="display:block;"` : ''}>
           <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('${imgId}','${prevId}')">Upload Image</button>
         </div>
       </div>
@@ -749,10 +781,10 @@ function renderOurStoryFields() {
   document.getElementById('story-traceable-body').value    = get('our-story', 'traceability_body');
   const sideImg = get('our-story', 'side_image');
   document.getElementById('story-side-image').value = sideImg;
-  if (sideImg) { document.getElementById('story-side-image-preview').src = sideImg; document.getElementById('story-side-image-preview').style.display = 'block'; }
+  if (sideImg) { document.getElementById('story-side-image-preview').src = absImg(sideImg); document.getElementById('story-side-image-preview').style.display = 'block'; }
   const landImg = get('our-story', 'landscape_image');
   document.getElementById('story-landscape-image').value = landImg;
-  if (landImg) { document.getElementById('story-landscape-image-preview').src = landImg; document.getElementById('story-landscape-image-preview').style.display = 'block'; }
+  if (landImg) { document.getElementById('story-landscape-image-preview').src = absImg(landImg); document.getElementById('story-landscape-image-preview').style.display = 'block'; }
 }
 document.getElementById('save-story').addEventListener('click', async () => {
   const btn = document.getElementById('save-story'); btn.disabled = true;
@@ -817,7 +849,7 @@ function renderContactFields() {
   document.getElementById('ct-instagram-url').value    = get('contact', 'instagram_url');
   const img = get('contact', 'side_image');
   document.getElementById('ct-side-image').value = img;
-  if (img) { document.getElementById('ct-side-image-preview').src = img; document.getElementById('ct-side-image-preview').style.display = 'block'; }
+  if (img) { document.getElementById('ct-side-image-preview').src = absImg(img); document.getElementById('ct-side-image-preview').style.display = 'block'; }
 }
 document.getElementById('save-contact').addEventListener('click', async () => {
   const btn = document.getElementById('save-contact'); btn.disabled = true;
@@ -854,6 +886,7 @@ function renderProductFields(slug) {
   const imgId = `pd-img-${slug}`;
   const prevId = `pd-img-preview-${slug}`;
   const imgVal = get(`product:${slug}`, 'page_image');
+  const imgSrc = absImg(imgVal);
 
   container.innerHTML = `
     <div style="max-width:600px; display:flex; flex-direction:column; gap:var(--space-4);">
@@ -861,7 +894,7 @@ function renderProductFields(slug) {
         <label>Product image</label>
         <div class="img-upload-row">
           <input type="text" id="${imgId}" value="${escHtml(imgVal)}" placeholder="images/wholesale-vanilla-beans.jpg">
-          <img class="img-preview" id="${prevId}" ${imgVal ? `src="${escHtml(imgVal)}" style="display:block;"` : ''}>
+          <img class="img-preview" id="${prevId}" ${imgSrc ? `src="${escHtml(imgSrc)}" style="display:block;"` : ''}>
           <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('${imgId}','${prevId}')">Upload Image</button>
         </div>
       </div>
@@ -937,7 +970,7 @@ function renderPartnersFields() {
             <input type="text" id="partner-logo-${n}" value="${escHtml(logo)}" placeholder="Blob URL or image path">
             <button class="btn btn-outline btn-sm upload-btn" onclick="document.getElementById('partner-logo-input-${n}').click()">Upload Logo</button>
           </div>
-          <img id="partner-logo-prev-${n}" class="img-preview" src="${escHtml(logo)}" alt="" style="${logo ? 'display:block;' : ''}">
+          <img id="partner-logo-prev-${n}" class="img-preview" src="${escHtml(absImg(logo))}" alt="" style="${logo ? 'display:block;' : ''}">
           <input type="file" id="partner-logo-input-${n}" accept="image/*" style="display:none;">
           <p class="field-hint">PNG with transparent background recommended for cleanest display.</p>
         </div>
@@ -955,8 +988,9 @@ function renderPartnersFields() {
       const file = fileInput.files[0];
       if (!file) return;
       try {
+        const compressed = await compressImage(file);
         const fd = new FormData();
-        fd.append('file', file);
+        fd.append('file', compressed, compressed.name);
         const r = await fetch('/api/admin/upload', { method: 'POST', credentials: 'include', body: fd });
         const text = await r.text();
         let data = {};
