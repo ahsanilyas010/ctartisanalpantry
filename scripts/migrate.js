@@ -89,7 +89,7 @@ const SEED_CONTENT = [
   { section: 'homepage', key: 'collection_eyebrow',  value: 'The Pantry',                                                content_type: 'text', label: 'Collection eyebrow',  sort_order: 1 },
   { section: 'homepage', key: 'collection_heading',   value: 'A Small, Considered Collection',                            content_type: 'text', label: 'Collection heading',  sort_order: 2 },
   { section: 'homepage', key: 'ingredients_eyebrow',  value: 'Know Your Ingredients',                                     content_type: 'text', label: 'Ingredients eyebrow', sort_order: 3 },
-  { section: 'homepage', key: 'ingredients_heading',  value: 'Five forms, one source of flavour',                         content_type: 'text', label: 'Ingredients heading', sort_order: 4 },
+  { section: 'homepage', key: 'ingredients_heading',  value: 'Four forms, one source of flavour',                         content_type: 'text', label: 'Ingredients heading', sort_order: 4 },
   { section: 'homepage', key: 'signature_eyebrow',    value: 'Signature',                                                 content_type: 'text', label: 'Signature eyebrow',   sort_order: 5 },
   { section: 'homepage', key: 'signature_heading',    value: 'The Art of Heat',                                           content_type: 'text', label: 'Signature heading',   sort_order: 6 },
   { section: 'homepage', key: 'signature_body',       value: 'Crafted in small batches with a base of avocado oil, our chili oil delivers warmth with depth and balance. Designed to elevate simple dishes — from eggs and noodles to roasted vegetables and soups.',
@@ -100,7 +100,6 @@ const SEED_CONTENT = [
   { section: 'homepage', key: 'ingredient_pods_image',   value: '/images/wholesale-vanilla-beans.jpg',   content_type: 'image', label: 'Ingredient card — Vanilla bean pods image',        sort_order: 13 },
   { section: 'homepage', key: 'ingredient_caviar_image',  value: '/images/wholesale-vanilla-caviar.jpg',  content_type: 'image', label: 'Ingredient card — Vanilla caviar image',            sort_order: 14 },
   { section: 'homepage', key: 'ingredient_paste_image',   value: '/images/wholesale-vanilla-paste.jpg',   content_type: 'image', label: 'Ingredient card — Vanilla bean paste image',       sort_order: 15 },
-  { section: 'homepage', key: 'ingredient_powder_image',  value: '/images/wholesale-vanilla-caviar.jpg',  content_type: 'image', label: 'Ingredient card — Vanilla powder image',            sort_order: 16 },
   { section: 'homepage', key: 'ingredient_pepper_image',  value: '/images/product-peppercorn-tile.jpg',   content_type: 'image', label: 'Ingredient card — Red pepper image',                sort_order: 17 },
 
   { section: 'homepage', key: 'wholesale_eyebrow',    value: 'For Manufacturers, Importers & Brands',                     content_type: 'text', label: 'Wholesale eyebrow',    sort_order: 10 },
