@@ -97,6 +97,12 @@ const SEED_CONTENT = [
   { section: 'homepage', key: 'origins_heading',      value: 'Where Flavour Begins',                                      content_type: 'text', label: 'Origins heading',      sort_order: 8 },
   { section: 'homepage', key: 'origins_body',         value: "Climate, soil, and cultivation shape the character of every ingredient in our pantry. From Madagascar's fertile landscapes to remarkable growing regions around the world, each ingredient reflects the place it comes from.",
     content_type: 'text', label: 'Origins body', sort_order: 9 },
+  { section: 'homepage', key: 'ingredient_pods_image',   value: '/images/wholesale-vanilla-beans.jpg',   content_type: 'image', label: 'Ingredient card — Vanilla bean pods image',        sort_order: 13 },
+  { section: 'homepage', key: 'ingredient_caviar_image',  value: '/images/wholesale-vanilla-caviar.jpg',  content_type: 'image', label: 'Ingredient card — Vanilla caviar image',            sort_order: 14 },
+  { section: 'homepage', key: 'ingredient_paste_image',   value: '/images/wholesale-vanilla-paste.jpg',   content_type: 'image', label: 'Ingredient card — Vanilla bean paste image',       sort_order: 15 },
+  { section: 'homepage', key: 'ingredient_powder_image',  value: '/images/wholesale-vanilla-caviar.jpg',  content_type: 'image', label: 'Ingredient card — Vanilla powder image',            sort_order: 16 },
+  { section: 'homepage', key: 'ingredient_pepper_image',  value: '/images/product-peppercorn-tile.jpg',   content_type: 'image', label: 'Ingredient card — Red pepper image',                sort_order: 17 },
+
   { section: 'homepage', key: 'wholesale_eyebrow',    value: 'For Manufacturers, Importers & Brands',                     content_type: 'text', label: 'Wholesale eyebrow',    sort_order: 10 },
   { section: 'homepage', key: 'wholesale_heading',    value: 'Buying in Bulk?',                                           content_type: 'text', label: 'Wholesale heading',    sort_order: 11 },
   { section: 'homepage', key: 'wholesale_body',       value: 'We supply premium, single-origin Madagascar cocoa and vanilla to manufacturers, importers, distributors, and private label brands worldwide.',

@@ -141,6 +141,59 @@
           <span class="save-status" id="homepage-status"></span>
         </div>
       </section>
+
+      <hr class="section-divider">
+
+      <section class="content-section">
+        <h2>Ingredient Card Images</h2>
+        <p class="section-desc">Upload or replace the images shown on the "Five forms, one source of flavour" cards on the homepage.</p>
+        <div style="max-width:600px; display:flex; flex-direction:column; gap:var(--space-5);">
+          <div class="field-row">
+            <label>Vanilla bean pods</label>
+            <div class="img-upload-row">
+              <input type="text" id="ing-pods-image" placeholder="/images/wholesale-vanilla-beans.jpg">
+              <img class="img-preview" id="ing-pods-image-preview">
+              <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('ing-pods-image','ing-pods-image-preview')">Upload Image</button>
+            </div>
+          </div>
+          <div class="field-row">
+            <label>Vanilla caviar</label>
+            <div class="img-upload-row">
+              <input type="text" id="ing-caviar-image" placeholder="/images/wholesale-vanilla-caviar.jpg">
+              <img class="img-preview" id="ing-caviar-image-preview">
+              <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('ing-caviar-image','ing-caviar-image-preview')">Upload Image</button>
+            </div>
+          </div>
+          <div class="field-row">
+            <label>Vanilla bean paste with honey</label>
+            <div class="img-upload-row">
+              <input type="text" id="ing-paste-image" placeholder="/images/wholesale-vanilla-paste.jpg">
+              <img class="img-preview" id="ing-paste-image-preview">
+              <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('ing-paste-image','ing-paste-image-preview')">Upload Image</button>
+            </div>
+          </div>
+          <div class="field-row">
+            <label>Vanilla powder</label>
+            <div class="img-upload-row">
+              <input type="text" id="ing-powder-image" placeholder="/images/wholesale-vanilla-powder.jpg">
+              <img class="img-preview" id="ing-powder-image-preview">
+              <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('ing-powder-image','ing-powder-image-preview')">Upload Image</button>
+            </div>
+          </div>
+          <div class="field-row">
+            <label>Red pepper</label>
+            <div class="img-upload-row">
+              <input type="text" id="ing-pepper-image" placeholder="/images/product-peppercorn-tile.jpg">
+              <img class="img-preview" id="ing-pepper-image-preview">
+              <button class="btn btn-outline btn-sm upload-btn" onclick="triggerUpload('ing-pepper-image','ing-pepper-image-preview')">Upload Image</button>
+            </div>
+          </div>
+        </div>
+        <div class="save-row" style="margin-top:var(--space-5);">
+          <button class="btn btn-primary btn-sm" id="save-ingredient-images">Save Ingredient Images</button>
+          <span class="save-status" id="ingredient-images-status"></span>
+        </div>
+      </section>
     </div>
 
     <!-- ── HERO SLIDES TAB ────────────────────────────────── -->
@@ -567,6 +620,7 @@ async function loadContent() {
   renderBanner();
   renderTicker();
   renderHomepageFields();
+  renderIngredientImageFields();
   renderHeroSlides();
   renderHeroMeta();
   renderShopFields();
@@ -677,6 +731,36 @@ document.getElementById('save-homepage').addEventListener('click', async () => {
     }));
     setStatus('homepage-status', 'Saved!');
   } catch (e) { setStatus('homepage-status', e.message, true); }
+  btn.disabled = false;
+});
+
+/* ── Ingredient Card Images ──────────────────────────────── */
+const INGREDIENT_IMAGE_FIELDS = [
+  { key: 'ingredient_pods_image',   inputId: 'ing-pods-image',   previewId: 'ing-pods-image-preview' },
+  { key: 'ingredient_caviar_image', inputId: 'ing-caviar-image', previewId: 'ing-caviar-image-preview' },
+  { key: 'ingredient_paste_image',  inputId: 'ing-paste-image',  previewId: 'ing-paste-image-preview' },
+  { key: 'ingredient_powder_image', inputId: 'ing-powder-image', previewId: 'ing-powder-image-preview' },
+  { key: 'ingredient_pepper_image', inputId: 'ing-pepper-image', previewId: 'ing-pepper-image-preview' },
+];
+function renderIngredientImageFields() {
+  INGREDIENT_IMAGE_FIELDS.forEach(({ key, inputId, previewId }) => {
+    const val = get('homepage', key);
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+    if (input) input.value = val;
+    if (preview && val) { preview.src = absImg(val); preview.style.display = 'block'; }
+    wirePreview(inputId, previewId);
+  });
+}
+document.getElementById('save-ingredient-images').addEventListener('click', async () => {
+  const btn = document.getElementById('save-ingredient-images'); btn.disabled = true;
+  try {
+    await Promise.all(INGREDIENT_IMAGE_FIELDS.map(({ key, inputId }) => {
+      const val = document.getElementById(inputId).value.trim();
+      return apiPut('homepage', key, val);
+    }));
+    setStatus('ingredient-images-status', 'Saved!');
+  } catch (e) { setStatus('ingredient-images-status', e.message, true); }
   btn.disabled = false;
 });
 
