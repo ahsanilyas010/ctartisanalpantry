@@ -353,6 +353,14 @@ async function migrate() {
       AND value LIKE 'images/%'
   `;
 
+  // Correct ingredients heading wording (Five → Four).
+  await sql`
+    UPDATE site_content
+    SET value = 'Four forms, one source of flavour', updated_at = now()
+    WHERE section = 'homepage' AND key = 'ingredients_heading'
+      AND value ILIKE 'Five%'
+  `;
+
   console.log('Done.');
 }
 
