@@ -740,7 +740,7 @@ function renderIngredientImageFields() {
     const preview = document.getElementById(previewId);
     if (input) input.value = val;
     if (preview && val) { preview.src = absImg(val); preview.style.display = 'block'; }
-    wirePreview(inputId, previewId);
+    updatePreview(inputId, previewId);
   });
 }
 document.getElementById('save-ingredient-images').addEventListener('click', async () => {
