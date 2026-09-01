@@ -134,20 +134,17 @@
       if (outOfStock) stockNote = '<div class="stock-note out">Out of stock</div>';
       else if (lowStock) stockNote = `<div class="stock-note low">Only ${p.stock_quantity} left</div>`;
       const hasDetailPage = PRODUCT_PAGES.has(p.slug);
-      const nameHtml = hasDetailPage
-        ? `<a href="product/${escapeHtml(p.slug)}.html" style="color:inherit; text-decoration:none;">${escapeHtml(p.name)}</a>`
-        : escapeHtml(p.name);
+      const detailUrl = hasDetailPage ? `product/${escapeHtml(p.slug)}.html` : null;
       return `
-        <div class="shop-card" data-slug="${escapeHtml(p.slug)}">
-          ${hasDetailPage ? `<a href="product/${escapeHtml(p.slug)}.html">` : ''}
+        <div class="shop-card" data-slug="${escapeHtml(p.slug)}" style="position:relative;">
+          ${detailUrl ? `<a href="${detailUrl}" class="card-overlay-link" aria-label="${escapeHtml(p.name)}"></a>` : ''}
           <img class="tile-image" src="${escapeHtml(p.image_path || '')}" alt="${escapeHtml(p.name)}">
-          ${hasDetailPage ? '</a>' : ''}
-          <h3 style="font: var(--text-h3); margin:0;">${nameHtml}</h3>
+          <h3 style="font: var(--text-h3); margin:0;">${escapeHtml(p.name)}</h3>
           <p style="font: var(--text-body-sm); color: var(--text-muted); margin:0;">${escapeHtml(p.description || '')}</p>
-          <div class="price">${formatPkr(p.price_pkr)} <span style="font: var(--text-body-sm); color: var(--text-muted); font-weight: normal;">/ ${escapeHtml(p.unit_label || '')}</span></div>
+          <div class="price" style="position:relative; z-index:1;">${formatPkr(p.price_pkr)} <span style="font: var(--text-body-sm); color: var(--text-muted); font-weight: normal;">/ ${escapeHtml(p.unit_label || '')}</span></div>
           ${stockNote}
           ${outOfStock ? '' : `
-          <div style="display:flex; align-items:center; gap: var(--space-3);">
+          <div style="display:flex; align-items:center; gap: var(--space-3); position:relative; z-index:1;">
             <div class="qty-stepper">
               <button type="button" data-action="dec">−</button>
               <input type="number" min="1" max="${p.stock_quantity}" value="1" data-qty>

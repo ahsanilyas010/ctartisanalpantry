@@ -401,9 +401,10 @@ textarea.input { resize: vertical; min-height: 140px; font: inherit; }
 }
 
 /* Shop product card with quantity + add-to-cart */
-.shop-card { display: flex; flex-direction: column; gap: var(--space-3); text-align: left; }
+.shop-card { display: flex; flex-direction: column; gap: var(--space-3); text-align: left; cursor: pointer; }
 .shop-card .tile-image { aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); background: var(--surface-muted); }
 .shop-card > p { flex: 1; }
+.card-overlay-link { position: absolute; inset: 0; z-index: 0; border-radius: inherit; }
 .shop-card .price { font: var(--text-h3); color: var(--text-primary); margin: 0; }
 .shop-card .stock-note { font: var(--text-body-sm); color: var(--text-muted); }
 .shop-card .stock-note.low { color: var(--accent); }

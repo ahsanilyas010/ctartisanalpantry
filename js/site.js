@@ -2,23 +2,50 @@
 (function () {
   /* ── Autoplay/loop videos ──────────────────────────────── */
   function forcePlayVideos() {
+    const tryPlay = (video) => {
+      const p = video.play();
+      if (p && p.catch) p.catch(() => {});
+    };
+
+    const observer = 'IntersectionObserver' in window
+      ? new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              tryPlay(entry.target);
+            } else {
+              entry.target.pause();
+            }
+          });
+        }, { threshold: 0.1 })
+      : null;
+
     document.querySelectorAll('video[autoplay]').forEach((video) => {
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
-      const tryPlay = () => {
-        const p = video.play();
-        if (p && p.catch) p.catch(() => {});
-      };
-      tryPlay();
-      video.addEventListener('loadeddata', tryPlay, { once: true });
-      video.addEventListener('canplay', tryPlay, { once: true });
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+
+      // Start loading immediately so it's ready when in view
+      if (video.preload === 'none' || !video.preload) video.load();
+
+      if (observer) {
+        observer.observe(video);
+      } else {
+        tryPlay(video);
+      }
+
+      video.addEventListener('loadeddata', () => tryPlay(video), { once: true });
+      video.addEventListener('canplay', () => tryPlay(video), { once: true });
       video.addEventListener('pause', () => {
-        if (!document.hidden) tryPlay();
+        if (!document.hidden && video.getBoundingClientRect().top < window.innerHeight) tryPlay(video);
       });
     });
+
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) forcePlayVideos();
+      if (!document.hidden) {
+        document.querySelectorAll('video[autoplay]').forEach((v) => tryPlay(v));
+      }
     });
   }
 
