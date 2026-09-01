@@ -73,61 +73,103 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Decrement stock atomically per-product; roll back if a later one fails.
-    const decremented = [];
-    for (const item of lineItems) {
-      const result = await sql`
-        UPDATE products
-        SET stock_quantity = stock_quantity - ${item.quantity}, updated_at = now()
-        WHERE id = ${item.product_id} AND stock_quantity >= ${item.quantity}
-        RETURNING id
-      `;
-      if (result.length === 0) {
-        for (const done of decremented) {
-          await sql`UPDATE products SET stock_quantity = stock_quantity + ${done.quantity} WHERE id = ${done.product_id}`;
-        }
-        return badRequest(res, `${item.product_name} just sold out. Please remove it and try again.`);
-      }
-      decremented.push(item);
-    }
-
     const subtotal = lineItems.reduce((sum, it) => sum + it.line_total_pkr, 0);
 
-    const [order] = await sql`
-      INSERT INTO orders (order_number, customer_name, customer_phone, customer_address, payment_method, subtotal_pkr, notes)
-      VALUES ('PENDING', ${customer.name}, ${customer.phone}, ${customer.address}, ${payment_method}, ${subtotal}, ${notes || null})
-      RETURNING id, created_at
+    // Build typed arrays for unnest — keeps the CTE fully parameterised.
+    const productIds   = lineItems.map((i) => i.product_id);
+    const quantities   = lineItems.map((i) => i.quantity);
+    const productNames = lineItems.map((i) => i.product_name);
+    const unitPrices   = lineItems.map((i) => i.unit_price_pkr);
+    const lineTotals   = lineItems.map((i) => i.line_total_pkr);
+    const itemCount    = lineItems.length;
+
+    // Single CTE: decrement stock, insert order + items, set order_number —
+    // all in one atomic statement. If not all stock decrements succeed the
+    // WHERE COUNT(*) = itemCount guard prevents the order from being inserted
+    // and PostgreSQL rolls back the partial decrements too.
+    const [orderRow] = await sql`
+      WITH
+        item_data(product_id, qty, product_name, unit_price, line_total) AS (
+          SELECT * FROM unnest(
+            ${productIds}::int[],
+            ${quantities}::int[],
+            ${productNames}::text[],
+            ${unitPrices}::int[],
+            ${lineTotals}::int[]
+          )
+        ),
+        decremented AS (
+          UPDATE products
+          SET stock_quantity = stock_quantity - item_data.qty,
+              updated_at     = now()
+          FROM item_data
+          WHERE products.id = item_data.product_id
+            AND products.stock_quantity >= item_data.qty
+          RETURNING products.id AS product_id
+        ),
+        new_order AS (
+          INSERT INTO orders
+            (order_number, customer_name, customer_phone, customer_address,
+             payment_method, subtotal_pkr, notes)
+          SELECT
+            'PENDING',
+            ${customer.name},
+            ${customer.phone},
+            ${customer.address},
+            ${payment_method},
+            ${subtotal},
+            ${notes || null}
+          WHERE (SELECT COUNT(*) FROM decremented) = ${itemCount}::int
+          RETURNING id, created_at
+        ),
+        order_numbered AS (
+          UPDATE orders
+          SET order_number = 'CT-' || LPAD(new_order.id::text, 5, '0')
+          FROM new_order
+          WHERE orders.id = new_order.id
+          RETURNING orders.id, orders.order_number, new_order.created_at
+        ),
+        _items AS (
+          INSERT INTO order_items
+            (order_id, product_id, product_name, unit_price_pkr, quantity, line_total_pkr)
+          SELECT
+            new_order.id,
+            item_data.product_id,
+            item_data.product_name,
+            item_data.unit_price,
+            item_data.qty,
+            item_data.line_total
+          FROM new_order
+          CROSS JOIN item_data
+          RETURNING order_id
+        )
+      SELECT id, order_number, created_at
+      FROM order_numbered
     `;
 
-    const orderNumber = 'CT-' + String(order.id).padStart(5, '0');
-    await sql`UPDATE orders SET order_number = ${orderNumber} WHERE id = ${order.id}`;
-
-    for (const item of lineItems) {
-      await sql`
-        INSERT INTO order_items (order_id, product_id, product_name, unit_price_pkr, quantity, line_total_pkr)
-        VALUES (${order.id}, ${item.product_id}, ${item.product_name}, ${item.unit_price_pkr}, ${item.quantity}, ${item.line_total_pkr})
-      `;
+    if (!orderRow) {
+      return badRequest(res, 'One or more items just sold out. Please refresh your cart and try again.');
     }
 
     const emailResult = await sendOrderNotification(
       {
-        order_number: orderNumber,
-        customer_name: customer.name,
-        customer_phone: customer.phone,
+        order_number:     orderRow.order_number,
+        customer_name:    customer.name,
+        customer_phone:   customer.phone,
         customer_address: customer.address,
         payment_method,
-        subtotal_pkr: subtotal,
+        subtotal_pkr:     subtotal,
         notes,
-        created_at: order.created_at,
+        created_at:       orderRow.created_at,
       },
       lineItems
     );
 
     if (!emailResult.sent) {
-      console.error('Order', orderNumber, 'saved but notification email was not sent:', emailResult.reason);
+      console.error('Order', orderRow.order_number, 'saved but notification email was not sent:', emailResult.reason);
     }
 
-    res.status(200).json({ order_number: orderNumber, subtotal_pkr: subtotal });
+    res.status(200).json({ order_number: orderRow.order_number, subtotal_pkr: subtotal });
   } catch (err) {
     console.error('order api error:', err);
     res.status(500).json({ error: 'Something went wrong placing your order. Please try again.' });
