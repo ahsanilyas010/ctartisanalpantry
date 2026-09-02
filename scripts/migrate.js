@@ -130,7 +130,7 @@ const SEED_CONTENT = [
   { section: 'wholesale', key: 'hero_h1',               value: 'Premium Madagascar Ingredients for Manufacturers, Importers & Brands',             content_type: 'text', label: 'Wholesale — Main heading',      sort_order: 2 },
   { section: 'wholesale', key: 'hero_body1',            value: 'CT Artisanal Pantry supplies premium, single-origin ingredients from Madagascar to food manufacturers, importers, distributors, retailers, and private label brands around the world.', content_type: 'text', label: 'Wholesale — Intro paragraph 1', sort_order: 3 },
   { section: 'wholesale', key: 'hero_body2',            value: 'We work closely with trusted producers to deliver authentic ingredients with consistent quality, transparent sourcing, and dependable supply. Whether you\'re developing a new product, expanding your ingredient portfolio, or looking for a long-term sourcing partner, we\'re here to help.', content_type: 'text', label: 'Wholesale — Intro paragraph 2', sort_order: 4 },
-  { section: 'wholesale', key: 'whatsapp_url',          value: 'https://wa.me/923000000000',                                                        content_type: 'text', label: 'Wholesale — WhatsApp URL',       sort_order: 5 },
+  { section: 'wholesale', key: 'whatsapp_url',          value: 'https://wa.me/92380879425',                                                        content_type: 'text', label: 'Wholesale — WhatsApp URL',       sort_order: 5 },
   { section: 'wholesale', key: 'range_eyebrow',         value: 'Our Ingredients',                                                                   content_type: 'text', label: 'Wholesale — Range eyebrow',     sort_order: 6 },
   { section: 'wholesale', key: 'range_heading',         value: 'Wholesale Product Range',                                                           content_type: 'text', label: 'Wholesale — Range heading',     sort_order: 7 },
   { section: 'wholesale', key: 'cta_heading',           value: "Let's Build Something Exceptional",                                                 content_type: 'text', label: 'Wholesale — Final CTA heading', sort_order: 8 },
@@ -139,8 +139,8 @@ const SEED_CONTENT = [
   // Contact page
   { section: 'contact', key: 'heading',           value: 'Get in Touch',                                                                            content_type: 'text', label: 'Contact — Heading',             sort_order: 1 },
   { section: 'contact', key: 'subtext',           value: "Questions about an order, wholesale, or press — we'd love to hear from you.",              content_type: 'text', label: 'Contact — Subtext',             sort_order: 2 },
-  { section: 'contact', key: 'whatsapp_display',  value: '+92 300 0000000',                                                                          content_type: 'text', label: 'Contact — WhatsApp display number', sort_order: 3 },
-  { section: 'contact', key: 'whatsapp_url',      value: 'https://wa.me/923000000000',                                                               content_type: 'text', label: 'Contact — WhatsApp URL',         sort_order: 4 },
+  { section: 'contact', key: 'whatsapp_display',  value: '+92 380 879 425',                                                                          content_type: 'text', label: 'Contact — WhatsApp display number', sort_order: 3 },
+  { section: 'contact', key: 'whatsapp_url',      value: 'https://wa.me/92380879425',                                                               content_type: 'text', label: 'Contact — WhatsApp URL',         sort_order: 4 },
   { section: 'contact', key: 'madagascar_phone',  value: '+261 38 097 9425',                                                                         content_type: 'text', label: 'Contact — Madagascar phone',     sort_order: 5 },
   { section: 'contact', key: 'instagram_handle',  value: '@ctartisanal',                                                                             content_type: 'text', label: 'Contact — Instagram handle',    sort_order: 6 },
   { section: 'contact', key: 'instagram_url',     value: 'https://www.instagram.com/ctartisanal',                                                    content_type: 'text', label: 'Contact — Instagram URL',        sort_order: 7 },
@@ -359,6 +359,19 @@ async function migrate() {
     SET value = 'Four forms, one source of flavour', updated_at = now()
     WHERE section = 'homepage' AND key = 'ingredients_heading'
       AND value ILIKE 'Five%'
+  `;
+
+  // Update WhatsApp number to real number (was placeholder 923000000000).
+  await sql`
+    UPDATE site_content
+    SET value = 'https://wa.me/92380879425', updated_at = now()
+    WHERE key = 'whatsapp_url' AND value = 'https://wa.me/923000000000'
+  `;
+  await sql`
+    UPDATE site_content
+    SET value = '+92 380 879 425', updated_at = now()
+    WHERE section = 'contact' AND key = 'whatsapp_display'
+      AND value = '+92 300 0000000'
   `;
 
   console.log('Done.');
